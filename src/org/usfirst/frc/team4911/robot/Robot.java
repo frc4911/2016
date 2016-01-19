@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4911.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -21,6 +22,8 @@ public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+
+	public static DriveSystem driveSystem;
 
     Command autonomousCommand;
 
