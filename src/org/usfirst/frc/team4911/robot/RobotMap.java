@@ -18,9 +18,9 @@ public class RobotMap {
 
 	public static void init(){
 		RearRightTalon = new CANTalon(1);
+		FrontRightTalon = new CANTalon(4);
 		FrontLeftTalon = new CANTalon(8);
         RearLeftTalon = new CANTalon(5);
-        FrontRightTalon = new CANTalon(4);
 		LeftJoy = new Joystick(0);
 		RightJoy = new Joystick(1);
 

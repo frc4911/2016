@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
 import org.usfirst.frc.team4911.robot.RobotMap;
 /**
  *
@@ -17,9 +16,9 @@ public class DriveSystem extends Subsystem {
     }
     public void drive(double leftPower, double rightPower){
     	RobotMap.FrontRightTalon.set(rightPower);
-    	RobotMap.FrontLeftTalon.set(leftPower);
     	RobotMap.RearRightTalon.set(rightPower);
-    	RobotMap.RearLeftTalon.set(leftPower);
+    	RobotMap.FrontLeftTalon.set(-leftPower);
+    	RobotMap.RearLeftTalon.set(-leftPower);
 
     }
 }
