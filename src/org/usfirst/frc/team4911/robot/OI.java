@@ -2,7 +2,10 @@ package org.usfirst.frc.team4911.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4911.robot.commands.Turn90Clockwise;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -17,7 +20,10 @@ public class OI {
 		rightJoy = new Joystick(0);
 		leftJoy = new Joystick(1);
 	    payloadJoy = new Joystick(2);
-
+	   
+	    JoystickButton rightButton1 = new JoystickButton(rightJoy,1);
+	    rightButton1.whenPressed(new Turn90Clockwise());
+	    
 	}
     public Joystick getLeftJoy() {
         return leftJoy;

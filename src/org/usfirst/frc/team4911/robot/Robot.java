@@ -2,14 +2,17 @@
 package org.usfirst.frc.team4911.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team4911.robot.commands.Drive;
 import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4911.robot.commands.OperatorDrive;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4911.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4911.robot.subsystems.Nav6;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +29,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Command teleop;
 	public static DriveSystem driveSystem;
+	public static Nav6 nav6;
+
 
     Command autonomousCommand;
 
@@ -37,7 +42,11 @@ public class Robot extends IterativeRobot {
     	RobotMap.init();
 		oi = new OI();
 		driveSystem = new DriveSystem();
-		teleop = new Drive();
+		teleop = new OperatorDrive();
+		nav6 = new Nav6();
+		//Initializes the nav6
+		nav6.init();
+
         // instantiate the command used for the autonomous period
         autonomousCommand = new ExampleCommand();
     }
