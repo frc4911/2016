@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.subsystems;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4911.robot.RobotMap;
 /**
@@ -21,6 +22,13 @@ public class DriveSystem extends Subsystem {
     	RobotMap.RearLeftTalon.set(-leftPower);
 
     }
+    public void stop(){
+    	RobotMap.FrontRightTalon.set(0);
+    	RobotMap.RearRightTalon.set(0);
+    	RobotMap.FrontLeftTalon.set(0);
+    	RobotMap.RearLeftTalon.set(0);
+    }
+    
     
 
 }

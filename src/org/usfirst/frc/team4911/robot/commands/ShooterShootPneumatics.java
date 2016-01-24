@@ -1,58 +1,50 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.omg.PortableInterceptor.ObjectIdHelper;
 import org.usfirst.frc.team4911.robot.Robot;
-import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4911.robot.subsystems.Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.ShooterPneumatics;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class OperatorDrive extends Command {
-	DriveSystem driveSystem = Robot.driveSystem;
-	Joystick leftJoy = Robot.oi.leftJoy;
-	Joystick rightJoy = Robot.oi.rightJoy;
+public class ShooterShootPneumatics extends Command {
 
-	private boolean usingDriveSystem;
+	public ShooterPneumatics shooterPneumatics;
+    JoystickButton button;
+
 	
-    public OperatorDrive() {
+    public ShooterShootPneumatics() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	usingDriveSystem = false;
+    	shooterPneumatics = Robot.shooterPneumatics;
+    	button =  new JoystickButton(Robot.oi.payloadJoy,6);
 
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (usingDriveSystem == false){
-    		//DON'T FORGET TO ADD BACK IN
-    		driveSystem.drive(leftJoy.getY(), rightJoy.getY());
-    	}
+    	shooterPneumatics.setShoot(true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+	    return !button.get();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	this.cancel();
-
+    	shooterPneumatics.setShoot(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    }
-    
-    public void setUsingDriveSystem(boolean value){
-    	usingDriveSystem = value;
     }
 }

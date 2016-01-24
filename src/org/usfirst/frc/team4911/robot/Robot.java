@@ -1,18 +1,20 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import org.usfirst.frc.team4911.robot.commands.Drive;
 import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4911.robot.commands.OperatorDrive;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
 import org.usfirst.frc.team4911.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4911.robot.subsystems.Nav6;
+import org.usfirst.frc.team4911.robot.subsystems.Shooter;
+import org.usfirst.frc.team4911.robot.subsystems.ShooterPneumatics;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,6 +32,8 @@ public class Robot extends IterativeRobot {
 	public static Command teleop;
 	public static DriveSystem driveSystem;
 	public static Nav6 nav6;
+	public static Shooter shooter;
+	public static ShooterPneumatics shooterPneumatics;
 
 
     Command autonomousCommand;
@@ -40,9 +44,11 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	RobotMap.init();
-		oi = new OI();
 		driveSystem = new DriveSystem();
+		oi = new OI();
 		teleop = new OperatorDrive();
+		shooter = new Shooter();
+		shooterPneumatics = new ShooterPneumatics();
 		nav6 = new Nav6();
 		//Initializes the nav6
 		nav6.init();
@@ -51,6 +57,7 @@ public class Robot extends IterativeRobot {
         autonomousCommand = new ExampleCommand();
     }
 	
+    
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
@@ -72,7 +79,11 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-    	teleop.start();
+    	
+    	
+    	//DISABLED DRIVE FOR SAFTEY
+    	//DON'T FORGET TO TURN IT BACK ON
+    	//teleop.start();
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
 
@@ -81,6 +92,9 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
+        RobotMap.FrontRightTalon.setPosition(0);
+        RobotMap.RearLeftTalon.setPosition(0);
+
 
     }
 
@@ -88,7 +102,15 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+
+
         Scheduler.getInstance().run();
+//		System.out.println("RIGHT: "+RobotMap.FrontRightTalon.getEncPosition());
+//		System.out.println("rearleft: "+RobotMap.RearLeftTalon.getEncPosition());
+//		System.out.println("rearright: "+RobotMap.RearRightTalon.getEncPosition());
+//		System.out.println("frontleft: "+RobotMap.FrontLeftTalon.getEncPosition());
+
+
     }
     
     /**

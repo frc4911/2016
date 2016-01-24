@@ -1,10 +1,11 @@
 package org.usfirst.frc.team4911.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team4911.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4911.robot.commands.*;
 import org.usfirst.frc.team4911.robot.commands.Turn90Clockwise;
 
 /**
@@ -23,6 +24,36 @@ public class OI {
 	   
 	    JoystickButton rightButton1 = new JoystickButton(rightJoy,1);
 	    rightButton1.whenPressed(new Turn90Clockwise());
+	    
+	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
+	    rightButton5.whenPressed(new DriveForTime(0.5,1));
+	    
+	    JoystickButton rightButton6 = new JoystickButton(rightJoy,6);
+	    rightButton6.whenPressed(new DriveForTime(-0.5,1));
+	    
+	    JoystickButton rightButton3 = new JoystickButton(rightJoy,3);
+	    rightButton3.whenPressed(new TurnForTime(0.5,3));
+	    
+	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
+	    rightButton4.whenPressed(new TurnForTime(-0.5,3));
+	    
+	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
+	    rightButton11.whenPressed(new DriveForDistance(0.2,18.849,true));
+	    
+	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
+	    rightButton12.whenPressed(new DriveForDistance(0.2,18.849,false));
+	    
+	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
+	    payloadButton1.whenPressed(new ShooterShoot());
+	    
+	    JoystickButton payloadButton2 = new JoystickButton(payloadJoy,2);
+	    payloadButton2.whenPressed(new ShooterIntake());
+	    
+	    JoystickButton payloadButton3 = new JoystickButton(payloadJoy,6);
+	    payloadButton3.whenPressed(new ShooterShootPneumatics());
+	    
+	    JoystickButton payloadButton4 = new JoystickButton(payloadJoy,5);
+	    payloadButton4.whenPressed(new ShooterShootPneumatics2());
 	    
 	}
     public Joystick getLeftJoy() {

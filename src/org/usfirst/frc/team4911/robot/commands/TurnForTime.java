@@ -1,58 +1,60 @@
 package org.usfirst.frc.team4911.robot.commands;
 
-import org.omg.PortableInterceptor.ObjectIdHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class OperatorDrive extends Command {
-	DriveSystem driveSystem = Robot.driveSystem;
-	Joystick leftJoy = Robot.oi.leftJoy;
-	Joystick rightJoy = Robot.oi.rightJoy;
-
-	private boolean usingDriveSystem;
+public class TurnForTime extends Command {
+	Timer timer;
+	DriveSystem driveSystem;
+	double driveTime;
+	double power;
+	Command teleop;
 	
-    public OperatorDrive() {
+    public TurnForTime(double _power, double _time) {
+    	teleop = Robot.teleop;
+    	driveTime = _time;
+    	power = _power;
+    	driveSystem = Robot.driveSystem;
+    	requires(driveSystem);
+    	setInterruptible(false);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	usingDriveSystem = false;
-
+    	teleop = Robot.teleop;
+    	((OperatorDrive)teleop).setUsingDriveSystem(true);
+    	timer = new Timer();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (usingDriveSystem == false){
-    		//DON'T FORGET TO ADD BACK IN
-    		driveSystem.drive(leftJoy.getY(), rightJoy.getY());
-    	}
+    	driveSystem.drive(power, -power);
+    	//System.out.println("Drive For Time Power: "+power+" Time is at: "+ timer.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (timer.get()>driveTime);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	this.cancel();
-
+    	((OperatorDrive)teleop).setUsingDriveSystem(false);
+    	driveSystem.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    }
-    
-    public void setUsingDriveSystem(boolean value){
-    	usingDriveSystem = value;
+    	//driveSystem.stop();
     }
 }
