@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team4911.robot.commands.*;
-import org.usfirst.frc.team4911.robot.commands.Turn90Clockwise;
+//import org.usfirst.frc.team4911.robot.commands.Turn90Clockwise;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -22,8 +22,8 @@ public class OI {
 		leftJoy = new Joystick(1);
 	    payloadJoy = new Joystick(2);
 	   
-	    JoystickButton rightButton1 = new JoystickButton(rightJoy,1);
-	    rightButton1.whenPressed(new Turn90Clockwise());
+/*	    JoystickButton rightButton1 = new JoystickButton(rightJoy,1);
+	    rightButton1.whenPressed(new Turn90Clockwise());*/
 	    
 	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
 	    rightButton5.whenPressed(new DriveForTime(0.5,1));
@@ -37,11 +37,21 @@ public class OI {
 	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
 	    rightButton4.whenPressed(new TurnForTime(-0.5,3));
 	    
+//	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
+	    
+	    
+	    
+	    
+//	    rightButton11.whenPressed(new DriveForDistance(0.1,12*5,1));
+//	    
+//	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
+//	    rightButton12.whenPressed(new DriveForDistance(-0.1,12*5,1));
+
 	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
-	    rightButton11.whenPressed(new DriveForDistance(0.2,18.849,true));
+	    rightButton11.whenPressed(new DriveForDistance(0.5,12*5,0));
 	    
 	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
-	    rightButton12.whenPressed(new DriveForDistance(0.2,18.849,false));
+	    rightButton12.whenPressed(new DriveForDistance(-0.5,12*5,0));
 	    
 	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
 	    payloadButton1.whenPressed(new ShooterShoot());
