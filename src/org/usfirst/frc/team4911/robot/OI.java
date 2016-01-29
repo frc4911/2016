@@ -1,29 +1,25 @@
 package org.usfirst.frc.team4911.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.RumbleType;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
 import org.usfirst.frc.team4911.robot.commands.*;
-import org.usfirst.frc.team4911.robot.commands.Turn90Clockwise;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
+ * 
+ * @author Luke Caughell
+ * 
  */
 public class OI {
     public Joystick rightJoy;
     public Joystick leftJoy;
-    public Joystick payloadJoy;
+//    public Joystick payloadJoy;
 	
 	public OI(){
 		rightJoy = new Joystick(0);
 		leftJoy = new Joystick(1);
-	    payloadJoy = new Joystick(2);
-	   
-	    JoystickButton rightButton1 = new JoystickButton(rightJoy,1);
-	    rightButton1.whenPressed(new Turn90Clockwise());
+//	    payloadJoy = new Joystick(2);
 	    
 	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
 	    rightButton5.whenPressed(new DriveForTime(0.5,1));
@@ -36,36 +32,45 @@ public class OI {
 	    
 	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
 	    rightButton4.whenPressed(new TurnForTime(-0.5,3));
-	    
+
 	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
-	    rightButton11.whenPressed(new DriveForDistance(0.2,18.849,true));
+	    rightButton11.whenPressed(new DriveForDistance(0.5,12*5));
 	    
 	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
-	    rightButton12.whenPressed(new DriveForDistance(0.2,18.849,false));
+	    rightButton12.whenPressed(new DriveForDistance(-0.5,12*5));
 	    
-	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
-	    payloadButton1.whenPressed(new ShooterShoot());
-	    
-	    JoystickButton payloadButton2 = new JoystickButton(payloadJoy,2);
-	    payloadButton2.whenPressed(new ShooterIntake());
-	    
-	    JoystickButton payloadButton3 = new JoystickButton(payloadJoy,6);
-	    payloadButton3.whenPressed(new ShooterShootPneumatics());
-	    
-	    JoystickButton payloadButton4 = new JoystickButton(payloadJoy,5);
-	    payloadButton4.whenPressed(new ShooterShootPneumatics2());
+//	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
+//	    payloadButton1.whenPressed(new ShooterShoot());
+//	    
+//	    JoystickButton payloadButton2 = new JoystickButton(payloadJoy,2);
+//	    payloadButton2.whenPressed(new ShooterIntake());
+//	    
+//	    JoystickButton payloadButton3 = new JoystickButton(payloadJoy,6);
+//	    payloadButton3.whenPressed(new ShooterShootPneumatics());
+//	    
+//	    JoystickButton payloadButton4 = new JoystickButton(payloadJoy,5);
+//	    payloadButton4.whenPressed(new ShooterShootPneumatics2());
 	    
 	}
+	
+	/**
+	 * Gets left joystick.
+	 * @return left joystick.
+	 */
     public Joystick getLeftJoy() {
         return leftJoy;
     }
-
+    
+	/**
+	 * Gets right joystick.
+	 * @return right joystick.
+	 */
     public Joystick getRightJoy() {
         return rightJoy;
     }
-    public Joystick getPayloadJoy(){
-        return payloadJoy;
-    }
+//    public Joystick getPayloadJoy(){
+//        return payloadJoy;
+//    }
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
