@@ -1,22 +1,13 @@
-
+// File="Robot.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
-import org.usfirst.frc.team4911.robot.commands.DriveForTime;
 import org.usfirst.frc.team4911.robot.commands.OperatorDrive;
 import org.usfirst.frc.team4911.robot.commands.TestCommand;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
-import org.usfirst.frc.team4911.robot.subsystems.Shooter;
-import org.usfirst.frc.team4911.robot.subsystems.ShooterPneumatics;
-
-
-
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,30 +17,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
+ * This is the main class.
+ * 
+ * @author Luke Caughell
+ * 
  */
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static Command teleop;
-	public static Command testCommand;
+	public static Command testCommand; //For autonomous
 	public static DriveSystem driveSystem;
-	public static Shooter shooter;
-	public static ShooterPneumatics shooterPneumatics;
 
     Command autonomousCommand;
     SendableChooser chooser;
-	private CameraServer server;
-
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    @Override
     public void robotInit() {
-    	
-        server = CameraServer.getInstance();
-        server.setQuality(50);
-        //the camera name (ex "cam0") can be found through the roborio web interface
-        server.startAutomaticCapture("cam0");
     	
 //        chooser.addObject("My Auto", new MyAutoCommand());
         
@@ -57,8 +45,7 @@ public class Robot extends IterativeRobot {
 		driveSystem = new DriveSystem();
 		oi = new OI();
 		teleop = new OperatorDrive();
-		shooter = new Shooter();
-		shooterPneumatics = new ShooterPneumatics();
+
 		testCommand = new TestCommand();
 		//Initializes the nav6
 		chooser = new SendableChooser();
@@ -71,10 +58,17 @@ public class Robot extends IterativeRobot {
      * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
      */
+    @Override
     public void disabledInit(){
 
     }
 	
+    /**
+     * Periodic code for disabled mode should go here. Users should override this
+     * method for code which will be called periodically at a regular rate while
+     * the robot is in disabled mode.
+     */
+    @Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
@@ -88,6 +82,7 @@ public class Robot extends IterativeRobot {
 	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
+    @Override
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
     	System.out.println("test output");
@@ -109,10 +104,17 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
+    @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
     }
-
+    
+    /**
+     * Initialization code for teleop mode should go here. 
+     * Users should override this method for initialization 
+     * code which will be called each time the robot enters teleop mode.
+     */
+    @Override
     public void teleopInit() {
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
@@ -124,6 +126,7 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
+    @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
     }
@@ -131,9 +134,17 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
+    @Override
     public void testInit() {
-
+    	
     }
+    
+    /**
+     * Periodic code for test mode should go here Users should override 
+     * this method for code which will be called periodically at a regular
+     * rate while the robot is in test mode.
+     */
+    @Override
     public void testPeriodic() {
         LiveWindow.run();
 

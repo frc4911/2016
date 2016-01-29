@@ -1,7 +1,10 @@
-package org.usfirst.frc.team4911.robot;
+package org.usfirst.frc.team4911.helpers;
 
-import edu.wpi.first.wpilibj.Timer;
-
+/**
+ * This class is a helper class that computes PID.
+ * 
+ * @author Luke Caughell
+ */
 public class PID {
 	float p;
 	float i;

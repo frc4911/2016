@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * A command that drives for a specific time.
+ * 
+ * @author Luke Caughell
+ * 
  */
 public class DriveForTime extends Command {
 	Timer timer;
@@ -27,7 +30,10 @@ public class DriveForTime extends Command {
         // eg. requires(chassis);
     }
 
-    // Called just before this Command runs the first time
+/**
+ *      Called just before this Command runs the first time
+ */
+    @Override
     protected void initialize() {
     	teleop = Robot.teleop;
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
@@ -36,7 +42,10 @@ public class DriveForTime extends Command {
     	RobotMap.RearLeftTalon.set(0);
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     *  Called repeatedly when this Command is scheduled to run
+     */
+    @Override
     protected void execute() {
     	i+=1;
     	System.out.println("Time: " + timer.get());
@@ -49,19 +58,28 @@ public class DriveForTime extends Command {
     	//System.out.println("Drive For Time Power: "+power+" Time is at: "+ timer.get());
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     *  Make this return true when this Command no longer needs to run execute()
+     */
+    @Override
     protected boolean isFinished() {
         return (timer.get()>driveTime);
     }
 
-    // Called once after isFinished returns true
+    /**
+     *  Called once after isFinished returns true
+     */
+    @Override
     protected void end() {
     	((OperatorDrive)teleop).setUsingDriveSystem(false);
     	driveSystem.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    /**
+     *  Called when another command which requires one or more of the same
+     *  subsystems is scheduled to run
+     */
+    @Override
     protected void interrupted() {
     	//driveSystem.stop();
     }

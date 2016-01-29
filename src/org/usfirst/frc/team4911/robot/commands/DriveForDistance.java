@@ -3,33 +3,30 @@ package org.usfirst.frc.team4911.robot.commands;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
-
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
+ * A command that drives for a specific distance.
+ * 
+ * @author Luke Caughell
  *
  */
 public class DriveForDistance extends Command {
 	DriveSystem driveSystem;
 	double driveDistance;
 	double power;
-	double startPosition;
 	Command teleop;
-	double currentValue;
-	double prevValue = 0;
+	double currentEncoderValueInches;
+	double prevValueEncoderValueInches = 0;
 	double currentTime;
 	double prevTime = 0;
 	
-	double wheelDiameter = 6;
-	double oneRotationInInches = Math.PI * wheelDiameter;
-	double encoderPulsePerRotation = 250;
-	double inchesPerTick = oneRotationInInches / encoderPulsePerRotation;
-	double turnSlipFactor = 1;
-	double encoderValue;
-	double threshold;
-	Timer timer;
+//	double wheelDiameter = 6;
+//	double oneRotationInInches = Math.PI * wheelDiameter;
+//	double encoderPulsePerRotation = 250;
+//	double inchesPerTick = oneRotationInInches / encoderPulsePerRotation;
+//	double turnSlipFactor = 1;
 	
     double DRIVESTRAIGHT_CORRECTION_CONSTANT = 0.05;
     double AMPLITUDE = 20;
@@ -38,16 +35,20 @@ public class DriveForDistance extends Command {
     double CEILING = 1.0;
     double FLOOR = 0.15;
 
-    public DriveForDistance(double _power, double _distance, double _threshold) {
+    Timer timer;
+    
+    public DriveForDistance(double _power, double _distance) {
     	// TODO: set all encoder params in the robot map
     	driveSystem = Robot.driveSystem;
     	power = _power;
     	driveDistance = _distance;
-    	threshold = _threshold;
     	requires(driveSystem);
     }
 
-    // Called just before this Command runs the first time
+    /**
+     *  Called just before this Command runs the first time
+     */
+    @Override
     protected void initialize() {
     	RobotMap.FrontRightEncoder.reset();
     	System.out.println("initialize got called");
@@ -57,46 +58,64 @@ public class DriveForDistance extends Command {
     	timer.start();
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     *  Called repeatedly when this Command is scheduled to run
+     */
+    @Override
     protected void execute() {
     	// TODO:  get encoder value
     	// TODO:  if value != lastvalue
     	// TODO: 	print value
     	// TODO: 	print time delta
-    	currentValue = RobotMap.FrontRightEncoder.getDistance();
-    	power = getRampedPower(driveDistance,currentValue);
+    	currentEncoderValueInches = RobotMap.FrontRightEncoder.getDistance();
+    	power = getRampedPower(driveDistance,currentEncoderValueInches);
     	driveSystem.drive(power, power);
     	currentTime = timer.get();
-    	if (currentValue!=prevValue){
+    	if (currentEncoderValueInches!=prevValueEncoderValueInches){
     		System.out.println("Rate: " + RobotMap.FrontRightEncoder.getRate());
     		System.out.println("Stopped: " + RobotMap.FrontRightEncoder.getStopped());
-    		System.out.println("Encoder: " + currentValue + " Time: " + (currentTime-prevTime));
+    		System.out.println("Encoder: " + currentEncoderValueInches + " Time: " + (currentTime-prevTime));
         	prevTime =  currentTime;
-        	prevValue = currentValue;
+        	prevValueEncoderValueInches = currentEncoderValueInches;
     	}
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     *  Make this return true when this Command no longer needs to run execute()
+     */
+    @Override
     protected boolean isFinished() {
     	// TODO:  if encoder value * inchesPerTick >= distance +/- threshold
     	// TODO: 	return true
     	
-    	return (driveDistance - threshold - Math.abs(currentValue)<=0);
+    	return (driveDistance - Math.abs(currentEncoderValueInches)<=0);
     }
     
 
-    // Called once after isFinished returns true
+    /**
+     *  Called once after isFinished returns true
+     */
+    @Override
     protected void end() {
     	((OperatorDrive)teleop).setUsingDriveSystem(false);
     	driveSystem.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    /** 
+     * Called when another command which requires one or more of the same
+     *  subsystems is scheduled to run
+     */
+    @Override
     protected void interrupted() {
     	driveSystem.stop();
     }
     
+    /**
+     * changes power based on distance to goal 
+     * @param goalDistance
+     * @param currentDistance
+     * @return
+     */
     private double getRampedPower(double goalDistance, double currentDistance){
         double fractionOfGoalDistance = Math.min(currentDistance / goalDistance, 1.0);        
         double rampedPower = AMPLITUDE * Math.pow(Math.cos(0.5 * Math.PI * fractionOfGoalDistance) , RAMP_UP) * Math.pow(fractionOfGoalDistance , RAMP_DOWN);
