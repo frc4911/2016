@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.helpers.RampDownHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
@@ -14,11 +15,14 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveForDistance extends Command {
 	DriveSystem driveSystem;
+	Command teleop;
+	
 	double driveDistance;
 	double power;
-	Command teleop;
+	
 	double currentEncoderValueInches;
 	double prevValueEncoderValueInches = 0;
+	
 	double currentTime;
 	double prevTime = 0;
 	
@@ -28,17 +32,20 @@ public class DriveForDistance extends Command {
 //	double inchesPerTick = oneRotationInInches / encoderPulsePerRotation;
 //	double turnSlipFactor = 1;
 	
-    double DRIVESTRAIGHT_CORRECTION_CONSTANT = 0.05;
-    double AMPLITUDE = 20;
-    double RAMP_UP = 5.0;
-    double RAMP_DOWN = 1.0;
-    double CEILING = 1.0;
-    double FLOOR = 0.15;
+//    double DRIVESTRAIGHT_CORRECTION_CONSTANT = 0.05;
+//    double AMPLITUDE = 20;
+//    double RAMP_UP = 5.0;
+//    double RAMP_DOWN = 1.0;
+//    double CEILING = 1.0;
+//    double FLOOR = 0.15;
+    
+    RampDownHelper rampDown;
 
     Timer timer;
     
     public DriveForDistance(double _power, double _distance) {
     	// TODO: set all encoder params in the robot map
+    	rampDown = new RampDownHelper(20,5.0,1.0,1.0,0.15);
     	driveSystem = Robot.driveSystem;
     	power = _power;
     	driveDistance = _distance;
@@ -68,7 +75,7 @@ public class DriveForDistance extends Command {
     	// TODO: 	print value
     	// TODO: 	print time delta
     	currentEncoderValueInches = RobotMap.FrontRightEncoder.getDistance();
-    	power = getRampedPower(driveDistance,currentEncoderValueInches);
+    	power = rampDown.getRampedPower(driveDistance,currentEncoderValueInches);
     	driveSystem.drive(power, power);
     	currentTime = timer.get();
     	if (currentEncoderValueInches!=prevValueEncoderValueInches){
@@ -116,11 +123,11 @@ public class DriveForDistance extends Command {
      * @param currentDistance
      * @return
      */
-    private double getRampedPower(double goalDistance, double currentDistance){
-        double fractionOfGoalDistance = Math.min(currentDistance / goalDistance, 1.0);        
-        double rampedPower = AMPLITUDE * Math.pow(Math.cos(0.5 * Math.PI * fractionOfGoalDistance) , RAMP_UP) * Math.pow(fractionOfGoalDistance , RAMP_DOWN);
-        rampedPower = Math.min(rampedPower + FLOOR, CEILING);
-        return rampedPower;
-    }
+//    private double getRampedPower(double goalDistance, double currentDistance){
+//        double fractionOfGoalDistance = Math.min(currentDistance / goalDistance, 1.0);        
+//        double rampedPower = AMPLITUDE * Math.pow(Math.cos(0.5 * Math.PI * fractionOfGoalDistance) , RAMP_UP) * Math.pow(fractionOfGoalDistance , RAMP_DOWN);
+//        rampedPower = Math.min(rampedPower + FLOOR, CEILING);
+//        return rampedPower;
+//    }
 
 }

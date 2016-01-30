@@ -5,7 +5,7 @@ package org.usfirst.frc.team4911.helpers;
  * 
  * @author Luke Caughell
  */
-public class PID {
+public class PIDHelper {
 	float p;
 	float i;
 	float d;
@@ -16,7 +16,7 @@ public class PID {
 	float threshold;
 	float output;
 	float error;
-	public PID (float _p, float _i, float _d, float _threshold){
+	public PIDHelper (float _p, float _i, float _d, float _threshold){
 		p=_p;
 		i=_i;
 		d=_d;
