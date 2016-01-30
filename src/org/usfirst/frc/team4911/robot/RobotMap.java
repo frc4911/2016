@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4911.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
@@ -24,9 +26,11 @@ public class RobotMap {
 	public static CANTalon RearRightTalon;
 	public static CANTalon RearLeftTalon;
 	
-	public static Encoder FrontRightEncoder;
+	public static AHRS Imu;
 	
-
+	public static Encoder FrontRightEncoder;
+	// Other encoder is on the talon (rear left).
+	
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 
@@ -44,6 +48,8 @@ public class RobotMap {
 		FrontRightTalon = new CANTalon(1);
 		FrontLeftTalon = new CANTalon(8);
         RearLeftTalon = new CANTalon(5);
+        
+        Imu = new AHRS(SPI.Port.kMXP);
 
         FrontRightEncoder = new Encoder(0,1,true,EncodingType.k4X);
         FrontRightEncoder.setDistancePerPulse(Math.PI*6/250); 
@@ -53,7 +59,5 @@ public class RobotMap {
         
 		LeftJoy = new Joystick(0);
 		RightJoy = new Joystick(1);
-
 	}
-	
 }
