@@ -1,9 +1,6 @@
 package org.usfirst.frc.team4911.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
