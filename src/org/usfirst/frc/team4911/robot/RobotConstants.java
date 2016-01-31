@@ -37,6 +37,12 @@ public class RobotConstants {
 	public static final double rampUp = 1.0;
 	public static final double rampDown = 15;
 	
+	//Imu Constants
+	public static final double maxAngle = 180;
+	public static final double minAngle = -180;
 	
+	//General constants
+	public static final double normalizeMax = 1;
+	public static final double normalizeMin = -1;
 	
 }

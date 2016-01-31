@@ -32,7 +32,7 @@ public class Sensors extends Subsystem {
         RightDriveEncoder.setMaxPeriod(0.5);
         RightDriveEncoder.reset();
     	
-    	LeftDriveEncoder = new Encoder(0,1,true,EncodingType.k4X);
+    	LeftDriveEncoder = new Encoder(2,3,true,EncodingType.k4X);
         LeftDriveEncoder.setDistancePerPulse(Math.PI*6/250); 
         LeftDriveEncoder.setMinRate(1);
         LeftDriveEncoder.setMaxPeriod(0.5);
@@ -48,6 +48,10 @@ public class Sensors extends Subsystem {
     public AHRS getImu() {
     	
     	return Sensors.Imu;
+    }
+    
+    public void resetImu() {
+    	 Sensors.Imu.reset();;
     }
     
     /**

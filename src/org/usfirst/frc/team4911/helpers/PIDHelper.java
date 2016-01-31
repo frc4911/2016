@@ -6,17 +6,17 @@ package org.usfirst.frc.team4911.helpers;
  * @author Luke Caughell
  */
 public class PIDHelper {
-	float p;
-	float i;
-	float d;
-	float previous_error;
-	float integral;
-	float previous_integral;
+	double p;
+	double i;
+	double d;
+	double previous_error;
+	double integral;
+	double previous_integral;
 	double lastTime;
-	float threshold;
-	float output;
-	float error;
-	public PIDHelper (float _p, float _i, float _d, float _threshold){
+	double threshold;
+	double output;
+	double error;
+	public PIDHelper (double _p, double _i, double _d, double _threshold){
 		p=_p;
 		i=_i;
 		d=_d;
@@ -27,8 +27,14 @@ public class PIDHelper {
 		
 	}
 	
-	
-	public float run(float endAngle, float currentAngle,double currentTime){
+	/**
+	 * 
+	 * @param endAngle range -1 to 1
+	 * @param currentAngle range -1 to 1
+	 * @param currentTime
+	 * @return double
+	 */
+	public double run(double endAngle, double currentAngle,double currentTime){
 		
 		double deltaTime = currentTime-lastTime;
 //		if (deltaTime > 0.1){
@@ -37,8 +43,8 @@ public class PIDHelper {
 				System.out.println("Error: " + error);
 				return 0;
 			}
-			integral = (float) (previous_integral + error *  deltaTime);
-			float derivative = (float) ((error - previous_error)/deltaTime);
+			integral = (double) (previous_integral + error *  deltaTime);
+			double derivative = (double) ((error - previous_error)/deltaTime);
 			output = p*error+ i*integral + d * derivative;
 			previous_error = error;
 			previous_integral = integral;
