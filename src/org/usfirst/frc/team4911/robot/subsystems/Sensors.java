@@ -1,9 +1,10 @@
 // File="Sensors.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.subsystems;
 
-import org.usfirst.frc.team4911.robot.RobotMap;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -14,15 +15,30 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Sensors extends Subsystem {
     
+	public static Encoder RightDriveEncoder;
+	public static Encoder LeftDriveEncoder;
+	
+	public static AHRS Imu;
+
 	/** 
     * Put methods for controlling this subsystem
     * here. Call these from Commands.
 	*/
-    public void initDefaultCommand() {
-    	/*
-         * Set the default command for a subsystem here.
-         * setDefaultCommand(new MySpecialCommand());
-         */
+    public void init() {
+    	
+    	RightDriveEncoder = new Encoder(0,1,true,EncodingType.k4X);
+        RightDriveEncoder.setDistancePerPulse(Math.PI*6/250); 
+        RightDriveEncoder.setMinRate(1);
+        RightDriveEncoder.setMaxPeriod(0.5);
+        RightDriveEncoder.reset();
+    	
+    	LeftDriveEncoder = new Encoder(0,1,true,EncodingType.k4X);
+        LeftDriveEncoder.setDistancePerPulse(Math.PI*6/250); 
+        LeftDriveEncoder.setMinRate(1);
+        LeftDriveEncoder.setMaxPeriod(0.5);
+        LeftDriveEncoder.reset();
+        
+        Imu = new AHRS(SPI.Port.kMXP);
     }
     
     /**
@@ -31,7 +47,7 @@ public class Sensors extends Subsystem {
      */
     public AHRS getImu() {
     	
-    	return RobotMap.Imu;
+    	return Sensors.Imu;
     }
     
     /**
@@ -41,7 +57,7 @@ public class Sensors extends Subsystem {
      */
     public Encoder getRightDriveEncoder() {
     	
-    	return RobotMap.RightDriveEncoder;
+    	return Sensors.RightDriveEncoder;
     }
     
     /**
@@ -51,6 +67,12 @@ public class Sensors extends Subsystem {
      */
     public Encoder getLeftDriveEncoder() {
     	
-    	return RobotMap.LeftDriveEncoder;
+    	return Sensors.LeftDriveEncoder;
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }

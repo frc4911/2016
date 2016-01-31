@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
-import org.usfirst.frc.team4911.robot.RobotMap;
+import org.usfirst.frc.team4911.robot.subsystems.Sensors;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -39,7 +39,7 @@ public class DriveForTime extends Command {
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
     	timer = new Timer();
     	timer.start();
-    	RobotMap.RightDriveEncoder.reset();
+    	Sensors.RightDriveEncoder.reset();
     }
 
     /**
@@ -50,11 +50,11 @@ public class DriveForTime extends Command {
     	i+=1;
     	System.out.println("Time: " + timer.get());
     	System.out.println(i);
-    	System.out.println("ENCODER: " + RobotMap.RightDriveEncoder.getDistance());
+    	System.out.println("ENCODER: " + Sensors.RightDriveEncoder.getDistance());
     	
     	driveSystem.drive(power, power);
-    	//System.out.println("ENCODER POSITION: " + RobotMap.RearLeftTalon.getEncPosition());
-    	//System.out.println("ENCODER VELOCITY: " + RobotMap.RearLeftTalon.getEncVelocity());
+    	//System.out.println("ENCODER POSITION: " + Sensors.RearLeftTalon.getEncPosition());
+    	//System.out.println("ENCODER VELOCITY: " + Sensors.RearLeftTalon.getEncVelocity());
     	//System.out.println("Drive For Time Power: "+power+" Time is at: "+ timer.get());
     }
 
