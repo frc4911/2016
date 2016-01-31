@@ -24,9 +24,6 @@ public class RobotMap {
 	public static CANTalon RearRightTalon;
 	public static CANTalon RearLeftTalon;
 	
-	public static Encoder FrontRightEncoder;
-	
-
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 
@@ -45,11 +42,7 @@ public class RobotMap {
 		RearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
         RearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
 
-        FrontRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA,RobotConstants.frontRightEncoderPortB,true,EncodingType.k4X);
-        FrontRightEncoder.setDistancePerPulse(Math.PI*RobotConstants.wheelDiameter/250); 
-        FrontRightEncoder.setMinRate(1);
-        FrontRightEncoder.setMaxPeriod(0.5);
-        FrontRightEncoder.reset();
+
         
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
 		RightJoy = new Joystick(RobotConstants.leftJoyPort);
