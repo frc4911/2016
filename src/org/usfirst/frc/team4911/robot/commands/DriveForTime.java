@@ -39,7 +39,7 @@ public class DriveForTime extends Command {
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
     	timer = new Timer();
     	timer.start();
-    	RobotMap.RearLeftTalon.set(0);
+    	RobotMap.RightDriveEncoder.reset();
     }
 
     /**
@@ -50,7 +50,7 @@ public class DriveForTime extends Command {
     	i+=1;
     	System.out.println("Time: " + timer.get());
     	System.out.println(i);
-    	System.out.println("ENCODER: " + RobotMap.RearLeftTalon.getEncPosition());
+    	System.out.println("ENCODER: " + RobotMap.RightDriveEncoder.getDistance());
     	
     	driveSystem.drive(power, power);
     	//System.out.println("ENCODER POSITION: " + RobotMap.RearLeftTalon.getEncPosition());
