@@ -27,7 +27,7 @@ public class Sensors extends Subsystem {
     
     /**
      * Returns the IMU that is defined in RobotMap.
-     * @return
+     * @return Imu
      */
     public AHRS getImu() {
     	
@@ -35,23 +35,22 @@ public class Sensors extends Subsystem {
     }
     
     /**
-     * Returns the front right encoder that is
+     * Returns the right drive encoder that is
      * on the motor that is defined in the RobotMap.
-     * @return
+     * @return RightDriveEncoder
      */
-    public Encoder getFrontRightEncoder() {
+    public Encoder getRightDriveEncoder() {
     	
-    	return RobotMap.FrontRightEncoder;
+    	return RobotMap.RightDriveEncoder;
     }
     
     /**
-     * Returns the rear left encoder that
-     * is inside the talon. Defined in the
-     * RobotMap.
-     * @return
+     * Returns the left drive encoder that is
+     * on the motor that is defined in the RobotMap.
+     * @return LeftDriveEncoder
      */
-    public double getRearLeftEncoderValue() {
+    public Encoder getLeftDriveEncoder() {
     	
-    	return RobotMap.RearLeftTalon.getEncPosition();
-    }
+    	return RobotMap.LeftDriveEncoder;
+	}
 }

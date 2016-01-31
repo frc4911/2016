@@ -50,7 +50,7 @@ public class DriveForDistance extends Command {
      */
     @Override
     protected void initialize() {
-    	RobotMap.FrontRightEncoder.reset();
+    	RobotMap.RightDriveEncoder.reset();
     	System.out.println("initialize got called");
     	teleop = Robot.teleop;
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
@@ -67,13 +67,13 @@ public class DriveForDistance extends Command {
     	// TODO:  if value != lastvalue
     	// TODO: 	print value
     	// TODO: 	print time delta
-    	currentEncoderValueInches = RobotMap.FrontRightEncoder.getDistance();
+    	currentEncoderValueInches = RobotMap.RightDriveEncoder.getDistance();
     	power = getRampedPower(driveDistance,currentEncoderValueInches);
     	driveSystem.drive(power, power);
     	currentTime = timer.get();
     	if (currentEncoderValueInches!=prevValueEncoderValueInches){
-    		System.out.println("Rate: " + RobotMap.FrontRightEncoder.getRate());
-    		System.out.println("Stopped: " + RobotMap.FrontRightEncoder.getStopped());
+    		System.out.println("Rate: " + RobotMap.RightDriveEncoder.getRate());
+    		System.out.println("Stopped: " + RobotMap.RightDriveEncoder.getStopped());
     		System.out.println("Encoder: " + currentEncoderValueInches + " Time: " + (currentTime-prevTime));
         	prevTime =  currentTime;
         	prevValueEncoderValueInches = currentEncoderValueInches;
