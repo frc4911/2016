@@ -32,12 +32,7 @@ public class DriveForDistance extends Command {
 //	double inchesPerTick = oneRotationInInches / encoderPulsePerRotation;
 //	double turnSlipFactor = 1;
 	
-//    double DRIVESTRAIGHT_CORRECTION_CONSTANT = 0.05;
-//    double AMPLITUDE = 20;
-//    double RAMP_UP = 5.0;
-//    double RAMP_DOWN = 1.0;
-//    double CEILING = 1.0;
-//    double FLOOR = 0.15;
+
     
     RampDownHelper rampDown;
 

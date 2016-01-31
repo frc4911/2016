@@ -30,7 +30,7 @@ public class RobotConstants {
 	//Robot Size Constants
 	public static double wheelDiameter = 6;
 	
-	//RampDownHelper constants
+	//RampDownHelper constants 
 	public static final double amplitude = 20;
 	public static final double floor = 5.0;
 	public static final double ceiling = 1.0;
