@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4911.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
@@ -24,9 +26,11 @@ public class RobotMap {
 	public static CANTalon RearRightTalon;
 	public static CANTalon RearLeftTalon;
 	
-	public static Encoder FrontRightEncoder;
+	public static AHRS Imu;
 	
-
+	public static Encoder RightDriveEncoder;
+	public static Encoder LeftDriveEncoder;
+	
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 
@@ -43,17 +47,23 @@ public class RobotMap {
 		RearRightTalon = new CANTalon(4);
 		FrontRightTalon = new CANTalon(1);
 		FrontLeftTalon = new CANTalon(8);
-        RearLeftTalon = new CANTalon(5);
+		RearLeftTalon = new CANTalon(5);
+        
+        Imu = new AHRS(SPI.Port.kMXP);
 
-        FrontRightEncoder = new Encoder(0,1,true,EncodingType.k4X);
-        FrontRightEncoder.setDistancePerPulse(Math.PI*6/250); 
-        FrontRightEncoder.setMinRate(1);
-        FrontRightEncoder.setMaxPeriod(0.5);
-        FrontRightEncoder.reset();
+        RightDriveEncoder = new Encoder(0,1,true,EncodingType.k4X);
+        RightDriveEncoder.setDistancePerPulse(Math.PI*6/250); 
+        RightDriveEncoder.setMinRate(1);
+        RightDriveEncoder.setMaxPeriod(0.5);
+        RightDriveEncoder.reset();
+        
+        LeftDriveEncoder = new Encoder(0,1,true,EncodingType.k4X);
+        LeftDriveEncoder.setDistancePerPulse(Math.PI*6/250); 
+        LeftDriveEncoder.setMinRate(1);
+        LeftDriveEncoder.setMaxPeriod(0.5);
+        LeftDriveEncoder.reset();
         
 		LeftJoy = new Joystick(0);
 		RightJoy = new Joystick(1);
-
 	}
-	
 }

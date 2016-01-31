@@ -31,7 +31,6 @@ public class DriveSystem extends Subsystem {
     	RobotMap.RearRightTalon.set(-rightPower);
     	RobotMap.FrontLeftTalon.set(leftPower);
     	RobotMap.RearLeftTalon.set(leftPower);
-
     }
     
     /**
