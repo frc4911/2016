@@ -2,7 +2,7 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 
-import org.usfirst.frc.team4911.helpers.ComputeAngleHelper;
+import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.PIDHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotConstants;
@@ -40,16 +40,18 @@ public class TurnForDegree extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	sensors = Robot.sensors;
-    	sensors.resetImu();
+//    	sensors.resetImu();
     	timer = new Timer();
     	timer.start();
+    	endDegree = GetTargetAngleHelper.compute(currentDegree, targetDegree);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	currentDegree = sensors.getImu().getYaw();
-    	endDegree = ComputeAngleHelper.compute(currentDegree, targetDegree);
-    	adjustedPower = Math.min(pid.run(currentDegree/RobotConstants.maxAngle, endDegree/RobotConstants.maxAngle, timer.get()), power);
+    	adjustedPower = (pid.run(currentDegree/RobotConstants.maxAngle, endDegree/RobotConstants.maxAngle, timer.get()));
+        adjustedPower = Math.min(adjustedPower,power);
+        adjustedPower = Math.max(adjustedPower,-power);
     	driveSystem.drive(adjustedPower, -adjustedPower);
     	
     }

@@ -8,10 +8,10 @@ import org.usfirst.frc.team4911.robot.RobotConstants;
  * @author Luke Caughell
  *
  */
-public class ComputeAngleHelper {
+public class GetTargetAngleHelper {
 	
 	
-	public ComputeAngleHelper(){
+	public GetTargetAngleHelper(){
 		
 	}
 	/**
@@ -19,7 +19,7 @@ public class ComputeAngleHelper {
 	 * adds them together, normalizes the result to -180 to 180
 	 * 
 	 * @param startAngle range -180 to 180
-	 * @param turnAngle range -180 to 180
+	 * @param turnAngle number of degrees you want to turn
 	 * @return
 	 */
 	public static double compute(double startAngle, double turnAngle){
