@@ -45,7 +45,7 @@ public class DriveForDistance extends Command {
     
     public DriveForDistance(double _power, double _distance) {
     	// TODO: set all encoder params in the robot map
-    	rampDown = new RampDownHelper(20,5.0,1.0,1.0,0.15);
+    	rampDown = new RampDownHelper();
     	driveSystem = Robot.driveSystem;
     	power = _power;
     	driveDistance = _distance;

@@ -1,4 +1,7 @@
 package org.usfirst.frc.team4911.helpers;
+
+import org.usfirst.frc.team4911.robot.RobotConstants;
+
 /**
  * A helper class that gets takes a % complete of an action and returns
  * a value that moves along a cosine wave to ramp power down
@@ -8,15 +11,15 @@ package org.usfirst.frc.team4911.helpers;
  */
 public class RampDownHelper {
 	// Set amplitude of cos wave.
-	double amplitude;
+	double amplitude = RobotConstants.amplitude;
 	//Floor sets the min power the function will return. Should be lowest possible motor speed.
-	double floor;
+	double floor = RobotConstants.floor;
 	//Ceiling sets the max power the function will return  range(Floor-1)
-	double ceiling;
+	double ceiling = RobotConstants.ceiling;
 	//Ramp up sets the rate at which the motor power ramps up at the start.
-	double rampUp;
+	double rampUp = RobotConstants.rampDown;
 	//Ramp down is the rate at which the motor ramps down as it nears its goal. ()
-	double rampDown;
+	double rampDown = RobotConstants.rampDown;
 	
 	/**
 	 * Constructor that sets all of the parameters of the ramp function
@@ -33,7 +36,11 @@ public class RampDownHelper {
 		rampUp = _rampUp;
 		rampDown = _rampDown;
 	}
-    
+	
+	public RampDownHelper(){
+
+	}
+	
 	/**
 	 * Returns the ramped power based on (goalDistance/currentDistance)
 	 * @param goalDistance

@@ -40,19 +40,19 @@ public class RobotMap {
 //      PneumaticCanRight = new Solenoid(0);
 //      PneumaticCanLeft = new Solenoid(1);
 		
-		RearRightTalon = new CANTalon(4);
-		FrontRightTalon = new CANTalon(1);
-		FrontLeftTalon = new CANTalon(8);
-        RearLeftTalon = new CANTalon(5);
+		FrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
+		FrontLeftTalon = new CANTalon(RobotConstants.frontLeftMotorPort);
+		RearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
+        RearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
 
-        FrontRightEncoder = new Encoder(0,1,true,EncodingType.k4X);
-        FrontRightEncoder.setDistancePerPulse(Math.PI*6/250); 
+        FrontRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA,RobotConstants.frontRightEncoderPortB,true,EncodingType.k4X);
+        FrontRightEncoder.setDistancePerPulse(Math.PI*RobotConstants.wheelDiameter/250); 
         FrontRightEncoder.setMinRate(1);
         FrontRightEncoder.setMaxPeriod(0.5);
         FrontRightEncoder.reset();
         
-		LeftJoy = new Joystick(0);
-		RightJoy = new Joystick(1);
+		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
+		RightJoy = new Joystick(RobotConstants.leftJoyPort);
 
 	}
 	
