@@ -39,4 +39,22 @@ public class GetTargetAngleHelper {
 		return startAngle;
 	}
 	
+	public static double computeAngleBetween(double start, double current) {
+		current -= start;
+		if (current > RobotConstants.maxAngle) {
+			current -= 360;
+		}
+		if (current < RobotConstants.minAngle) {
+			current += 360;
+		}
+		
+		return current;
+		/*
+		 * cur = 170, start = 170
+		 * between = 0
+		 * cur = -179, start = 170
+		 * between = 11
+		 */
+	}
+	
 }
