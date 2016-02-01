@@ -39,6 +39,8 @@ public class Sensors extends Subsystem {
         LeftDriveEncoder.reset();
         
         Imu = new AHRS(SPI.Port.kMXP);
+        Imu.reset();
+        Imu.zeroYaw();
     }
     
     /**

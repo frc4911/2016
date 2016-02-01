@@ -31,7 +31,7 @@ public class TurnForDegree extends Command {
     public TurnForDegree(double _targetDegree, double _power) {
     	degreesToTurn = _targetDegree;
     	power = _power;
-    	pid = new PidHelper(1, 0, 0, 0.5/180f);
+    	pid = new PidHelper(1, 0, 0, 0.5/180);
     	driveSystem = Robot.driveSystem;
     	requires(driveSystem);
 
