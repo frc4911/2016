@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4911.helpers;
 
+import org.usfirst.frc.team4911.robot.RobotConstants;
+import org.us
+
 /**
  * This class is a helper class that computes PID.
  * 
@@ -34,16 +37,14 @@ public class PIDHelper {
 //		if (deltaTime > 0.1){
 			error = endAngle - currentAngle;
 			if(Math.abs(error) < threshold){
-				System.out.println("Error: " + error);
-				return 0;
-			}
+			Logging.DebugPrint("Error: " + error);
 			integral = (float) (previous_integral + error *  deltaTime);
 			float derivative = (float) ((error - previous_error)/deltaTime);
 			output = p*error+ i*integral + d * derivative;
 			previous_error = error;
 			previous_integral = integral;
 			lastTime = currentTime;
-			System.out.println("Error: " + error);
+			Logging.DebugPrint("Error: " + error);
 
 			return output;
 //		}else{

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.Sensors;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
@@ -48,9 +49,9 @@ public class DriveForTime extends Command {
     @Override
     protected void execute() {
     	i+=1;
-    	System.out.println("Time: " + timer.get());
-    	System.out.println(i);
-    	System.out.println("ENCODER: " + Sensors.RightDriveEncoder.getDistance());
+    	Logging.DebugPrint("Time: " + timer.get());
+    	Logging.DebugPrint("Iteration: " + i);
+    	Logging.DebugPrint("ENCODER: " + Sensors.RightDriveEncoder.getDistance());
     	
     	driveSystem.drive(power, power);
     	//System.out.println("ENCODER POSITION: " + Sensors.RearLeftTalon.getEncPosition());
