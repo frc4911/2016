@@ -12,6 +12,8 @@ public class Logging {
 	 * Prints to the RioLog window if RobotConstants.debug is set to true
 	 */
 	static public void DebugPrint(String message){
-		if (RobotConstants.debug) System.out.println(message);
+		if (RobotConstants.debug) {
+			System.out.println(message);
+		}
 	}
 }

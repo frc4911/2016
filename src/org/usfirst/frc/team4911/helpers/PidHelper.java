@@ -46,7 +46,7 @@ public class PidHelper {
 		double deltaTime = currentTime-prevTime;
 		// P, I, and D are all derived from the difference between where we are and where we want to be
 		double error = targetValue - currentValue;
-		System.out.println("Error: " + error);
+		Logging.DebugPrint("Error: " + error);
 		
 		if(Math.abs(error) < threshold){	
 			isFinished = true;

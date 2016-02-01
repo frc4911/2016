@@ -35,6 +35,10 @@ public class RobotConstants {
 	public static final double rampUp = 1.0;
 	public static final double rampDown = 15;
 	
+	//IMU min and max angles
+	public static final double maxAngle = 180;
+	public static final double minAngle = -180;
+
 	// True if we want to produce debug logs, false otherwise.
 	public static boolean debug = true;
 }

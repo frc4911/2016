@@ -2,6 +2,7 @@ package org.usfirst.frc.team4911.robot.commands;
 
 
 
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.subsystems.Sensors;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -35,7 +36,7 @@ public class TestCommand extends Command {
      */
     @Override
     protected void execute() {
-    	System.out.println(Sensors.Imu.getYaw());
+    	Logging.DebugPrint("" + Sensors.Imu.getYaw());
     }
 
     /**
