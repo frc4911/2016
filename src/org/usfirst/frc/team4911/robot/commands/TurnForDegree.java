@@ -19,7 +19,7 @@ public class TurnForDegree extends Command {
 	Sensors sensors;
 	
 	private double currentDegree;
-	private double targetDegree;
+	private double degreesToTurn;
 	private double endDegree;
 	private double power;
 	private double adjustedPower;
@@ -29,7 +29,7 @@ public class TurnForDegree extends Command {
 	
 	
     public TurnForDegree(double _targetDegree, double _power) {
-    	targetDegree = _targetDegree;
+    	degreesToTurn = _targetDegree;
     	power = _power;
     	pid = new PIDHelper(1, 0, 0, 0.5/180);
     	driveSystem = Robot.driveSystem;
@@ -43,7 +43,7 @@ public class TurnForDegree extends Command {
 //    	sensors.resetImu();
     	timer = new Timer();
     	timer.start();
-    	endDegree = GetTargetAngleHelper.compute(currentDegree, targetDegree);
+    	endDegree = GetTargetAngleHelper.compute(currentDegree, degreesToTurn);
     }
 
     // Called repeatedly when this Command is scheduled to run

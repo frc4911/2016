@@ -40,7 +40,6 @@ public class PIDHelper {
 //		if (deltaTime > 0.1){
 			error = endAngle - currentAngle;
 			if(Math.abs(error) < threshold){
-				System.out.println("Error: " + error);
 				return 0;
 			}
 			integral = (double) (previous_integral + error *  deltaTime);
@@ -49,8 +48,7 @@ public class PIDHelper {
 			previous_error = error;
 			previous_integral = integral;
 			lastTime = currentTime;
-			System.out.println("Error: " + error);
-
+			System.out.println(error);
 			return output;
 //		}else{
 //			return (output);

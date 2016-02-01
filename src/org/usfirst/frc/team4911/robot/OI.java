@@ -40,10 +40,10 @@ public class OI {
 //	    rightButton12.whenPressed(new DriveForDistance(-0.5,12*5));
 	    
 	    JoystickButton rightButton3 = new JoystickButton(rightJoy,3);
-	    rightButton3.whenPressed(new TurnForDegree(90,-0.1));
+	    rightButton3.whenPressed(new TurnForDegree(90,-0.3));
 	    
 	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
-	    rightButton4.whenPressed(new TurnForDegree(90,0.1));
+	    rightButton4.whenPressed(new TurnForDegree(90,0.3));
 	    
 //	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
 //	    payloadButton1.whenPressed(new ShooterShoot());

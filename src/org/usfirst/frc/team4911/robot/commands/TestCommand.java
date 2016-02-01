@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TestCommand extends Command {
-
 	
 
 	
@@ -25,7 +25,7 @@ public class TestCommand extends Command {
      */
     @Override
     protected void initialize() {
-
+    	
     }
 
     /**
