@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team4911.robot.commands.OperatorDrive;
 import org.usfirst.frc.team4911.robot.commands.TestCommand;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4911.robot.subsystems.WinchControl;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static Command teleop;
 	public static Command testCommand; //For autonomous
 	public static DriveSystem driveSystem;
+	public static WinchControl winchControl;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -44,6 +47,7 @@ public class Robot extends IterativeRobot {
 		driveSystem = new DriveSystem();
 		oi = new OI();
 		teleop = new OperatorDrive();
+		winchControl = new WinchControl();
 
 		testCommand = new TestCommand();
 		//Initializes the nav6

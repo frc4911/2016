@@ -2,7 +2,6 @@ package org.usfirst.frc.team4911.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4911.robot.RobotMap;
-import org.usfirst.frc.team4911.helpers.PowerOutputHelper;
 /**
  * Involved in controlling the two winch motors.
  *

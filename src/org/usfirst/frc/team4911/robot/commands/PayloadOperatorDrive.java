@@ -3,6 +3,8 @@ package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
+import org.usfirst.frc.team4911.robot.subsystems.WinchControl;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,11 +17,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PayloadOperatorDrive extends Command {
 	
-	DriveSystem driveSystem = Robot.driveSystem;
+	WinchControl winchControl = Robot.winchControl;
 	Joystick payloadLeftJoy = Robot.oi.payloadLeftJoy;
 	Joystick payloadRightJoy = Robot.oi.payloadRightJoy;
-	
-	private boolean usingDriveSystem;
 	
     public PayloadOperatorDrive() {
         // Use requires() here to declare subsystem dependencies
@@ -32,7 +32,6 @@ public class PayloadOperatorDrive extends Command {
     @Override
     protected void initialize() {
     	
-    	usingDriveSystem = false;
     }
     
     /**
@@ -41,10 +40,7 @@ public class PayloadOperatorDrive extends Command {
     @Override
     protected void execute() {
     	
-    	if (usingDriveSystem == false){
-    		//DON'T FORGET TO ADD BACK IN
-    		driveSystem.drive(payloadLeftJoy.getY(), payloadRightJoy.getY());
-    	}
+    	winchControl.moveWinch(payloadLeftJoy.getY(), payloadRightJoy.getY());
     }
     
     /**
@@ -71,7 +67,6 @@ public class PayloadOperatorDrive extends Command {
      */
     protected void interrupted(boolean value) {
     	
-    	usingDriveSystem = value;
     }
 
 	@Override
