@@ -21,23 +21,29 @@ public class OI {
 		leftJoy = new Joystick(1);
 //	    payloadJoy = new Joystick(2);
 	    
-	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
-	    rightButton5.whenPressed(new DriveForTime(0.5,1));
-	    
-	    JoystickButton rightButton6 = new JoystickButton(rightJoy,6);
-	    rightButton6.whenPressed(new DriveForTime(-0.5,1));
+//	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
+//	    rightButton5.whenPressed(new DriveForTime(0.5,1));
+//	    
+//	    JoystickButton rightButton6 = new JoystickButton(rightJoy,6);
+//	    rightButton6.whenPressed(new DriveForTime(-0.5,1));
+//	    
+//	    JoystickButton rightButton3 = new JoystickButton(rightJoy,3);
+//	    rightButton3.whenPressed(new TurnForTime(0.5,3));
+//	    
+//	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
+//	    rightButton4.whenPressed(new TurnForTime(-0.5,3));
+//
+//	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
+//	    rightButton11.whenPressed(new DriveForDistance(0.5,12*5));
+//	    
+//	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
+//	    rightButton12.whenPressed(new DriveForDistance(-0.5,12*5));
 	    
 	    JoystickButton rightButton3 = new JoystickButton(rightJoy,3);
-	    rightButton3.whenPressed(new TurnForTime(0.5,3));
+	    rightButton3.whenPressed(new TurnForDegree(90,-0.3));
 	    
 	    JoystickButton rightButton4 = new JoystickButton(rightJoy,4);
-	    rightButton4.whenPressed(new TurnForTime(-0.5,3));
-
-	    JoystickButton rightButton11 = new JoystickButton(rightJoy,11);
-	    rightButton11.whenPressed(new DriveForDistance(0.5,12*5));
-	    
-	    JoystickButton rightButton12 = new JoystickButton(rightJoy,12);
-	    rightButton12.whenPressed(new DriveForDistance(-0.5,12*5));
+	    rightButton4.whenPressed(new TurnForDegree(90,0.3));
 	    
 //	    JoystickButton payloadButton1 = new JoystickButton(payloadJoy,1);
 //	    payloadButton1.whenPressed(new ShooterShoot());

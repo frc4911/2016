@@ -25,9 +25,7 @@ public class TurnForTime extends Command {
     	power = _power;
     	driveSystem = Robot.driveSystem;
     	requires(driveSystem);
-    	setInterruptible(false);
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+
     }
 
     /**
@@ -47,7 +45,6 @@ public class TurnForTime extends Command {
     @Override
     protected void execute() {
     	driveSystem.drive(power, -power);
-    	//System.out.println("Drive For Time Power: "+power+" Time is at: "+ timer.get());
     }
 
     /**
@@ -72,6 +69,6 @@ public class TurnForTime extends Command {
     */
     @Override
     protected void interrupted() {
-    	//driveSystem.stop();
+    	driveSystem.stop();
     }
 }
