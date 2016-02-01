@@ -1,12 +1,10 @@
 package org.usfirst.frc.team4911.robot;
 /**
- * A class that contains all of the values
- * that will remain constant on the robot.
+ * A class that contains all of the values that will remain constant on the robot.
  * 
- * Use it for things like:
- * Serial Ports
- * Constant things like wheel diameter.
- * Constants for functions like motor power.
+ * Use it for things like: serial Ports, constant things like wheel diameter, and
+ * constants for functions like motor power. Basically anything that would otherwise
+ * be a random number in the middle of your code.
  * 
  * @author Luke Caughell
  *
@@ -37,12 +35,6 @@ public class RobotConstants {
 	public static final double rampUp = 1.0;
 	public static final double rampDown = 15;
 	
-	//Imu Constants
-	public static final double maxAngle = 180;
-	public static final double minAngle = -180;
-	
-	//General constants
-	public static final double normalizeMax = 1;
-	public static final double normalizeMin = -1;
-	
+	// True if we want to produce debug logs, false otherwise.
+	public static boolean debug = true;
 }

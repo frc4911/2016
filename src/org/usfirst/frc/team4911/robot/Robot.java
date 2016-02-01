@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.commands.OperatorDrive;
 import org.usfirst.frc.team4911.robot.commands.TestCommand;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
@@ -89,7 +91,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-    	System.out.println("test output");
+    	Logging.DebugPrint("test output");
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":

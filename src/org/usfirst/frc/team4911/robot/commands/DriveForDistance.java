@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.helpers.RampDownHelper;
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.Sensors;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
@@ -53,7 +54,7 @@ public class DriveForDistance extends Command {
     @Override
     protected void initialize() {
     	Sensors.RightDriveEncoder.reset();
-    	System.out.println("initialize got called");
+    	Logging.DebugPrint("initialize got called");
     	teleop = Robot.teleop;
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
     	timer = new Timer();
@@ -74,9 +75,9 @@ public class DriveForDistance extends Command {
     	driveSystem.drive(power, power);
     	currentTime = timer.get();
     	if (currentEncoderValueInches!=prevValueEncoderValueInches){
-    		System.out.println("Rate: " + Sensors.RightDriveEncoder.getRate());
-    		System.out.println("Stopped: " + Sensors.RightDriveEncoder.getStopped());
-    		System.out.println("Encoder: " + currentEncoderValueInches + " Time: " + (currentTime-prevTime));
+    		Logging.DebugPrint("Rate: " + Sensors.RightDriveEncoder.getRate());
+    		Logging.DebugPrint("Stopped: " + Sensors.RightDriveEncoder.getStopped());
+    		Logging.DebugPrint("Encoder: " + currentEncoderValueInches + " Time: " + (currentTime-prevTime));
         	prevTime =  currentTime;
         	prevValueEncoderValueInches = currentEncoderValueInches;
     	}
