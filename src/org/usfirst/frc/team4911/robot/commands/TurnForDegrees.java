@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *	A command that turns the robot for a specific amount of degrees.
  *
  *@author Tommy Lee
- *
  */
 public class TurnForDegrees extends Command {
 

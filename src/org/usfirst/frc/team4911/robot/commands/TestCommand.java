@@ -1,5 +1,5 @@
+// File="TestCommand.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.commands;
-
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,13 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
  * A command for testing
  * 
  * @author Luke Caughell
- *
  */
 public class TestCommand extends Command {
 
-	
-
-	
     public TestCommand() {
 
         // Use requires() here to declare subsystem dependencies
@@ -61,6 +57,4 @@ public class TestCommand extends Command {
     protected void interrupted() {
 
     }
-    
-
 }

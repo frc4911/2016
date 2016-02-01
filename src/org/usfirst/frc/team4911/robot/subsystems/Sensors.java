@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *A subsystem that contains all sensors required for operating the robot.
  *
  * @author Tommy Lee
- *
  */
 public class Sensors extends Subsystem {
     

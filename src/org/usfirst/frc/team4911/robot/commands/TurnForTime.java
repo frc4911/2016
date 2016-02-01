@@ -1,8 +1,8 @@
+// File="TurnForTime.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  *	A command that turns the robot for a specified time.
  *
  *@author Luke Caughell
- *
  */
 public class TurnForTime extends Command {
 	Timer timer;

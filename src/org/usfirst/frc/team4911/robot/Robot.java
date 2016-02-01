@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * This is the main class.
  * 
  * @author Luke Caughell
- * 
  */
 public class Robot extends IterativeRobot {
 

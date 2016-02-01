@@ -1,9 +1,9 @@
 // File="LevelScaling.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.commands;
 
+import org.usfirst.frc.team4911.helpers.PowerOutputHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 2) Backup: Work in tandem with both encoders to help keep the robot level.
  * 3) Emergency: Manual override.
  *
- * @Tommy Lee
- *
+ * @author Tommy Lee
  */
 
 // Programming manual control first.
@@ -33,28 +32,46 @@ public class LevelScaling extends Command {
     	rightPower = _rightPower;
     }
 
-    // Called just before this Command runs the first time
+    /**
+     *  Called just before this Command runs the first time
+     */
+    @Override
     protected void initialize() {
     	
     	teleop = Robot.teleop;
     	((OperatorDrive)teleop).setUsingDriveSystem(true);
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     *  Called repeatedly when this Command is scheduled to run
+     */
+    @Override
     protected void execute() {
+    	
+    	leftPower = PowerOutputHelper.getLeftPowerOutput();
+    	rightPower = PowerOutputHelper.getRightPowerOutput();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     *  Make this return true when this Command no longer needs to run execute()
+     */
+    @Override
     protected boolean isFinished() {
         return false;
     }
-
-    // Called once after isFinished returns true
+    
+    /**
+     *  Called once after isFinished returns true
+     */
+    @Override
     protected void end() {
     }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    
+    /**
+     *  Called when another command which requires one or more of the same
+     *  subsystems is scheduled to run
+     */
+    @Override
     protected void interrupted() {
     }
 }

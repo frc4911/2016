@@ -9,17 +9,18 @@ import org.usfirst.frc.team4911.robot.commands.*;
  * interface to the commands and command groups that allow control of the robot.
  * 
  * @author Luke Caughell
- * 
  */
 public class OI {
-    public Joystick rightJoy;
     public Joystick leftJoy;
-//    public Joystick payloadJoy;
+    public Joystick rightJoy;
+    public Joystick payloadLeftJoy;
+    public Joystick payloadRightJoy;
 	
 	public OI(){
-		rightJoy = new Joystick(0);
-		leftJoy = new Joystick(1);
-//	    payloadJoy = new Joystick(2);
+		leftJoy = new Joystick(0);
+		rightJoy = new Joystick(1);
+	    payloadLeftJoy = new Joystick(2);
+	    payloadRightJoy = new Joystick(3);
 	    
 	    JoystickButton rightButton5 = new JoystickButton(rightJoy,5);
 	    rightButton5.whenPressed(new DriveForTime(0.5,1));
@@ -50,7 +51,6 @@ public class OI {
 //	    
 //	    JoystickButton payloadButton4 = new JoystickButton(payloadJoy,5);
 //	    payloadButton4.whenPressed(new ShooterShootPneumatics2());
-	    
 	}
 	
 	/**
@@ -68,9 +68,24 @@ public class OI {
     public Joystick getRightJoy() {
         return rightJoy;
     }
-//    public Joystick getPayloadJoy(){
-//        return payloadJoy;
-//    }
+    
+    /**
+     * Gets left payload joystick.
+     * @return left payload joystick
+     */
+    public Joystick getPayloadLeftJoy() {
+    	
+    	return payloadLeftJoy;
+    }
+    
+    /**
+     * Gets right payload joystick.
+     * @return right payload joystick
+     */
+    public Joystick getPayloadRightJoy() {
+    	
+    	return payloadRightJoy;
+    }
 	
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.

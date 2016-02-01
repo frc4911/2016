@@ -1,4 +1,4 @@
-// File="OperatorDrive.java" Org="FRC4911" Year="2016"
+// File="PayloadOperatorDrive.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
@@ -7,45 +7,46 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This command is called continuously during
+ *This command is called continuously during
  * and allows the driver to control the robot
- * with joysticks.
- * 
- * @author Luke Caughell
+ * with the payload joysticks.
+ *
+ * @author Tommy Lee
  */
-public class OperatorDrive extends Command {
+public class PayloadOperatorDrive extends Command {
 	
 	DriveSystem driveSystem = Robot.driveSystem;
-	Joystick leftJoy = Robot.oi.leftJoy;
-	Joystick rightJoy = Robot.oi.rightJoy;
-
+	Joystick payloadLeftJoy = Robot.oi.payloadLeftJoy;
+	Joystick payloadRightJoy = Robot.oi.payloadRightJoy;
+	
 	private boolean usingDriveSystem;
 	
-    public OperatorDrive() {
+    public PayloadOperatorDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
-
+    
     /**
      *  Called just before this Command runs the first time
      */
     @Override
     protected void initialize() {
+    	
     	usingDriveSystem = false;
-
     }
-
+    
     /**
      *  Called repeatedly when this Command is scheduled to run
      */
     @Override
     protected void execute() {
+    	
     	if (usingDriveSystem == false){
     		//DON'T FORGET TO ADD BACK IN
-    		driveSystem.drive(leftJoy.getY(), rightJoy.getY());
+    		driveSystem.drive(payloadLeftJoy.getY(), payloadRightJoy.getY());
     	}
     }
-
+    
     /**
      *  Make this return true when this Command no longer needs to run execute()
      */
@@ -59,24 +60,23 @@ public class OperatorDrive extends Command {
      */
     @Override
     protected void end() {
+    	
     	this.cancel();
-
     }
 
     /**
      *  Called when another command which requires one or more of the same
      *  subsystems is scheduled to run
-     */
-    @Override
-    protected void interrupted() {
-    }
-    
-    /**
-     * If using drive system is set to true
-     * operator drive will not update motor powers
      * @param value
      */
-    public void setUsingDriveSystem(boolean value){
+    protected void interrupted(boolean value) {
+    	
     	usingDriveSystem = value;
     }
+
+	@Override
+	protected void interrupted() {
+		// TODO Auto-generated method stub
+		
+	}
 }

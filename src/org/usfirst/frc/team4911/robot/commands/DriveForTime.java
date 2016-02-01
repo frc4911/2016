@@ -1,3 +1,4 @@
+// File="DriveForTime.java" Org="FRC4911" Year="2016"
 package org.usfirst.frc.team4911.robot.commands;
 
 import org.usfirst.frc.team4911.robot.Robot;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * A command that drives for a specific time.
  * 
  * @author Luke Caughell
- * 
  */
 public class DriveForTime extends Command {
 	Timer timer;

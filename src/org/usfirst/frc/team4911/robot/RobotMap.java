@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.*;
  * floating around.
  * 
  * @author Luke Caughell
- * 
  */
 public class RobotMap {
 //	public static CANTalon RightShooterTalon;
@@ -23,25 +22,33 @@ public class RobotMap {
 	public static CANTalon RearRightTalon;
 	public static CANTalon RearLeftTalon;
 	
+	public static CANTalon WinchLeftTalon;
+	public static CANTalon WinchRightTalon;
+	
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
+	
+	public static Joystick PayloadLeftJoy;
+	public static Joystick PayloadRightJoy;
 
 	/**
 	 * Initializes sensors and controllers 
 	 */
 	public static void init(){
-//		RightShooterTalon = new CANTalon(6);
-//		LeftShooterTalon = new CANTalon(7);
 		
-//      PneumaticCanRight = new Solenoid(0);
-//      PneumaticCanLeft = new Solenoid(1);
-		
-		RearRightTalon = new CANTalon(4);
-		FrontRightTalon = new CANTalon(1);
-		FrontLeftTalon = new CANTalon(8);
-		RearLeftTalon = new CANTalon(5);
+		FrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
+		FrontLeftTalon = new CANTalon(RobotConstants.frontLeftMotorPort);
+		RearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
+        RearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
         
-		LeftJoy = new Joystick(0);
-		RightJoy = new Joystick(1);
+        WinchLeftTalon = new CANTalon(RobotConstants.winchLeftMotorPort);
+        WinchRightTalon = new CANTalon(RobotConstants.winchRightMotorPort);
+        
+		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
+		RightJoy = new Joystick(RobotConstants.leftJoyPort);
+
+		PayloadLeftJoy = new Joystick(RobotConstants.payloadJoyPort);
+		PayloadRightJoy = new Joystick(RobotConstants.payloadJoyPort);
 	}
+	
 }
