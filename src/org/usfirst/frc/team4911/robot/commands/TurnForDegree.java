@@ -3,7 +3,7 @@ package org.usfirst.frc.team4911.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
-import org.usfirst.frc.team4911.helpers.PIDHelper;
+import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.subsystems.DriveSystem;
@@ -25,13 +25,13 @@ public class TurnForDegree extends Command {
 	private double adjustedPower;
 	Timer timer;
 	
-	private PIDHelper pid;
+	private PidHelper pid;
 	
 	
     public TurnForDegree(double _targetDegree, double _power) {
     	degreesToTurn = _targetDegree;
     	power = _power;
-    	pid = new PIDHelper(1, 0, 0, 0.5/180);
+    	pid = new PidHelper(1, 0, 0, 0.5/180f);
     	driveSystem = Robot.driveSystem;
     	requires(driveSystem);
 
