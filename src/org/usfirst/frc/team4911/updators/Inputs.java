@@ -30,6 +30,8 @@ public class Inputs {
 		
 		if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
 			Robot.taskManager.addDriveTask(new OperatorDrive(leftPower, rightPower));
+		}else{
+			Robot.taskManager.addDriveTask(new Drive(0));
 		}
 		
 		if(rightJoy.getRawButton(4)){

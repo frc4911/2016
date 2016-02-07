@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4911.helpers;
 
-import org.usfirst.frc.team4911.robot.RobotConstants;
-
 /**
  * A PID controller that returns a motor power when given a target value and an actual value.
  * 

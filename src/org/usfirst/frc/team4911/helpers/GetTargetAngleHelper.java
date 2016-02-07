@@ -14,6 +14,7 @@ public class GetTargetAngleHelper {
 	public GetTargetAngleHelper(){
 		
 	}
+	
 	/**
 	 * This function takes 2 degrees (range -180 to 180),
 	 * adds them together, normalizes the result to -180 to 180
