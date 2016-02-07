@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -19,10 +18,10 @@ public class RobotMap {
 //	public static Solenoid PneumaticCanRight;
 //	public static Solenoid PneumaticCanLeft;
 	
-	public static CANTalon FrontRightTalon;
-	public static CANTalon FrontLeftTalon;
-	public static CANTalon RearRightTalon;
-	public static CANTalon RearLeftTalon;
+	public static CANTalon DriveFrontRightTalon;
+	public static CANTalon DriveFrontLeftTalon;
+	public static CANTalon DriveRearRightTalon;
+	public static CANTalon DriveRearLeftTalon;
 	
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
@@ -37,16 +36,13 @@ public class RobotMap {
 //      PneumaticCanRight = new Solenoid(0);
 //      PneumaticCanLeft = new Solenoid(1);
 		
-		FrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
-		FrontLeftTalon = new CANTalon(RobotConstants.frontLeftMotorPort);
-		RearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
-        RearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
+		DriveFrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
+		DriveFrontLeftTalon = new CANTalon(RobotConstants.frontLeftMotorPort);
+		DriveRearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
+        DriveRearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
 
-
-        
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
 		RightJoy = new Joystick(RobotConstants.leftJoyPort);
-
 	}
 	
 }

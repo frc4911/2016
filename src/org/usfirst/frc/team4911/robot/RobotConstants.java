@@ -13,7 +13,8 @@ public class RobotConstants {
 	//Operator Input
 	public static final int rightJoyPort = 0;
 	public static final int  leftJoyPort = 1;
-	public static final int  payloadJoyPor = 2;
+	public static final int  payloadJoyPort = 2;
+	public static final double JoyThreshold = 0.075;
 
 	//Encoder
 	public static final int frontRightEncoderPortA = 0;
@@ -30,8 +31,8 @@ public class RobotConstants {
 	
 	//RampDownHelper constants 
 	public static final double amplitude = 20;
-	public static final double floor = 5.0;
-	public static final double ceiling = 1.0;
+	public static final double floor = 0.2;
+	public static final double ceiling = 0.5;
 	public static final double rampUp = 1.0;
 	public static final double rampDown = 15;
 	
@@ -41,4 +42,24 @@ public class RobotConstants {
 
 	// True if we want to produce debug logs, false otherwise.
 	public static boolean debug = true;
+	
+	//PID VALUES
+	public static final double pDefault = 1;
+	public static final double iDefault = 0;
+	public static final double dDefault = 0;
+	
+	// TASKS
+	public static final int NUM_TASKS = 5;
+	public static final int DRIVE_TASK = 0;
+	public static final int SHOOTER_TASK = 1;
+	public static final int ARM_TASK = 2;
+	public static final int EXTENDER_TASK = 3;
+	public static final int SCALE_TASK = 4;
+	
+	// TASK PRIORITY
+	public static final int ZERO_PRI = 0;
+	public static final int LOW_PRI = 1;
+	public static final int MED_PRI = 2;
+	public static final int HIGH_PRI = 3;
+	public static final int UBER_PRI = 4;
 }
