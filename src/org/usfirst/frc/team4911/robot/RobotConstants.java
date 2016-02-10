@@ -20,6 +20,11 @@ public class RobotConstants {
 	public static final int frontRightEncoderPortA = 0;
 	public static final int frontRightEncoderPortB = 1;
 	
+	public static final double wheelDiameter = 6;
+	public static final double encoderPulsePerRotation = 250;
+	public static final double encoderDistancePerPulse = wheelDiameter*Math.PI/encoderPulsePerRotation;
+	
+	
 	//Drive System Constants
 	public static final int frontRightMotorPort = 1;
 	public static final int frontLeftMotorPort = 8;
@@ -27,7 +32,6 @@ public class RobotConstants {
 	public static final int rearLeftMotorPort = 5;
 	
 	//Robot Size Constants
-	public static double wheelDiameter = 6;
 	
 	//RampDownHelper constants 
 	public static final double amplitude = 20;
@@ -62,4 +66,5 @@ public class RobotConstants {
 	public static final int MED_PRI = 2;
 	public static final int HIGH_PRI = 3;
 	public static final int UBER_PRI = 4;
+	
 }

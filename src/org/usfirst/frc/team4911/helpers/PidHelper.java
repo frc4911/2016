@@ -38,17 +38,17 @@ public class PidHelper {
 	
 	/**
 	 * The function that actually makes the controller go. Call this at least once a cycle.
-	 * @param targetValue - The value we want to reach. Can be a position, a speed, or anything else we can measure
+	 * @param targetValue - The value we want to reach. Can be a position, a speed, or anything else we can measure.
 	 * @param currentValue - The value we're currently at.
 	 * @param currentTime - The current time.
 	 * @return A drive power for the motor. Note that this value is NOT capped at +/-1.
 	 */
-	public double run(double targetValue, double currentValue,double currentTime){
+	public double run(double targetValue, double currentValue, double currentTime){
 		// Both I and D depend on the time between the current error and the previous error
 		double deltaTime = currentTime-prevTime;
 		// P, I, and D are all derived from the difference between where we are and where we want to be
 		double error = targetValue - currentValue;
-		Logging.DebugPrint("Error: " + error);
+		//Logging.DebugPrint("Error: "h + error);
 		
 		if(Math.abs(error) < threshold){	
 			isFinished = true;
@@ -75,5 +75,8 @@ public class PidHelper {
 	 */
 	public boolean isFinished(){
 		return isFinished;
+	}
+	public double getError(){
+		return prevError;
 	}
 }

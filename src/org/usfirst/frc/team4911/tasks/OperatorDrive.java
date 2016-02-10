@@ -1,10 +1,15 @@
 package org.usfirst.frc.team4911.tasks;
 
+import java.util.ArrayList;
+
+import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.robot.RobotMap;
 
 public class OperatorDrive extends Task{
 	double leftPower;
 	double rightPower;
+	
+	ArrayList<Motor> motors;
 	
 	
 	public OperatorDrive(double leftPower, double rightPower){
@@ -21,10 +26,11 @@ public class OperatorDrive extends Task{
 	//This is called constantly called by the task manager
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontRightTalon.set(rightPower);
-		RobotMap.DriveRearRightTalon.set(rightPower);
-		RobotMap.DriveFrontLeftTalon.set(-leftPower);
-		RobotMap.DriveRearLeftTalon.set(-leftPower);
+		RobotMap.DriveFrontLeftMotor.getTalon().set(-leftPower);
+		RobotMap.DriveRearLeftMotor.getTalon().set(-leftPower);
+		RobotMap.DriveFrontRightMotor.getTalon().set(rightPower);
+		RobotMap.DriveRearRightMotor.getTalon().set(rightPower);
+
 		isFinished = true;
 	}
 	

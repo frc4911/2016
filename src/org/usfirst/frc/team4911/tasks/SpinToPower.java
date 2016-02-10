@@ -27,6 +27,7 @@ public class SpinToPower extends Task {
 	
 	@Override
 	public void end(){
+		
 	}
 	
 	@Override

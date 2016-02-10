@@ -2,31 +2,39 @@ package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.robot.RobotMap;
 
-public class SpinToValue extends Task {
-	double power;
+public class FlyWheel extends Task{
+	double rpm;
+	SpinToRpm leftSpinToRpm;
+	SpinToRpm rightSpinToRpm;
+
 	
-	public SpinToValue(double _power){
-		power = _power;
+	public FlyWheel(double _rpm){
+		rpm = _rpm;
+		leftSpinToRpm= new SpinToRpm(RobotMap.FlyWheelLeftMotor, rpm,0.1);
+		rightSpinToRpm= new SpinToRpm(RobotMap.FlyWheelLeftMotor, rpm,0.1);
+
 	}
 
 	//This is called when the command is first added to the task manager
 	@Override
 	public void init(){
+		leftSpinToRpm.init();
+		rightSpinToRpm.init();
 		
 	}
 	
 	//This is called constantly called by the task manager
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontRightTalon.set(-power);
-		RobotMap.DriveRearRightTalon.set(-power);
-		RobotMap.DriveFrontLeftTalon.set(power);
-		RobotMap.DriveRearLeftTalon.set(power);
+		leftSpinToRpm.execute();
+		rightSpinToRpm.execute();
+
 		isFinished = true;
 	}
 	
 	@Override
 	public void end(){
+		
 	}
 	
 	@Override

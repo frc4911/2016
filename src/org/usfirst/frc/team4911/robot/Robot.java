@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;

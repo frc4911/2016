@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.RampDownHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
@@ -19,28 +20,28 @@ public class DriveForDistance extends Task{
 	Command teleop;
 	RampDownHelper rampDown;
 	int i;
+	Motor motor;
 	
-	public DriveForDistance(double _power, double _driveDistance){
+	public DriveForDistance(double _power, double _driveDistance, Motor _motor){
 		this.priority = RobotConstants.LOW_PRI;
 		interruptible = true;
-		
 		power = _power;
 		driveDistance = _driveDistance;
+		motor = _motor;
 	}
 
 	//This is called when the command is first added to the task manager
 	@Override
 	public void init(){
 	   	rampDown = new RampDownHelper();
-	   	Sensors.getRightDriveEncoder().reset();
+	   	motor.getEncoder().reset();
 	}
 	
 	//This is called constantly called by the task manager
 	@Override
 	public void execute(){
 		
-		currentEncoderValueInches = Sensors.getDriveRightEncoderDistanceValue();
-		Logging.DebugPrint("" + Sensors.getDriveRightEncoderDistanceValue());
+		currentEncoderValueInches = motor.getEncoder().getDistance();
 		power = rampDown.getRampedPower(driveDistance,currentEncoderValueInches);
 		
 		RobotMap.DriveFrontRightTalon.set(-power);

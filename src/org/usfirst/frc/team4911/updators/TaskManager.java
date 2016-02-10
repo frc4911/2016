@@ -28,7 +28,7 @@ public class TaskManager {
 					tasks[i] = null;
 				}
 				else{
-					Logging.DebugPrint("Task " + tasks[i] + " executed");
+					//Logging.DebugPrint("Task " + tasks[i] + " executed");
 					tasks[i].execute();
 				}
 			}
@@ -41,15 +41,15 @@ public class TaskManager {
 	
 	//Initializes a task and adds it to the run thing
 	public Task addTask(Task currentTask, Task newTask){
-		Logging.DebugPrint("Trying to add new task...");
+		//Logging.DebugPrint("Trying to add new task...");
 		if (currentTask == null){
-			Logging.DebugPrint("current task is null.");
+			//Logging.DebugPrint("current task is null.");
 			newTask.init();
 			return newTask;
 		}
 		if (currentTask.interruptible){
 			if (currentTask.priority <= newTask.priority){
-				Logging.DebugPrint("current task is interuptible and lower priority.");
+				//Logging.DebugPrint("current task is interuptible and lower priority.");
 				currentTask.interupt();
 				newTask.init();
 				return newTask;
