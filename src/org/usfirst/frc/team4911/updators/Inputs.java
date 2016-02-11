@@ -14,6 +14,7 @@ import org.usfirst.frc.team4911.tasks.SpinToEncoderValue;
 import org.usfirst.frc.team4911.tasks.SpinToRpm;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 public class Inputs {
     public static Joystick rightJoy;
@@ -44,6 +45,7 @@ public class Inputs {
 		if(rightJoy.getRawButton(11)){
 			Robot.taskManager.addDriveTask(new SpinToRpm(RobotMap.DriveFrontRightMotor, 57,0.3));
 		}
+
 		
 		
 

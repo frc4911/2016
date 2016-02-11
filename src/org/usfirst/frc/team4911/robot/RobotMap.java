@@ -20,39 +20,73 @@ public class RobotMap {
 //	public static Solenoid PneumaticCanRight;
 //	public static Solenoid PneumaticCanLeft;
 	
+	
+	//DRIVE
 	public static CANTalon DriveFrontRightTalon;
-	public static CANTalon DriveFrontLeftTalon;
+	public static CANTalon DriveMidRightTalon;
 	public static CANTalon DriveRearRightTalon;
+	public static CANTalon DriveFrontLeftTalon;
+	public static CANTalon DriveMidLeftTalon;
 	public static CANTalon DriveRearLeftTalon;
 	
 	public static Motor DriveFrontRightMotor;
+	public static Motor DriveFrontMidMotor;
 	public static Motor DriveFrontLeftMotor;
 	public static Motor DriveRearRightMotor;
+	public static Motor DriveRearMidMotor;
 	public static Motor DriveRearLeftMotor;
 	
 	public static Encoder DriveRightEncoder;
 	public static Encoder DriveLeftEncoder;
+	
+	//ROLLER
+	public static CANTalon RollerBar;
+	public static CANTalon RollerRoller;
+	
+	public static Solenoid RollerBarSolenoid;
+	
+	public static AnalogPotentiometer RollerPotentiometer;
 
+	public static Motor RollerBarMotor;
+	public static Motor RollerRollerMotor;
+	
+	//SCALE
 	public static CANTalon ScaleRightTalon;
 	public static CANTalon ScaleLeftTalon;
 	
 	public static Encoder ScaleRightEncoder;
 	public static Encoder ScaleLeftEncoder;
 	
+	public static Solenoid ScaleSolenoid;
+	
 	public static Motor ScaleRightMotor;
 	public static Motor ScaleLeftMotor;
 	
+	//SHOOTER
+	public static CANTalon ShooterLeftTalon;
+	public static CANTalon ShooterRightTalon;
+	public static CANTalon ShooterLiftTalon;
+	
+	public static Solenoid ShooterLeftSolenoid;
+	public static Solenoid ShooterRightSolenoid;
+
+	public static Encoder ShooterEncoder;
+	
+	public static Motor ShooterLeftMotor;
+	public static Motor ShooterRightMotor;
+	public static Motor ShooterLiftMotor;
+	
+	//EXTENDER
+	public static CANTalon Extender;
+	public static AnalogPotentiometer ExtenderPotentiometer;
+	public static Solenoid ExtenderSolenoid;
+	
+	public static Motor ExtenderMotor;
+	
+	//JOYSTICS
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 	
-	public static CANTalon FlyWheelRightTalon;
-	public static CANTalon FlyWheelLeftTalon;
-	
-	public static Encoder FlyWheelRightEncoder;
-	public static Encoder FlyWheelLeftEncoder;
-	
-	public static Motor FlyWheelRightMotor;
-	public static Motor FlyWheelLeftMotor;
 
 
 	/**
@@ -81,8 +115,8 @@ public class RobotMap {
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
 		RightJoy = new Joystick(RobotConstants.leftJoyPort);
 		
-    	FlyWheelRightMotor = new Motor (FlyWheelRightTalon, FlyWheelRightEncoder, null, 0, 0, 0);
-    	FlyWheelLeftMotor = new Motor (FlyWheelLeftTalon, FlyWheelRightEncoder, null, 0, 0, 0);
+		ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
+		ShooterRightMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
     	
     	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
     	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);

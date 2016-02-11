@@ -78,6 +78,7 @@ public class Robot extends IterativeRobot {
 
     	Inputs.init();
     	taskManager.init();
+
     }
     
     /**

@@ -10,8 +10,8 @@ public class FlyWheel extends Task{
 	
 	public FlyWheel(double _rpm){
 		rpm = _rpm;
-		leftSpinToRpm= new SpinToRpm(RobotMap.FlyWheelLeftMotor, rpm,0.1);
-		rightSpinToRpm= new SpinToRpm(RobotMap.FlyWheelLeftMotor, rpm,0.1);
+		leftSpinToRpm= new SpinToRpm(RobotMap.ShooterLeftMotor, rpm,0.1);
+		rightSpinToRpm= new SpinToRpm(RobotMap.ShooterLeftMotor, rpm,0.1);
 
 	}
 

@@ -10,8 +10,8 @@ public class Scale extends Task{
 	
 	public Scale(double _encoderValue){
 		encoderValue = _encoderValue;
-		leftSpinToEncoderValue= new SpinToEncoderValue(RobotMap.FlyWheelLeftMotor, _encoderValue,0.3);
-		rightSpinToEncoderValue= new SpinToEncoderValue(RobotMap.FlyWheelLeftMotor, _encoderValue,0.3);
+		leftSpinToEncoderValue = new SpinToEncoderValue(RobotMap.ShooterLeftMotor, _encoderValue,0.3);
+		rightSpinToEncoderValue = new SpinToEncoderValue(RobotMap.ShooterRightMotor, _encoderValue,0.3);
 
 	}
 
