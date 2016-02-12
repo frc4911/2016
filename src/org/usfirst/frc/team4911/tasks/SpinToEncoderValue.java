@@ -20,6 +20,7 @@ public class SpinToEncoderValue extends Task {
 	Timer timer;
 	double clampPower;
 	double maxPower;
+//	double startValue;
 	
 	public SpinToEncoderValue(Motor _motor, double _targetValue, double _maxPower){
 		motor = _motor;
@@ -36,7 +37,8 @@ public class SpinToEncoderValue extends Task {
 	//This is called when the command is first added to the task manager
 	@Override
 	public void init(){
-		motor.getEncoder().reset();
+//		motor.getEncoder().reset();
+//		startValue = motor.getEncoder().get();
 		timer.reset();
 		timer.start();
 	}
@@ -49,6 +51,7 @@ public class SpinToEncoderValue extends Task {
 		power = Math.max(-maxPower, power);
 
 		talon.set(power);
+		
 		if (pid.isFinished()){
 			isFinished = true;
 		}

@@ -107,7 +107,7 @@ public class RobotMap {
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
-    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.0001, 0.0, 0.0);
+    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
     	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0);
     	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0);
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0);
