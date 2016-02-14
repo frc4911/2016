@@ -2,6 +2,11 @@ package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
+/**
+ * Base class for all tasks.
+ * 
+ * @author Luke Caughell
+ */
 public class Task {
 	
 	/**
@@ -26,20 +31,18 @@ public class Task {
 	 * This is called when the command is first added to the task manager
 	 */
 	public void init(){
-		
 	}
 	
-	//This is called constantly called by the task manager
+	/**
+	 * This is called constantly called by the task manager
+	 */
 	public void execute(){
-		
-
 	}
 	
 	/**
 	 * This is called by the task manager when getFinished returns true
 	 */
 	public void end(){
-		
 	}
 	
 	/**

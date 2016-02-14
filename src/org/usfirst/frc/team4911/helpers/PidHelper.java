@@ -15,18 +15,24 @@ public class PidHelper {
 	// current value is within this much of our target value we stop.
 	private double threshold;
 	
-	private double prevError; 	// Keeps track of the previous error value
+	private double prevError; 		// Keeps track of the previous error value
 	private double prevIntegral;	// The previous integral
-	private double prevTime; 	// The time at which the controller was last updated
+	private double prevTime; 		// The time at which the controller was last updated
 	
 	private boolean isFinished;	// We need this to implement the isFinished function
 	
-	// Initializer that sets the gains for the proportional, integral, and derivative 
-	// components as well as the threshold value. Call this once.
+	/**
+	 * Initializer that sets the gains for the proportional, integral, and derivative 
+	 * components as well as the threshold value. Call this once.
+	 * @param _pGain the proportional gain scalar
+	 * @param _iGain the integral gain scalar
+	 * @param _dGain the derivative gain scalar
+	 * @param _threshold the minimum error tolerance to specify we have reached the target
+	 */
 	public PidHelper (double _pGain, double _iGain, double _dGain, double _threshold){
-		pGain= _pGain;
-		iGain=_iGain;
-		dGain=_dGain;
+		pGain =  _pGain;
+		iGain = _iGain;
+		dGain = _dGain;
 		threshold = _threshold;
 		prevError = 0;
 		prevIntegral = 0;
@@ -34,30 +40,28 @@ public class PidHelper {
 		isFinished = false;
 	}
 	
-	
-	
 	/**
 	 * The function that actually makes the controller go. Call this at least once a cycle.
-	 * @param targetValue - The value we want to reach. Can be a position, a speed, or anything else we can measure.
-	 * @param currentValue - The value we're currently at.
-	 * @param currentTime - The current time.
-	 * @return A drive power for the motor. Note that this value is NOT capped at +/-1.
+	 * @param targetValue The value we want to reach. Can be a position, a speed, or anything else we can measure
+	 * @param currentValue The value we're currently at.
+	 * @param currentTime The current time.
+	 * @return A drive power for the motor, NOT normalized to +/-1.
 	 */
 	public double run(double targetValue, double currentValue, double currentTime){
 		// Both I and D depend on the time between the current error and the previous error
 		double deltaTime = currentTime-prevTime;
 		// P, I, and D are all derived from the difference between where we are and where we want to be
 		double error = targetValue - currentValue;
-		//Logging.DebugPrint("Error: "h + error);
 		
 		if(Math.abs(error) < threshold){	
 			isFinished = true;
 			return 0;
 		}
+		isFinished = false;
 		
-		// The integral is basically the area under a graph of error against time between t=0 and t=currentTime
-		double currentIntegral = (double) (prevIntegral + error *  deltaTime);
-		// The derivative is the slope at t=currentTime of the error/time graph the integral is the area under
+		// The integral is basically the area under a graph of error against time between t = 0 and t = currentTime
+		double currentIntegral = (double)(prevIntegral + error * deltaTime);
+		// The derivative is the slope at t = currentTime of the error/time graph the integral is the area under
 		double currentDerivative = (double) ((error - prevError)/deltaTime);
 		
 		prevError = error;
@@ -76,6 +80,11 @@ public class PidHelper {
 	public boolean isFinished(){
 		return isFinished;
 	}
+	
+	/**
+	 * Gets the previous error value
+	 * @return the previous error
+	 */
 	public double getError(){
 		return prevError;
 	}

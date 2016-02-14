@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.helpers.Motor;
+import org.usfirst.frc.team4911.updators.CurrentManager;
+import org.usfirst.frc.team4911.updators.NewCurrentManager;
 
 import edu.wpi.first.wpilibj.*;
 
@@ -11,7 +13,6 @@ import edu.wpi.first.wpilibj.*;
  * floating around.
  * 
  * @author Luke Caughell
- * 
  */
 public class RobotMap {
 //	public static CANTalon RightShooterTalon;
@@ -40,8 +41,8 @@ public class RobotMap {
 	public static Encoder DriveLeftEncoder;
 	
 	//ROLLER
-	public static CANTalon RollerBar;
-	public static CANTalon RollerRoller;
+	public static CANTalon RollerBarTalon;
+	public static CANTalon RollerRollerTalon;
 	
 	public static Solenoid RollerBarSolenoid;
 	
@@ -83,12 +84,13 @@ public class RobotMap {
 	
 	public static Motor ExtenderMotor;
 	
+	//Current Managers
+	static NewCurrentManager driveCurrentManager;
+	
 	//JOYSTICS
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 	
-
-
 	/**
 	 * Initializes sensors and controllers 
 	 */
@@ -98,6 +100,10 @@ public class RobotMap {
 		
 //      PneumaticCanRight = new Solenoid(0);
 //      PneumaticCanLeft = new Solenoid(1);
+		
+		//DRIVE
+
+		driveCurrentManager = new NewCurrentManager(12);
 		
 		DriveFrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
 		DriveRearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
@@ -112,15 +118,64 @@ public class RobotMap {
     	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0);
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0);
 
+        
+//    	//ROLLER
+//        
+//    	RollerBarTalon = new CANTalon(RobotConstants.RollerBarTalonPort);
+//    	RollerRollerTalon = new CANTalon(RobotConstants.RollerRollerTalonPort);
+//    	
+//    	RollerBarSolenoid = new Solenoid(RobotConstants.RollerBarSolenoidPort);
+//    	
+//    	RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
+//
+//    	RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 0.01, 0.0, 0.0);
+//    	RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
+//
+//    	//SCALE
+//    	 
+//    	ScaleRightTalon = new CANTalon(RobotConstants.ScaleRightTalonPort);
+//    	ScaleLeftTalon = new CANTalon(RobotConstants.ScaleLeftTalonPort);
+//    	
+//    	ScaleRightEncoder = new Encoder(RobotConstants.ScaleRightEncoderPortA,RobotConstants.ScaleRightEncoderPortB);
+//    	ScaleLeftEncoder = new Encoder(RobotConstants.ScaleLeftEncoderPortA,RobotConstants.ScaleLeftEncoderPortB);
+//    	
+//    	ScaleSolenoid = new Solenoid(RobotConstants.ScaleSolenoidPort);
+//    	
+//    	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0.01, 0.0, 0.0);
+//    	ScaleLeftMotor = new Motor (ScaleLeftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+//    	 
+//    	//SHOOTER
+//
+//    	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
+//    	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
+//    	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
+//    	
+//    	ShooterLeftSolenoid = new Solenoid(RobotConstants.ShooterLeftSolenoidPort);
+//    	ShooterRightSolenoid = new Solenoid(RobotConstants.ShooterRightSolenoidPort);
+//
+//    	ShooterEncoder = new Encoder(RobotConstants.ShooterEncoderPortA,RobotConstants.ShooterEncoderPortB);
+//    	
+//    	ShooterLeftMotor = new Motor (ShooterLeftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+//    	ShooterRightMotor = new Motor (ShooterRightTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+//    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+//    	 
+    	 
+    	 
+    	 
+
+        
+        ExtenderSolenoid = new Solenoid(1,0);
+        
+
+    	
+    	
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
 		RightJoy = new Joystick(RobotConstants.leftJoyPort);
-		
+
 		ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
 		ShooterRightMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
     	
     	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
     	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
-    	
 	}
-	
 }

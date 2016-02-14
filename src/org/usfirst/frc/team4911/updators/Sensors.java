@@ -23,6 +23,10 @@ public class Sensors {
 
     private static PowerDistributionPanel panel;
 	
+	public static PowerDistributionPanel getPanel() {
+		return panel;
+	}
+
 	private static double ImuYawValue;
 	
 	private static double systemCurrentDraw;
@@ -40,8 +44,14 @@ public class Sensors {
         Imu.reset();
         Imu.zeroYaw();
         
-        panel = new PowerDistributionPanel();
+        panel = new PowerDistributionPanel(0);
 
+    }
+    
+    public static double getVoltage(){
+    	//return panel.getTotalCurrent();
+    	return panel.getVoltage();
+    	
     }
     
     public static void update(){

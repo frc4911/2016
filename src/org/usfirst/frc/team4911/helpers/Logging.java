@@ -4,8 +4,8 @@ import org.usfirst.frc.team4911.robot.RobotConstants;
 
 /**
  * Functionality related to logging.
+ * 
  * @author Anne Gwynne-Robson
- *
  */
 public class Logging {
 	/**

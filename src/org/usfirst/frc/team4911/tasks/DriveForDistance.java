@@ -1,15 +1,18 @@
 package org.usfirst.frc.team4911.tasks;
 
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.RampDownHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
-import org.usfirst.frc.team4911.updators.Sensors;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Task for driving a set distance based on encoder value.
+ * 
+ * @author Luke Caughell
+ */
 public class DriveForDistance extends Task{
 	Timer timer;
 	double driveTime;
@@ -22,6 +25,13 @@ public class DriveForDistance extends Task{
 	int i;
 	Motor motor;
 	
+	/**
+	 * Constructor
+	 * Sets class variables.
+	 * @param _power the motor power to use for driving
+	 * @param _driveDistance the distance to drive in inches
+	 * @param _motor the motor object to drive
+	 */
 	public DriveForDistance(double _power, double _driveDistance, Motor _motor){
 		this.priority = RobotConstants.LOW_PRI;
 		interruptible = true;
@@ -30,17 +40,20 @@ public class DriveForDistance extends Task{
 		motor = _motor;
 	}
 
-	//This is called when the command is first added to the task manager
+	/**
+	 * This is called when the command is first added to the task manager
+	 */
 	@Override
 	public void init(){
 	   	rampDown = new RampDownHelper();
 	   	motor.getEncoder().reset();
 	}
 	
-	//This is called constantly called by the task manager
+	/**
+	 * This is called constantly called by the task manager
+	 */
 	@Override
 	public void execute(){
-		
 		currentEncoderValueInches = motor.getEncoder().getDistance();
 		power = rampDown.getRampedPower(driveDistance,currentEncoderValueInches);
 		
@@ -49,12 +62,14 @@ public class DriveForDistance extends Task{
 		RobotMap.DriveFrontLeftTalon.set(power);
 		RobotMap.DriveRearLeftTalon.set(power);
 		
-		if((driveDistance - Math.abs(currentEncoderValueInches)<=0)){
+		if((driveDistance - Math.abs(currentEncoderValueInches) <= 0)){
 			isFinished = true;
 		}
-		
 	}
 	
+	/**
+	 * Called when the task is finished.
+	 */
 	@Override
 	public void end(){
 		RobotMap.DriveFrontLeftTalon.set(0);

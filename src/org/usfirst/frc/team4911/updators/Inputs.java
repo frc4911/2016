@@ -2,6 +2,8 @@ package org.usfirst.frc.team4911.updators;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team4911.controller.Button;
+import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.Robot;
@@ -13,12 +15,12 @@ import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveForDistance;
 import org.usfirst.frc.team4911.tasks.DriveForTime;
 import org.usfirst.frc.team4911.tasks.OperatorDrive;
+import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
 import org.usfirst.frc.team4911.tasks.SpinToEncoderValue;
 import org.usfirst.frc.team4911.tasks.SpinToRpm;
 import org.usfirst.frc.team4911.tasks.Task;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 
 public class Inputs {
     public static Joystick rightJoy;
@@ -58,17 +60,25 @@ public class Inputs {
 		
 		if(payloadJoy.getRawButton(5)  && pressed5 == false){
 			cycleTaskTest.CycleUp();
+			Robot.taskManager.addShooterTask(cycleTaskTest);
 		}
 		pressed5 = payloadJoy.getRawButton(5);
 
 		
 		if(payloadJoy.getRawButton(6) && pressed6 == false){
 			cycleTaskTest.CycleDown();
+			Robot.taskManager.addShooterTask(cycleTaskTest);
 		}
 		pressed6 = payloadJoy.getRawButton(6);
 		
-		Robot.taskManager.addDriveTask(cycleTaskTest);
-
+//		 if (payloadjoy.getshootbutton)
+//			taskmanager.addshoottask(new shoot task)
+		
+		Button button12 = new Button(rightJoy,12);
+		button12.getDown();
+		
+		//Logging.DebugPrint(""+ControllerMappings.button5.getDown());
+		
 		if(rightJoy.getRawButton(12)){
 			Robot.taskManager.addDriveTask(new SpinToEncoderValue(RobotMap.DriveFrontRightMotor, 140, 0.5));
 		}
@@ -76,6 +86,12 @@ public class Inputs {
 			Robot.taskManager.addDriveTask(new SpinToRpm(RobotMap.DriveFrontRightMotor, 57,0.3));
 		}
 		
+		if (payloadJoy.getRawButton(1)){
+			Robot.taskManager.addArmTask(new SolenoidTrigger(RobotMap.ExtenderSolenoid,true));
+		}
+		if (payloadJoy.getRawButton(2)){
+			Robot.taskManager.addArmTask(new SolenoidTrigger(RobotMap.ExtenderSolenoid,false));
+		}
 
 	}
 }

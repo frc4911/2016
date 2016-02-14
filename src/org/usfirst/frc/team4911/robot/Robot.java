@@ -1,7 +1,9 @@
 
 package org.usfirst.frc.team4911.robot;
 
+import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
@@ -38,14 +40,13 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        
     }
     
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
 	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
 	 * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
-	 * below the Gyro
+	 * below the Gyro.
 	 *
 	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
@@ -75,27 +76,25 @@ public class Robot extends IterativeRobot {
      * This function is called when teleop first starts
      */
     public void teleopInit() {
-
+    	ControllerMappings.init();
     	Inputs.init();
     	taskManager.init();
-
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	RobotMap.driveCurrentManager.update();
+    	
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
-    	Logging.DebugPrint(""+RobotMap.DriveFrontRightMotor.getEncoder().get());
-        
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    
     }
 }

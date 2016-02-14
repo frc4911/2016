@@ -1,4 +1,12 @@
 package org.usfirst.frc.team4911.robot;
+
+import org.usfirst.frc.team4911.helpers.Motor;
+
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
+
 /**
  * A class that contains all of the values that will remain constant on the robot.
  * 
@@ -22,14 +30,66 @@ public class RobotConstants {
 	
 	public static final double wheelDiameter = 6;
 	public static final double encoderPulsePerRotation = 250;
-	public static final double encoderDistancePerPulse = wheelDiameter*Math.PI/encoderPulsePerRotation;
-	
+	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
 	
 	//Drive System Constants
 	public static final int frontRightMotorPort = 1;
 	public static final int frontLeftMotorPort = 8;
 	public static final int rearRightMotorPort = 4;
 	public static final int rearLeftMotorPort = 5;
+	
+	
+	//TODO: add ports and set to final as we get port values
+	
+	//DRIVE
+	public static int DriveFrontRightTalonPort;
+	public static int DriveMidRightTalonPort;
+	public static int DriveRearRightTalonPort;
+	public static int DriveFrontLeftTalonPort;
+	public static int DriveMidLeftTalonPort;
+	public static int DriveRearLeftTalonPort;
+	
+	public static int DriveRightEncoderPort;
+	public static int DriveLeftEncoderPort;
+	
+	//ROLLER
+	public static int RollerBarTalonPort;
+	public static int RollerRollerTalonPort;
+	
+	public static int RollerBarSolenoidPort;
+	
+	public static int RollerPotentiometerPort;
+
+	
+	//SCALE
+	public static int ScaleRightTalonPort;
+	public static int ScaleLeftTalonPort;
+	
+	public static int ScaleRightEncoderPortA;
+	public static int ScaleRightEncoderPortB;
+	public static int ScaleLeftEncoderPortA;
+	public static int ScaleLeftEncoderPortB;
+	
+	public static int ScaleSolenoidPort;
+	
+	//SHOOTER
+	public static int ShooterLeftTalonPort;
+	public static int ShooterRightTalonPort;
+	public static int ShooterLiftTalonPort;
+	
+	public static int ShooterLeftSolenoidPort;
+	public static int ShooterRightSolenoidPort;
+
+	public static int ShooterEncoderPortA;
+	public static int ShooterEncoderPortB;
+	
+	//EXTENDER
+	public static int ExtenderPort;
+	public static int ExtenderPotentiometerPort;
+	public static int ExtenderSolenoidPort;
+	
+	
+	
 	
 	//Robot Size Constants
 	
@@ -66,5 +126,15 @@ public class RobotConstants {
 	public static final int MED_PRI = 2;
 	public static final int HIGH_PRI = 3;
 	public static final int UBER_PRI = 4;
+	
+	//VOLTAGE LIMITING CONSTATNS
+	public static final double VoltagePowerLimitThreshold = 12;
+	public static final double VoltageBrownOut = 11.5;
+	
+	public static final double DRIVE_VOLTAGE_ALLOCATION = 0.5;
+	public static final double SHOOTER_VOLTAGE_ALLOCATION = 0.1;
+	public static final double EXTENDER_VOLTAGE_ALLOCATION = 0.2;
+	public static final double ROLLER_VOLTAGE_ALLOCATION = 0.3;
+	public static final double SCALE_VOLTAGE_ALLOCATION = 0.2;
 	
 }
