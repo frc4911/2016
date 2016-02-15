@@ -9,15 +9,16 @@ import org.usfirst.frc.team4911.robot.RobotMap;
  * @author Luke Caughell
  */
 public class Drive extends Task{
-	double power;
-	
+	double leftPower;
+	double rightPower;
 	/**
 	 * Constructor
 	 * Sets class variables
 	 * @param _power the power to set for the motor
 	 */
-	public Drive(double _power){
-		power = _power;
+	public Drive(double _leftPower,double _rightPower){
+		leftPower = _leftPower;
+		rightPower = _rightPower;
 	}
 
 	/**
@@ -32,11 +33,23 @@ public class Drive extends Task{
 	 */
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontRightTalon.set(-power);
-		RobotMap.DriveRearRightTalon.set(-power);
-		RobotMap.DriveFrontLeftTalon.set(power);
-		RobotMap.DriveRearLeftTalon.set(power);
+		RobotMap.DriveFrontLeftMotor.setPower(-leftPower);
+		RobotMap.DriveMidLeftMotor.setPower(-leftPower);
+		RobotMap.DriveRearLeftMotor.setPower(-leftPower);
+		RobotMap.DriveFrontRightMotor.setPower(rightPower);
+		RobotMap.DriveMidRightMotor.setPower(rightPower);
+		RobotMap.DriveRearRightMotor.setPower(rightPower);
 		isFinished = true;
+	}
+	public void drive(double _leftPower,double _rightPower){
+		leftPower =_leftPower;
+		rightPower = _rightPower;
+		RobotMap.DriveFrontLeftMotor.setPower(-leftPower);
+		RobotMap.DriveMidLeftMotor.setPower(-leftPower);
+		RobotMap.DriveRearLeftMotor.setPower(-leftPower);
+		RobotMap.DriveFrontRightMotor.setPower(rightPower);
+		RobotMap.DriveMidRightMotor.setPower(rightPower);
+		RobotMap.DriveRearRightMotor.setPower(rightPower);
 	}
 	
 	/**

@@ -17,7 +17,7 @@ public class TaskManager {
 		// hack for drive
 		if(tasks[RobotConstants.DRIVE_TASK] == null){
 			Logging.DebugPrint("drive task was null.");
-			this.addDriveTask(new Drive(0));
+			this.addDriveTask(new Drive(0,0));
 		}
 		
 		for(int i = 0; i < tasks.length; i++){

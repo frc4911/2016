@@ -34,8 +34,10 @@ public class RobotConstants {
 	
 	//Drive System Constants
 	public static final int frontRightMotorPort = 1;
+	public static final int midRightMotorPort = 1;
 	public static final int frontLeftMotorPort = 8;
 	public static final int rearRightMotorPort = 4;
+	public static final int midLeftMotorPort = 4;
 	public static final int rearLeftMotorPort = 5;
 	
 	

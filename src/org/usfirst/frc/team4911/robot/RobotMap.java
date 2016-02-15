@@ -31,10 +31,10 @@ public class RobotMap {
 	public static CANTalon DriveRearLeftTalon;
 	
 	public static Motor DriveFrontRightMotor;
-	public static Motor DriveFrontMidMotor;
-	public static Motor DriveFrontLeftMotor;
+	public static Motor DriveMidRightMotor;
 	public static Motor DriveRearRightMotor;
-	public static Motor DriveRearMidMotor;
+	public static Motor DriveFrontLeftMotor;
+	public static Motor DriveMidLeftMotor;
 	public static Motor DriveRearLeftMotor;
 	
 	public static Encoder DriveRightEncoder;
@@ -106,16 +106,21 @@ public class RobotMap {
 		driveCurrentManager = new NewCurrentManager(12);
 		
 		DriveFrontRightTalon = new CANTalon(RobotConstants.frontRightMotorPort);
+		DriveMidRightTalon = new CANTalon(RobotConstants.midRightMotorPort);
 		DriveRearRightTalon = new CANTalon(RobotConstants.rearRightMotorPort);
 		DriveFrontLeftTalon = new CANTalon(RobotConstants.frontLeftMotorPort);
+		DriveMidLeftTalon = new CANTalon(RobotConstants.midLeftMotorPort);
         DriveRearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
         
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
-    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
+    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0);
+    	DriveMidRightMotor = new Motor (DriveMidRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
     	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0);
     	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0);
+    	DriveMidLeftMotor = new Motor (DriveMidLeftTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
+
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0);
 
         

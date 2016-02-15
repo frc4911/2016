@@ -13,6 +13,7 @@ public class OperatorDrive extends Task{
 	double leftPower;
 	double rightPower;
 	
+	Drive driveTask;
 	ArrayList<Motor> motors;
 	
 	/**
@@ -24,6 +25,7 @@ public class OperatorDrive extends Task{
 	public OperatorDrive(double leftPower, double rightPower){
 		this.leftPower = leftPower;
 		this.rightPower = rightPower;
+		driveTask = new Drive(0, 0);
 	}
 
 	/**
@@ -38,11 +40,8 @@ public class OperatorDrive extends Task{
 	 */
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontLeftMotor.setPower(-leftPower);
-		RobotMap.DriveRearLeftMotor.setPower(-leftPower);
-		RobotMap.DriveFrontRightMotor.setPower(rightPower);
-		RobotMap.DriveRearRightMotor.setPower(rightPower);
-
+		
+		driveTask.drive(leftPower, rightPower);
 		isFinished = true;
 	}
 	
