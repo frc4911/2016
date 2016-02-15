@@ -58,8 +58,7 @@ public class RobotConstants {
 	
 	public static int RollerBarSolenoidPort;
 	
-	public static int RollerPotentiometerPort;
-
+	public static int RollerPotentiometerPort = 0;
 	
 	//SCALE
 	public static int ScaleRightTalonPort;
@@ -84,7 +83,7 @@ public class RobotConstants {
 	public static int ShooterEncoderPortB;
 	
 	//EXTENDER
-	public static int ExtenderPort;
+	public static int ExtenderTalonPort;
 	public static int ExtenderPotentiometerPort;
 	public static int ExtenderSolenoidPort;
 	
@@ -127,7 +126,7 @@ public class RobotConstants {
 	public static final int HIGH_PRI = 3;
 	public static final int UBER_PRI = 4;
 	
-	//VOLTAGE LIMITING CONSTATNS
+	//VOLTAGE LIMITING CONSTANTS
 	public static final double VoltagePowerLimitThreshold = 12;
 	public static final double VoltageBrownOut = 11.5;
 	

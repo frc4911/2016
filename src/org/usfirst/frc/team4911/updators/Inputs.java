@@ -31,19 +31,21 @@ public class Inputs {
 
 	
     static CycleTask cycleTaskTest;
-    static ArrayList<Task> cycleTaskTestList;
+    
+    static Task[] cycleTaskTestArray = {
+    		new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,0,0.3),
+    		new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-20,0.3),
+    		new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-87,0.3),
+    		new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-218-500,0.3)
+	};
     
 	public static void init(){
 		rightJoy = new Joystick(RobotConstants.rightJoyPort);
 		leftJoy = new Joystick(RobotConstants.leftJoyPort);
 	    payloadJoy = new Joystick(RobotConstants.payloadJoyPort);
+	    cycleTaskTest = new CycleTask(cycleTaskTestArray);
 	    
-	    cycleTaskTestList = new ArrayList<Task>();
-	    cycleTaskTestList.add(new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,0,0.3));
-	    cycleTaskTestList.add(new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-20,0.3));
-	    cycleTaskTestList.add(new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-87,0.3));
-	    cycleTaskTestList.add(new SpinToEncoderValue(RobotMap.DriveFrontRightMotor,-218-500,0.3));
-	    cycleTaskTest = new CycleTask(cycleTaskTestList);
+	    
 	}
 	
 	public static void update(){

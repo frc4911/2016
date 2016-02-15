@@ -14,7 +14,7 @@ import org.usfirst.frc.team4911.robot.RobotConstants;
 public class CycleTask extends Task{
 	double power;
 	Task currentTask;	
-	ArrayList<Task> tasks;
+	Task[] tasks;
 	int currentIndex;
 	
 	/**
@@ -22,10 +22,10 @@ public class CycleTask extends Task{
 	 * Sets local variables.
 	 * @param _tasks the list of tasks to set
 	 */
-	public CycleTask(ArrayList<Task> _tasks){
+	public CycleTask(Task[] _tasks){
 		tasks = _tasks;
 		currentIndex = 0;
-		currentTask = tasks.get(currentIndex);
+		currentTask = tasks[currentIndex];
 		this.priority = RobotConstants.MED_PRI;
 		Logging.DebugPrint("test ctor, current index: " + currentIndex);
 	}
@@ -35,6 +35,7 @@ public class CycleTask extends Task{
 	 */
 	@Override
 	public void init(){
+		currentTask.init();
 		Logging.DebugPrint("test init, current index: " + currentIndex);
 	}
 	
@@ -62,10 +63,10 @@ public class CycleTask extends Task{
 	 * Updates the current task to the next task in the array.
 	 */
 	public void CycleUp(){
-		if(currentIndex < tasks.size() - 1){
+		if(currentIndex < tasks.length - 1){
 			currentTask.end();
 			currentIndex += 1;
-			currentTask = tasks.get(currentIndex);
+			currentTask = tasks[currentIndex];
 			currentTask.init();
 			this.isFinished = false;
 			Logging.DebugPrint("cycle up");
@@ -79,7 +80,7 @@ public class CycleTask extends Task{
 		if(currentIndex > 0){
 			currentTask.end();
 			currentIndex -= 1;
-			currentTask = tasks.get(currentIndex);
+			currentTask = tasks[currentIndex];
 			currentTask.init();
 			this.isFinished = false;
 			Logging.DebugPrint("cycle down");

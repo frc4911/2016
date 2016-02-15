@@ -76,7 +76,6 @@ public class Robot extends IterativeRobot {
      * This function is called when teleop first starts
      */
     public void teleopInit() {
-    	ControllerMappings.init();
     	Inputs.init();
     	taskManager.init();
     }
@@ -86,7 +85,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	RobotMap.driveCurrentManager.update();
-    	
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
