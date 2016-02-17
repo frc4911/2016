@@ -23,15 +23,15 @@ public class ControllerMappings {
 	
 	//RIGHT JOY
 	
-	public static Button rightJukeButton1;
-	public static Button rightJukeButton2;
+	public static Button rightJukeButton1 = new Button(rightJoy, 3);
+	public static Button rightJukeButton2 = new Button(rightJoy, 4);
 	public static Button rightJukeButton3;
 	public static Button rightJukeButton4;
 	
 	//LEFT JOY
 	
-	public static Button leftJukeButton1;
-	public static Button leftJukeButton2;
+	public static Button leftJukeButton1 = new Button(leftJoy,3);
+	public static Button leftJukeButton2 = new Button(leftJoy,4);
 	public static Button leftJukeButton3;
 	public static Button leftJukeButton4;
 	

@@ -8,7 +8,9 @@ import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +29,9 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
+    public CameraServer cameraServer;
+	Solenoid s;
+
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -40,6 +45,13 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        
+        cameraServer = CameraServer.getInstance();
+        cameraServer.startAutomaticCapture();
+        
+ //   	s = new Solenoid(1,1);
+
+        
     }
     
 	/**
@@ -78,6 +90,7 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	Inputs.init();
     	taskManager.init();
+    	Solenoid test = new Solenoid(1);
     }
     
     /**
@@ -88,6 +101,8 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
+    	//s.set(true);
+    	
     }
     
     /**

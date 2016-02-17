@@ -20,6 +20,7 @@ import org.usfirst.frc.team4911.tasks.SpinToEncoderValue;
 import org.usfirst.frc.team4911.tasks.SpinToRpm;
 import org.usfirst.frc.team4911.tasks.Task;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Inputs {    
@@ -40,7 +41,28 @@ public class Inputs {
 		}else{
 			Robot.taskManager.addDriveTask(new Drive(0,0));
 		}
-
-
+		
+		if(ControllerMappings.leftJukeButton1.getDown()){
+			Logging.DebugPrint("test");
+			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kForward));
+		}
+		
+		if(ControllerMappings.leftJukeButton2.getDown()){
+			Logging.DebugPrint("test2");
+			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kReverse));		
+		}
+		
+		if(ControllerMappings.leftJukeButton1.getDown()){
+			Logging.DebugPrint("test");
+			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveRightSolenoid,Value.kForward));
+		}
+		if(ControllerMappings.leftJukeButton2.getDown()){
+			Logging.DebugPrint("test2");
+			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveRightSolenoid,Value.kReverse));		
+		}
+		
+//		if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
+//			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
+//		}
 	}
 }

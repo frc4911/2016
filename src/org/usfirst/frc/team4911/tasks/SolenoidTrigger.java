@@ -3,17 +3,19 @@ package org.usfirst.frc.team4911.tasks;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /**
- * Task for triggering a solenoid.
+ * Task for triggering a single state solenoid.
  * 
  * @author Luke Caughell
  */
 public class SolenoidTrigger extends Task {
-	Solenoid solenoid;
+	DoubleSolenoid solenoid;
 	int channel;
-	boolean activated;
+	Value value;
 	
 	/**
 	 * Constructor
@@ -21,9 +23,9 @@ public class SolenoidTrigger extends Task {
 	 * @param _solenoid the solenoid to trigger
 	 * @param _activated the state to set for the solenoid
 	 */
-	public SolenoidTrigger(Solenoid _solenoid, boolean _activated) {
+	public SolenoidTrigger(DoubleSolenoid _solenoid, Value _value) {
 		solenoid = _solenoid;
-		activated = _activated;
+		value = _value;
 		this.priority = RobotConstants.LOW_PRI;
 	}
 	
@@ -37,8 +39,7 @@ public class SolenoidTrigger extends Task {
 	 * This is called constantly called by the task manager
 	 */
 	public void execute() {
-		Logging.DebugPrint("" + activated);
-		solenoid.set(activated);
+		solenoid.set(value);
 		isFinished = true;
 	}
 	
@@ -46,5 +47,6 @@ public class SolenoidTrigger extends Task {
 	 * Called when the task finishes.
 	 */
 	public void end() {
+		solenoid.set(Value.kOff);
 	}
 }

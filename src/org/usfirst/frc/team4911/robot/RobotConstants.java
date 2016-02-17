@@ -35,11 +35,16 @@ public class RobotConstants {
 	//Drive System Constants
 	public static final int frontRightMotorPort = 1;
 	public static final int midRightMotorPort = 1;
-	public static final int frontLeftMotorPort = 8;
 	public static final int rearRightMotorPort = 4;
-	public static final int midLeftMotorPort = 4;
-	public static final int rearLeftMotorPort = 5;
+	public static final int frontLeftMotorPort = 5;
+	public static final int midLeftMotorPort = 6;
+	public static final int rearLeftMotorPort = 7;
 	
+	public static final int driveLeftSolenoidPortA = 0;
+	public static final int driveLeftSolenoidPortB = 1;
+
+	public static final int driveRightSolenoidPortA = 2;
+	public static final int driveRightSolenoidPortB = 3;
 	
 	//TODO: add ports and set to final as we get port values
 	

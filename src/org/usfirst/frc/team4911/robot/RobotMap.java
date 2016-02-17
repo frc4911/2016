@@ -40,6 +40,10 @@ public class RobotMap {
 	public static Encoder DriveRightEncoder;
 	public static Encoder DriveLeftEncoder;
 	
+	public static DoubleSolenoid DriveLeftSolenoid;
+	public static DoubleSolenoid DriveRightSolenoid;
+
+	
 	//ROLLER
 	public static CANTalon RollerBarTalon;
 	public static CANTalon RollerRollerTalon;
@@ -112,6 +116,9 @@ public class RobotMap {
 		DriveMidLeftTalon = new CANTalon(RobotConstants.midLeftMotorPort);
         DriveRearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
         
+		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveLeftSolenoidPortA,RobotConstants.driveLeftSolenoidPortB);
+		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
+		
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
@@ -173,7 +180,7 @@ public class RobotMap {
 //    	 
 
         
-        ExtenderSolenoid = new Solenoid(1,0);
+//       ExtenderSolenoid = new Solenoid(1,0);
         
 
     	
