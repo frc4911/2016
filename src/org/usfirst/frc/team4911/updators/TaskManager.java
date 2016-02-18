@@ -5,6 +5,15 @@ import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.tasks.Drive;
 import org.usfirst.frc.team4911.tasks.Task;
 
+
+/**
+ * A class that executes tasks.
+ * Tasks are separated by what system
+ * they use on the robot.
+ * 
+ * @author Luke Caughell
+ *
+ */
 public class TaskManager {
 	//A list of all current running tasks on the robot
 	private Task[] tasks = new Task[RobotConstants.NUM_TASKS];

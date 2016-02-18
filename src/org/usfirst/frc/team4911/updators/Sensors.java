@@ -11,7 +11,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 /**
- *A subsystem that contains all sensors required for operating the robot.
+ *A class that contains all sensors that are not specific to one
+ *system on the robot.
  *
  * @author Luke Caughell
  *

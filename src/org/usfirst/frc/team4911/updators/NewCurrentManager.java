@@ -3,6 +3,15 @@ package org.usfirst.frc.team4911.updators;
 import org.usfirst.frc.team4911.helpers.RampDownHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
+
+/**
+ *A class that calculates how close the robot is to browning out and returns
+ *a value that can be multiplied to a motor to limit its current draw
+ *
+ * @author Luke Caughell
+ *
+ */
+
 public class NewCurrentManager {
 	private double power;
 	
