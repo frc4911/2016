@@ -6,8 +6,6 @@ import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
 
 public class CurrentManager {
-
-
 	private static double drivePower;
 	private static double rollerPower;
 	private static double extenderPower;
@@ -20,15 +18,10 @@ public class CurrentManager {
 	private static double scaleLimitingPercent = RobotConstants.SCALE_VOLTAGE_ALLOCATION;
 	private static double shooterLimitingPercent = RobotConstants.SHOOTER_VOLTAGE_ALLOCATION;
 	
-
-	
 	private static double voltage;
-	
 	private static double voltageValue;
 
-	
-	public static void update(){
-		
+	public static void update(){		
 		voltage = Sensors.getVoltage();
 		if (voltage<=RobotConstants.VoltagePowerLimitThreshold){
 			voltageValue = Math.abs(voltage - RobotConstants.VoltageBrownOut);
