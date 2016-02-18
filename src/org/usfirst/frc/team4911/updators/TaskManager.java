@@ -9,7 +9,6 @@ public class TaskManager {
 	//A list of all current running tasks on the robot
 	private Task[] tasks = new Task[RobotConstants.NUM_TASKS];
 
-	
 	public void init(){
 	}
 	
@@ -36,7 +35,6 @@ public class TaskManager {
 	}
 
 	public void stopAll(){
-
 	}
 	
 	//Initializes a task and adds it to the run thing

@@ -11,6 +11,7 @@ import org.usfirst.frc.team4911.robot.RobotMap;
 public class Drive extends Task{
 	double leftPower;
 	double rightPower;
+	
 	/**
 	 * Constructor
 	 * Sets class variables
@@ -41,6 +42,7 @@ public class Drive extends Task{
 		RobotMap.DriveRearRightMotor.setPower(rightPower);
 		isFinished = true;
 	}
+	
 	public void drive(double _leftPower,double _rightPower){
 		leftPower =_leftPower;
 		rightPower = _rightPower;

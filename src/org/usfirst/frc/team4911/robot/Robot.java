@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
 	public static boolean operatorDrive;
 	public static TaskManager taskManager;
     final String defaultAuto = "Default";
@@ -49,9 +48,7 @@ public class Robot extends IterativeRobot {
         cameraServer = CameraServer.getInstance();
         cameraServer.startAutomaticCapture();
         
- //   	s = new Solenoid(1,1);
-
-        
+        //s = new Solenoid(1,1);   
     }
     
 	/**
@@ -65,7 +62,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	autoSelected = (String) chooser.getSelected();
-//		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
+		//autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
     }
 
@@ -101,8 +98,7 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
-    	//s.set(true);
-    	
+    	//s.set(true);	
     }
     
     /**

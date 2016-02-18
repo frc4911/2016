@@ -25,10 +25,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Inputs {    
     
-	public static void init(){
-
-	    
-	    
+	public static void init(){  
 	}
 	
 	public static void update(){
@@ -61,8 +58,8 @@ public class Inputs {
 			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveRightSolenoid,Value.kReverse));		
 		}
 		
-//		if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
-//			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
-//		}
+		//if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
+			//Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
+		//}
 	}
 }

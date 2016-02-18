@@ -94,9 +94,6 @@ public class RobotConstants {
 	public static int ExtenderPotentiometerPort;
 	public static int ExtenderSolenoidPort;
 	
-	
-	
-	
 	//Robot Size Constants
 	
 	//RampDownHelper constants 
@@ -142,5 +139,4 @@ public class RobotConstants {
 	public static final double EXTENDER_VOLTAGE_ALLOCATION = 0.2;
 	public static final double ROLLER_VOLTAGE_ALLOCATION = 0.3;
 	public static final double SCALE_VOLTAGE_ALLOCATION = 0.2;
-	
 }

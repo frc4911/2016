@@ -40,7 +40,6 @@ public class OperatorDrive extends Task{
 	 */
 	@Override
 	public void execute(){
-		
 		driveTask.drive(leftPower, rightPower);
 		isFinished = true;
 	}

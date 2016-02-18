@@ -69,7 +69,6 @@ public class PidHelper {
 		prevTime = currentTime;
 		
 		double output = pGain*error+ iGain*currentIntegral + dGain * currentDerivative;
-		
 		return output;
 	}
 	
