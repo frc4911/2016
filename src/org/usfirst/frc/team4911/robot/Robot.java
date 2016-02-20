@@ -45,8 +45,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-        cameraServer = CameraServer.getInstance();
-        cameraServer.startAutomaticCapture();
+        //cameraServer = CameraServer.getInstance();
+        //cameraServer.startAutomaticCapture();
         
         //s = new Solenoid(1,1);   
     }
@@ -87,7 +87,6 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	Inputs.init();
     	taskManager.init();
-    	Solenoid test = new Solenoid(1);
     }
     
     /**

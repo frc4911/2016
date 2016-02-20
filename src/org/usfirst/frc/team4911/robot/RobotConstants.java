@@ -33,11 +33,12 @@ public class RobotConstants {
 	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
 	
 	//Drive System Constants
-	public static final int frontRightMotorPort = 1;
-	public static final int midRightMotorPort = 1;
-	public static final int rearRightMotorPort = 4;
-	public static final int frontLeftMotorPort = 5;
-	public static final int midLeftMotorPort = 6;
+	public static final int frontRightMotorPort = 10;
+	public static final int midRightMotorPort = 11;
+	public static final int rearRightMotorPort = 12;
+	
+	public static final int frontLeftMotorPort = 9;
+	public static final int midLeftMotorPort = 8;
 	public static final int rearLeftMotorPort = 7;
 	
 	public static final int driveLeftSolenoidPortA = 0;
