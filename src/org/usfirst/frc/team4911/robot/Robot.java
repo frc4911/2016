@@ -5,9 +5,12 @@ import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
+import org.usfirst.frc.team4911.updators.NewCurrentManager;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,12 +32,14 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     NetworkTable table;
+    public static NewCurrentManager currentManager;
 	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	currentManager = new NewCurrentManager(1);
     	RobotMap.init();
     	taskManager = new TaskManager();
     	Sensors.init();
@@ -42,6 +47,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        
+        Encoder testEnc;
+        
         
         table = NetworkTable.getTable("GRIP/myContoursReport");
     }
@@ -82,18 +90,28 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
     	Inputs.init();
     	taskManager.init();
+    	RobotMap.DriveFrontRightTalon.setEncPosition(0);
+    	Sensors.getPanel().resetTotalEnergy();
+    	Sensors.getPanel().clearStickyFaults();
+    	
+    	
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	currentManager.update();
     	RobotMap.driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
-    	Inputs.update();
-    	
-    	Logging.DebugPrint(""+table.getNumberArray("height", new double[0])[0]);
+    	Inputs.update();    	
+//    	Logging.DebugPrint("CANTalon encoder: " + RobotMap.DriveFrontRightTalon.getEncPosition());
+//    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
+    	Logging.DebugPrint("Current Draw Total:" + (Sensors.getPanel().getVoltage()));
+
+
+
     }
     
     /**

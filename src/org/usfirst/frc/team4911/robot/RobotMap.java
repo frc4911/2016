@@ -113,10 +113,10 @@ public class RobotMap {
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
-    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
-    	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0);
-    	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0);
-    	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0);
+    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0, Robot.currentManager);
+    	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0,Robot.currentManager);
+    	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0,Robot.currentManager);
+    	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0,Robot.currentManager);
 
         
 //    	//ROLLER
@@ -168,18 +168,16 @@ public class RobotMap {
 //    	 
 
         
-        ExtenderSolenoid = new Solenoid(1,0);
+//        ExtenderSolenoid = new Solenoid(1,0);
         
 
     	
-    	
-		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
-		RightJoy = new Joystick(RobotConstants.leftJoyPort);
 
-		ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
-		ShooterRightMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
+
+//		ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
+//		ShooterRightMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
     	
-    	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
-    	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
+//    	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
+//    	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
 	}
 }

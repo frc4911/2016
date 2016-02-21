@@ -127,7 +127,7 @@ public class RobotConstants {
 	public static final int UBER_PRI = 4;
 	
 	//VOLTAGE LIMITING CONSTANTS
-	public static final double VoltagePowerLimitThreshold = 12;
+	public static final double VoltagePowerLimitThreshold = 11.0;
 	public static final double VoltageBrownOut = 11.5;
 	
 	public static final double DRIVE_VOLTAGE_ALLOCATION = 0.5;
