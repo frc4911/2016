@@ -107,16 +107,17 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();    	
-//    	Logging.DebugPrint("CANTalon encoder: " + RobotMap.DriveFrontRightTalon.getEncPosition());
+    	
+    	Logging.DebugPrint("CANTalon encoder: " + RobotMap.DriveFrontRightTalon.getEncPosition());
+
 //    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
 //    	Logging.DebugPrint("Encoder:" + (RobotMap.DriveRightEncoder.get()));
-    	Logging.DebugPrint("Encoder Ctre Absolute:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Absolute)));
     	Logging.DebugPrint("Encoder Ctre Relative:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative)));
-    	Logging.DebugPrint("Encoder Quad:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.QuadEncoder)));
-
-
-
-
+    	
+//    	Logging.DebugPrint("Encoder Ctre Relative:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative)));
+//    	Logging.DebugPrint("Encoder Quad:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.QuadEncoder)));
+//    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.PulseWidth)));
+//    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.getPosition()));
 
     }
     
