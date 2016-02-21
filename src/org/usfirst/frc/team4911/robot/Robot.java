@@ -97,6 +97,7 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
+    	Logging.DebugPrint(""+RobotMap.ExtenderPotentiometer.get());
     	//s.set(true);	
     }
     

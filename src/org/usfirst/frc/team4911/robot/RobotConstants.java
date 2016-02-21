@@ -91,8 +91,8 @@ public class RobotConstants {
 	public static int ShooterEncoderPortB;
 	
 	//EXTENDER
-	public static int ExtenderTalonPort;
-	public static int ExtenderPotentiometerPort;
+	public static final int ExtenderTalonPort = 6;
+	public static final int ExtenderPotentiometerPort = 0;
 	public static int ExtenderSolenoidPort;
 	
 	//Robot Size Constants

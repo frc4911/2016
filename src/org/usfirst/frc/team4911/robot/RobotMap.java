@@ -134,7 +134,7 @@ public class RobotMap {
     	
     	//RollerBarSolenoid = new Solenoid(RobotConstants.RollerBarSolenoidPort);
     	
-    	RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
+    	//RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
     	//RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 0.01, 0.0, 0.0);
     	//RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
@@ -169,11 +169,11 @@ public class RobotMap {
     	 
     	//EXTENDER
 
-    	//ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
-    	//ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
+    	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
+    	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
     	//ExtenderSolenoid = new Solenoid(RobotConstants.ExtenderSolenoidPort);
     	
-    	//ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 0.01, 0.0, 0.0);;
+    	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 0.01, 0.0, 0.0);
 
         //ExtenderSolenoid = new Solenoid(1,0);
            	
