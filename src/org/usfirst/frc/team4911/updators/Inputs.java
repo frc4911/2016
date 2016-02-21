@@ -60,6 +60,7 @@ public class Inputs {
 			Logging.DebugPrint("test2");
 			Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveRightSolenoid,Value.kReverse));		
 		}
+		
 		Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)));
 		Logging.DebugPrint("JOY"+ControllerMappings.payloadJoy.getY(Hand.kLeft));
 		
