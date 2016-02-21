@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -108,7 +109,12 @@ public class Robot extends IterativeRobot {
     	Inputs.update();    	
 //    	Logging.DebugPrint("CANTalon encoder: " + RobotMap.DriveFrontRightTalon.getEncPosition());
 //    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
-    	Logging.DebugPrint("Current Draw Total:" + (Sensors.getPanel().getVoltage()));
+//    	Logging.DebugPrint("Encoder:" + (RobotMap.DriveRightEncoder.get()));
+    	Logging.DebugPrint("Encoder Ctre Absolute:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Absolute)));
+    	Logging.DebugPrint("Encoder Ctre Relative:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative)));
+    	Logging.DebugPrint("Encoder Quad:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.QuadEncoder)));
+
+
 
 
 

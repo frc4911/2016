@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -112,6 +113,9 @@ public class RobotMap {
         
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
+        
+ 		DriveFrontRightTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+        
         
     	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0, Robot.currentManager);
     	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0,Robot.currentManager);
