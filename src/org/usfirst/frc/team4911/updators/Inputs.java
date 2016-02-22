@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.tasks.CycleTask;
+import org.usfirst.frc.team4911.tasks.DoubleSolenoidTrigger;
 import org.usfirst.frc.team4911.tasks.Drive;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveForDistance;
@@ -29,7 +30,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class Inputs {
 	private static CycleTask extenderCycle;
-    
+	static boolean extenderToggle = true;
+	
 	public static void init(){
 		initCycleTasks();
 	}
@@ -57,16 +59,34 @@ public class Inputs {
 			Robot.taskManager.addExtenderTask(extenderCycle);
 		}
 		
-//		if(RobotMap.ExtenderPotentiometer.get()>RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
-//		&& ControllerMappings.extenderExtendButton.getDown()){
-//			RobotMap.ExtenderSolenoid.set(!RobotMap.ExtenderSolenoid.get());
-//		}
+		if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
+		&& ControllerMappings.extenderExtendButton.getDown()){
+			if (extenderToggle == true){
+				Robot.taskManager.addExtenderTask(new DoubleSolenoidTrigger(RobotMap.ExtenderSolenoid, Value.kForward));
+			}
+			if (extenderToggle == false){
+				Robot.taskManager.addExtenderTask(new DoubleSolenoidTrigger(RobotMap.ExtenderSolenoid, Value.kReverse));
+			}
+			extenderToggle = !extenderToggle;
+		}
+
 		
 		//if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
 			//Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
 		//}
+		Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)*.75));
+//		Logging.DebugPrint(""+);
+		
+		Logging.DebugPrint("Value: " + RobotMap.RollerBarMotor.getTalon().get());
+		if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
+			RobotMap.RollerBarSolenoid.set(true);
+		}else{
+			RobotMap.RollerBarSolenoid.set(false);
+		}
 	}
 	
+
+
 	
 	public static void initCycleTasks(){
 		extenderCycle = new CycleTask(new Task[]{

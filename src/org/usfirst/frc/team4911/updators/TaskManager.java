@@ -71,7 +71,7 @@ public class TaskManager {
 	public void addShooterTask(Task newTask){
 		tasks[RobotConstants.SHOOTER_TASK] = addTask(tasks[RobotConstants.SHOOTER_TASK],newTask);
 	}
-	public void addArmTask(Task newTask){
+	public void addRollerTask(Task newTask){
 		tasks[RobotConstants.ARM_TASK] = addTask(tasks[RobotConstants.ARM_TASK],newTask);
 	}
 	public void addExtenderTask(Task newTask){

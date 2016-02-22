@@ -61,10 +61,12 @@ public class RobotConstants {
 	public static int DriveLeftEncoderPort;
 	
 	//ROLLER
-	public static int RollerBarTalonPort;
+	public static int RollerBarTalonPort = 14;
 	public static int RollerRollerTalonPort;
 	
-	public static int RollerBarSolenoidPort;
+	public static final int RollerBarSolenoidPort = 2;
+
+
 	
 	public static int RollerPotentiometerPort = 0;
 	
@@ -96,11 +98,12 @@ public class RobotConstants {
 	public static final double ExtenderPotentiometerZero = 0.1774;
 	public static final double ExtenderPotentiometerMax =  0.1567;
 
-	public static final double ExtenderWheelClearnace = 0.1774;
+	public static final double ExtenderWheelClearnace = 0.003;
 
 	
-	public static int ExtenderSolenoidPort;
-	
+	public static final int ExtenderSolenoidPortA = 0;
+	public static final int ExtenderSolenoidPortB = 1;
+
 	
 	//Robot Size Constants
 	
