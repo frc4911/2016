@@ -112,9 +112,8 @@ public class Robot extends IterativeRobot {
 
 //    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
 //    	Logging.DebugPrint("Encoder:" + (RobotMap.DriveRightEncoder.get()));
-    	Logging.DebugPrint("Encoder Ctre Relative:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative)));
     	
-//    	Logging.DebugPrint("Encoder Ctre Relative:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative)));
+    	Logging.DebugPrint("Encoder Ctre abs:" + (RobotMap.DriveFrontRightTalon.getPosition()));
 //    	Logging.DebugPrint("Encoder Quad:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.QuadEncoder)));
 //    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.PulseWidth)));
 //    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.getPosition()));
