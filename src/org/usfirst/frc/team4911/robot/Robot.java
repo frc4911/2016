@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	RobotMap.init();
     	taskManager = new TaskManager();
+    	taskManager.init();
     	Sensors.init();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);

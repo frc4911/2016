@@ -27,6 +27,7 @@ public class SpinToPotentiometerValue extends Task {
 	Timer timer;
 	double clampPower;
 	double maxPower;
+	double setTime;
 	
 	/**
 	 * Constructor
@@ -35,15 +36,15 @@ public class SpinToPotentiometerValue extends Task {
 	 * @param _targetValue the target value in linear inches
 	 * @param _maxPower the maximum power to use for spinning the motor
 	 */
-	public SpinToPotentiometerValue(Motor _motor, double _targetDegreeValue, double _maxPower){
+	public SpinToPotentiometerValue(Motor _motor, double _targetDegreeValue, double _maxPower, double _setTime){
 		motor = _motor;
 		potentiometer = motor.getPotentiometer();
 		targetValue = _targetDegreeValue;
 		talon = motor.getTalon();
 		timer = new Timer();
 		maxPower = _maxPower;
-		pid = new PidHelper(motor.getP(), motor.getI(), motor.getD(), 1);
-		
+		pid = new PidHelper(motor.getP(), motor.getI(), motor.getD(), 0.0001);
+		setTime = _setTime;
 		priority = RobotConstants.LOW_PRI;
 	}
 
@@ -65,13 +66,15 @@ public class SpinToPotentiometerValue extends Task {
 	 */
 	@Override
 	public void execute(){
-		double power = pid.run(targetValue, potentiometer.get(), timer.get());
+		double power = pid.run(1, potentiometer.get()/targetValue, timer.get());
 		power = Math.min(maxPower, power);
 		power = Math.max(-maxPower, power);
 
 		talon.set(power);
 		
-		if (pid.isFinished()){
+		//Logging.DebugPrint(""+power);
+
+		if (pid.isFinished()||timer.get()>setTime){
 			isFinished = true;
 		}
 	}

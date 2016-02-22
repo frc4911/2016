@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.Solenoid;
  * 
  * @author Luke Caughell
  */
-public class SolenoidTrigger extends Task {
-	Solenoid solenoid;
+public class DoubleSolenoidTrigger extends Task {
+	DoubleSolenoid solenoid;
 	int channel;
-	boolean value;
+	Value value;
 	
 	/**
 	 * Constructor
@@ -23,7 +23,7 @@ public class SolenoidTrigger extends Task {
 	 * @param _solenoid the solenoid to trigger
 	 * @param _activated the state to set for the solenoid
 	 */
-	public SolenoidTrigger(Solenoid _solenoid, boolean _value) {
+	public DoubleSolenoidTrigger(DoubleSolenoid _solenoid, Value _value) {
 		solenoid = _solenoid;
 		value = _value;
 		this.priority = RobotConstants.LOW_PRI;
@@ -47,6 +47,6 @@ public class SolenoidTrigger extends Task {
 	 * Called when the task finishes.
 	 */
 	public void end() {
-	
+		solenoid.set(Value.kOff);
 	}
 }

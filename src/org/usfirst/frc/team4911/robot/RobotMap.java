@@ -165,7 +165,7 @@ public class RobotMap {
     	
     	//ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
     	//ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	//ShooterLiftMotor = new Motor (ShooterLiftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+    	//ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterLiftEncoder, null, 0.01, 0.0, 0.0);
     	 
     	//EXTENDER
 
@@ -173,9 +173,9 @@ public class RobotMap {
     	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
     	//ExtenderSolenoid = new Solenoid(RobotConstants.ExtenderSolenoidPort);
     	
-    	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 0.01, 0.0, 0.0);
+    	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 15, 0, 0);
 
-        //ExtenderSolenoid = new Solenoid(1,0);
+//        ExtenderSolenoid = new Solenoid(1,0);
            	
     	// CONTROL
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);

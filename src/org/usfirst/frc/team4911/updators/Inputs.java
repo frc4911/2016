@@ -45,9 +45,22 @@ public class Inputs {
 			Robot.taskManager.addDriveTask(new Drive(0,0));
 		}
 		
+		Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)/5));
 		
-		Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)));
 		
+		if(ControllerMappings.extenderCycleUpButton.getDown()){
+			extenderCycle.CycleUp();
+			Robot.taskManager.addExtenderTask(extenderCycle);
+		}
+		if(ControllerMappings.extenderCycleDownButton.getDown()){
+			extenderCycle.CycleDown();
+			Robot.taskManager.addExtenderTask(extenderCycle);
+		}
+		
+//		if(RobotMap.ExtenderPotentiometer.get()>RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
+//		&& ControllerMappings.extenderExtendButton.getDown()){
+//			RobotMap.ExtenderSolenoid.set(!RobotMap.ExtenderSolenoid.get());
+//		}
 		
 		//if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
 			//Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
@@ -57,9 +70,9 @@ public class Inputs {
 	
 	public static void initCycleTasks(){
 		extenderCycle = new CycleTask(new Task[]{
-			new SpinToPotentiometerValue(RobotMap.ExtenderMotor,RobotConstants.ExtenderPotentiometerZero , 0.1),
-			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, GetTargetAngleHelper.degreesToPotentiometerValue(19)+RobotConstants.ExtenderPotentiometerZero, 0.1),
-			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, GetTargetAngleHelper.degreesToPotentiometerValue(35)+RobotConstants.ExtenderPotentiometerZero, 0.1),
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor,RobotConstants.ExtenderPotentiometerZero , 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.ExtenderPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.ExtenderPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
 			
 		});
 	}
