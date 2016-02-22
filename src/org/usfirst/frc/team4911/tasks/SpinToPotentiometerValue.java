@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
@@ -34,10 +35,10 @@ public class SpinToPotentiometerValue extends Task {
 	 * @param _targetValue the target value in linear inches
 	 * @param _maxPower the maximum power to use for spinning the motor
 	 */
-	public SpinToPotentiometerValue(Motor _motor, double _targetValue, double _maxPower){
+	public SpinToPotentiometerValue(Motor _motor, double _targetDegreeValue, double _maxPower){
 		motor = _motor;
 		potentiometer = motor.getPotentiometer();
-		targetValue = _targetValue;
+		targetValue = _targetDegreeValue;
 		talon = motor.getTalon();
 		timer = new Timer();
 		maxPower = _maxPower;

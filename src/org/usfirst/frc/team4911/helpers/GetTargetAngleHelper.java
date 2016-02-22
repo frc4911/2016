@@ -60,4 +60,14 @@ public class GetTargetAngleHelper {
 		
 		return current;
 	}
+	
+	public static double potentiometerValueToDegrees(double start, double current) {
+		return (current-start)*3600;
+	}
+	
+	public static double degreesToPotentiometerValue(double degree) {
+			return (degree)*(0.1/360);
+	}
+	
+	
 }

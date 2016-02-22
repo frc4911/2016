@@ -93,7 +93,10 @@ public class RobotConstants {
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;
 	public static final int ExtenderPotentiometerPort = 0;
+	public static final double ExtenderPotentiometerZero = 0.15;
+
 	public static int ExtenderSolenoidPort;
+	
 	
 	//Robot Size Constants
 	
