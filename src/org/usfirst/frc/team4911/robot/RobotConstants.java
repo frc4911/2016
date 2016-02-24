@@ -41,11 +41,10 @@ public class RobotConstants {
 	public static final int midLeftMotorPort = 8;
 	public static final int rearLeftMotorPort = 7;
 	
-	public static final int driveLeftSolenoidPortA = 0;
-	public static final int driveLeftSolenoidPortB = 1;
 
-	public static final int driveRightSolenoidPortA = 2;
-	public static final int driveRightSolenoidPortB = 3;
+
+	public static final int driveRightSolenoidPortA = 0;
+	public static final int driveRightSolenoidPortB = 2;
 	
 	//TODO: add ports and set to final as we get port values
 	
@@ -64,7 +63,7 @@ public class RobotConstants {
 	public static int RollerBarTalonPort = 14;
 	public static int RollerRollerTalonPort;
 	
-	public static final int RollerBarSolenoidPort = 2;
+	public static final int RollerBarSolenoidPort = 6;
 
 
 	
@@ -101,8 +100,8 @@ public class RobotConstants {
 	public static final double ExtenderWheelClearnace = 0.003;
 
 	
-	public static final int ExtenderSolenoidPortA = 0;
-	public static final int ExtenderSolenoidPortB = 1;
+	public static final int ExtenderSolenoidPortA = 7;
+//	public static final int ExtenderSolenoidPortB = 1;
 
 	
 	//Robot Size Constants

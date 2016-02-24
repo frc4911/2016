@@ -42,7 +42,7 @@ public class Inputs {
 		//Logging.DebugPrint("rightJoy: " + rightPower);
 		
 		if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
-			Robot.taskManager.addDriveTask(new OperatorDrive(leftPower, rightPower));
+			Robot.taskManager.addDriveTask(new OperatorDrive(-leftPower, -rightPower));
 		}else{
 			Robot.taskManager.addDriveTask(new Drive(0,0));
 		}
@@ -61,22 +61,24 @@ public class Inputs {
 		
 		if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
 		&& ControllerMappings.extenderExtendButton.getDown()){
-			if (extenderToggle == true){
-				Robot.taskManager.addExtenderTask(new DoubleSolenoidTrigger(RobotMap.ExtenderSolenoid, Value.kForward));
-			}
-			if (extenderToggle == false){
-				Robot.taskManager.addExtenderTask(new DoubleSolenoidTrigger(RobotMap.ExtenderSolenoid, Value.kReverse));
-			}
+			RobotMap.ExtenderSolenoid.set(extenderToggle);
 			extenderToggle = !extenderToggle;
 		}
 
 		
-		//if(!ControllerMappings.leftJukeButton2.getDown() && !ControllerMappings.leftJukeButton2.getDown()){
-			//Robot.taskManager.addDriveTask(new SolenoidTrigger(RobotMap.DriveLeftSolenoid,Value.kOff));		
-		//}
+
 		Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)*.75));
-//		Logging.DebugPrint(""+);
-		
+
+		if(ControllerMappings.rightJukeButton1.getDown()){
+			RobotMap.DriveSolenoid.set(Value.kForward);
+
+
+		}
+		if(ControllerMappings.rightJukeButton2.getDown()){
+			RobotMap.DriveSolenoid.set(Value.kReverse);
+
+		}
+				
 		Logging.DebugPrint("Value: " + RobotMap.RollerBarMotor.getTalon().get());
 		if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
 			RobotMap.RollerBarSolenoid.set(true);

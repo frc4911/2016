@@ -40,7 +40,7 @@ public class RobotMap {
 	public static Encoder DriveLeftEncoder;
 	
 	public static DoubleSolenoid DriveLeftSolenoid;
-	public static DoubleSolenoid DriveRightSolenoid;
+	public static DoubleSolenoid DriveSolenoid;
 
 	//ROLLER
 	public static CANTalon RollerBarTalon;
@@ -83,7 +83,7 @@ public class RobotMap {
 	//EXTENDER
 	public static CANTalon ExtenderTalon;
 	public static AnalogPotentiometer ExtenderPotentiometer;
-	public static DoubleSolenoid ExtenderSolenoid;
+	public static Solenoid ExtenderSolenoid;
 	
 	public static Motor ExtenderMotor;
 	
@@ -94,10 +94,14 @@ public class RobotMap {
 	public static Joystick LeftJoy;
 	public static Joystick RightJoy;
 	
+
+	public static Solenoid compressorSolenoid;
+
 	/**
 	 * Initializes sensors and controllers 
 	 */
 	public static void init(){
+		compressorSolenoid = new Solenoid(0,1);
 		//RightShooterTalon = new CANTalon(6);
 		//LeftShooterTalon = new CANTalon(7);
 		
@@ -114,17 +118,17 @@ public class RobotMap {
 		DriveMidLeftTalon = new CANTalon(RobotConstants.midLeftMotorPort);
         DriveRearLeftTalon = new CANTalon(RobotConstants.rearLeftMotorPort);
         
-		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveLeftSolenoidPortA,RobotConstants.driveLeftSolenoidPortB);
-		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
+		DriveSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
+//		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 		
         DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
         DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
-    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0);
-    	DriveMidRightMotor = new Motor (DriveMidRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
-    	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0);
-    	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0);
-    	DriveMidLeftMotor = new Motor (DriveMidLeftTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0);
+    	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0, Robot.driveCurrentManager);
+    	DriveMidRightMotor = new Motor (DriveMidRightTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0, Robot.driveCurrentManager);
+    	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0, 0, 0, Robot.driveCurrentManager);
+    	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0, 0, 0, Robot.driveCurrentManager);
+    	DriveMidLeftMotor = new Motor (DriveMidLeftTalon, DriveRightEncoder, null, 0.01, 0.0, 0.0, Robot.driveCurrentManager);
 
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0, 0, 0);
 
@@ -133,7 +137,7 @@ public class RobotMap {
     	RollerBarTalon = new CANTalon(RobotConstants.RollerBarTalonPort);
     	//RollerRollerTalon = new CANTalon(RobotConstants.RollerRollerTalonPort);
     	
-    	RollerBarSolenoid = new Solenoid(RobotConstants.RollerBarSolenoidPort);
+    	RollerBarSolenoid = new Solenoid(1,RobotConstants.RollerBarSolenoidPort);
     	
     	//RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
@@ -172,7 +176,7 @@ public class RobotMap {
 
     	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
     	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
-    	ExtenderSolenoid = new DoubleSolenoid(RobotConstants.ExtenderSolenoidPortA,RobotConstants.ExtenderSolenoidPortB);
+    	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
     	
     	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 15, 0, 0);
 

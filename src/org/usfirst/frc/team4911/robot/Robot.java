@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
+import org.usfirst.frc.team4911.updators.NewCurrentManager;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public CameraServer cameraServer;
 	Solenoid s;
+	public static NewCurrentManager driveCurrentManager;
 
 	
     /**
@@ -45,7 +47,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        
+        driveCurrentManager = new NewCurrentManager(10);
+ //   	s = new Solenoid(1,2);
+ 
         //cameraServer = CameraServer.getInstance();
         //cameraServer.startAutomaticCapture();
         
@@ -94,10 +98,12 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	driveCurrentManager.update();
     	RobotMap.driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
+//    	s.set(true);
     	//Logging.DebugPrint(""+RobotMap.ExtenderPotentiometer.get());
     	//s.set(true);	
     }
