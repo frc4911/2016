@@ -97,14 +97,14 @@ public class RobotConstants {
 	public static final double ExtenderPotentiometerZero = 0.1774;
 	public static final double ExtenderPotentiometerMax =  0.1567;
 
-	public static final double ExtenderWheelClearnace = 0.003;
+	public static final double ExtenderWheelClearnace = 0.000;
 
 	
 	public static final int ExtenderSolenoidPortA = 7;
 //	public static final int ExtenderSolenoidPortB = 1;
 
 	
-	//Robot Size Constants
+	//Robot Size Constants (size matters)
 	
 	//RampDownHelper constants 
 	public static final double amplitude = 20;

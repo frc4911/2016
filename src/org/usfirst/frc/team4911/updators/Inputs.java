@@ -81,9 +81,9 @@ public class Inputs {
 				
 		Logging.DebugPrint("Value: " + RobotMap.RollerBarMotor.getTalon().get());
 		if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
-			RobotMap.RollerBarSolenoid.set(true);
-		}else{
 			RobotMap.RollerBarSolenoid.set(false);
+		}else{
+			RobotMap.RollerBarSolenoid.set(true);
 		}
 	}
 	

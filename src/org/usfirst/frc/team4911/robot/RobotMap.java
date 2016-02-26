@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.*;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  * 
- * @author Luke Caughell
+ * @author Luke Yancey Caughell
  */
 public class RobotMap {
 	//public static CANTalon RightShooterTalon;
