@@ -3,6 +3,7 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.tasks.CameraTask;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
@@ -34,6 +35,8 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     NetworkTable table;
     public static NewCurrentManager currentManager;
+    CameraTask cameraTask;
+
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -48,10 +51,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        
         Encoder testEnc;
-        
-        
+        cameraTask = new CameraTask(279.4, 2.8, 625, 6.35);
+        //57
         table = NetworkTable.getTable("GRIP/myContoursReport");
     }
     
@@ -106,14 +108,17 @@ public class Robot extends IterativeRobot {
     	RobotMap.driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
-    	Inputs.update();    	
+    	Inputs.update();    
     	
-    	Logging.DebugPrint("CANTalon encoder: " + RobotMap.DriveFrontRightTalon.getEncPosition());
+    	
+    	double height = table.getNumberArray("height", new double[0])[0];
+    	
+    	Logging.DebugPrint("distance "+cameraTask.computeDistance(height));
+    	
 
 //    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
 //    	Logging.DebugPrint("Encoder:" + (RobotMap.DriveRightEncoder.get()));
     	
-    	Logging.DebugPrint("Encoder Ctre abs:" + (RobotMap.DriveFrontRightTalon.getPosition()));
 //    	Logging.DebugPrint("Encoder Quad:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.QuadEncoder)));
 //    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.isSensorPresent(FeedbackDevice.PulseWidth)));
 //    	Logging.DebugPrint("Encoder Pulse:" + (RobotMap.DriveFrontRightTalon.getPosition()));
