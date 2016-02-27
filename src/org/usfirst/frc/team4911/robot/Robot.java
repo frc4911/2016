@@ -12,6 +12,7 @@ import org.usfirst.frc.team4911.updators.TaskManager;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -33,7 +34,6 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-    NetworkTable table;
     public static NewCurrentManager currentManager;
     CameraTask cameraTask;
 
@@ -52,9 +52,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         Encoder testEnc;
-        cameraTask = new CameraTask(279.4, 2.8, 625, 6.35);
+        cameraTask = new CameraTask(381, 2.8, 625, 6.35,0.3);
         //57
-        table = NetworkTable.getTable("GRIP/myContoursReport");
     }
     
 	/**
@@ -109,13 +108,11 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();    
-    	
-    	
-    	double height = table.getNumberArray("height", new double[0])[0];
-    	
-    	Logging.DebugPrint("distance "+cameraTask.computeDistance(height));
-    	
+    	cameraTask.execute();
+//    	Logging.DebugPrint("distance "+(cameraTask.computeDistance()*0.0394));
 
+
+    	
 //    	Logging.DebugPrint("PWM encoder: " + RobotMap.DriveFrontRightMotor.getEncoder().get());
 //    	Logging.DebugPrint("Encoder:" + (RobotMap.DriveRightEncoder.get()));
     	

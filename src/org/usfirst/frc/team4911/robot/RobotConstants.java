@@ -87,7 +87,9 @@ public class RobotConstants {
 	public static int ExtenderPotentiometerPort;
 	public static int ExtenderSolenoidPort;
 	
-	
+	//CAMERA
+	public static int cameraHeight = 240;
+	public static int cameraWidth = 320;
 	
 	
 	//Robot Size Constants
