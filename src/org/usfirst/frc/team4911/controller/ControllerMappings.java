@@ -42,6 +42,10 @@ public class ControllerMappings {
 	
 	//PAYLOAD JOY
 	public static Button modeButton;
+
+	
+	public static Button button5 = new Button(payloadJoy,5);
+	public static Button button6 = new Button(payloadJoy,6);
 	
 	public static Button extenderCycleUpButton;
 	public static Button extenderCycleDownButton;

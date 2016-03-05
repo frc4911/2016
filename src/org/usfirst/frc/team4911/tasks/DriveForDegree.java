@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
@@ -36,12 +37,10 @@ public class DriveForDegree extends Task{
 	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveForDegree(double _power, double _degreesToTurn, Motor _motor){
+	public DriveForDegree(double _degreesToTurn){
 		this.priority = RobotConstants.LOW_PRI;
 		interruptible = true;
-		power = _power;
 		degreesToTurn = _degreesToTurn;
-		motor = _motor;
 	}
 
 	/**
@@ -49,7 +48,7 @@ public class DriveForDegree extends Task{
 	 */
 	@Override
 	public void init(){
-		pid = new PidHelper(1, 0, 0, 0.5/180);
+		pid = new PidHelper(0.4, 0, 0, 0.08);
 	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
@@ -63,12 +62,11 @@ public class DriveForDegree extends Task{
 		currentDegree = Sensors.getImuYawValue();
 		double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
 		power = pid.run(1, angleDif / degreesToTurn, timer.get());
-
 		RobotMap.DriveFrontRightTalon.set(power);
 		RobotMap.DriveRearRightTalon.set(power);
 		RobotMap.DriveFrontLeftTalon.set(power);
 		RobotMap.DriveRearLeftTalon.set(power);
-		
+		Logging.DebugPrint("POW" + power);
 		if(pid.isFinished()){
 			isFinished = true;
 		}

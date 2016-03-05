@@ -52,7 +52,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         Encoder testEnc;
-        cameraTask = new CameraTask(381, 2.8, 625, 6.35,0.3);
+        Sensors.getImu().reset();
+        //cameraTask = new CameraTask(381, 2.8, 625, 6.35,0.3);
         //57
     }
     
@@ -95,6 +96,7 @@ public class Robot extends IterativeRobot {
     	RobotMap.DriveFrontRightTalon.setEncPosition(0);
     	Sensors.getPanel().resetTotalEnergy();
     	Sensors.getPanel().clearStickyFaults();
+    	Sensors.getImu().zeroYaw();
     	
     	
     }
@@ -107,8 +109,8 @@ public class Robot extends IterativeRobot {
     	RobotMap.driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
-    	Inputs.update();    
-    	cameraTask.execute();
+    	Inputs.update();   
+//    	cameraTask.execute();
 //    	Logging.DebugPrint("distance "+(cameraTask.computeDistance()*0.0394));
 
 

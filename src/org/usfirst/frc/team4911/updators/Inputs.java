@@ -49,8 +49,8 @@ public class Inputs {
 	}
 	
 	public static void update(){
-		double rightPower = Inputs.rightJoy.getY();
-		double leftPower  = Inputs.leftJoy.getY();
+		double rightPower = ControllerMappings.payloadJoy.getRawAxis(1);
+		double leftPower = ControllerMappings.payloadJoy.getRawAxis(5);
 		//Logging.DebugPrint("rightJoy: " + rightPower);
 		
 		if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
@@ -60,18 +60,17 @@ public class Inputs {
 		}
 		
 		
-		if(payloadJoy.getRawButton(5)  && pressed5 == false){
-			cycleTaskTest.CycleUp();
-			Robot.taskManager.addShooterTask(cycleTaskTest);
-		}
-		pressed5 = payloadJoy.getRawButton(5);
+		if (ControllerMappings.button5.getDown()){
+			Robot.taskManager.addDriveTask(new DriveForDegree(90));
+			//Robot.taskManager.addDriveTask(new DriveForDegree(GetTargetAngleHelper.compute(Sensors.getImuYawValue(), 200)));
 
-		
-		if(payloadJoy.getRawButton(6) && pressed6 == false){
-			cycleTaskTest.CycleDown();
-			Robot.taskManager.addShooterTask(cycleTaskTest);
 		}
-		pressed6 = payloadJoy.getRawButton(6);
+		Logging.DebugPrint(""+Sensors.getImuYawValue());
+		
+//		if (ControllerMappings.button6.getDown()){
+//			
+//		}
+		
 		
 //		 if (payloadjoy.getshootbutton)
 //			taskmanager.addshoottask(new shoot task)
