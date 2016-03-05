@@ -62,6 +62,8 @@ public class RobotConstants {
 	//ROLLER
 	public static int RollerBarTalonPort = 14;
 	public static int RollerRollerTalonPort;
+	public static final double RollerPotentiometerZero = 0.1774;
+	public static final double RollerPotentiometerMax =  0.1567;
 	
 	public static final int RollerBarSolenoidPort = 6;
 

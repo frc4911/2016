@@ -30,6 +30,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class Inputs {
 	private static CycleTask extenderCycle;
+	private static CycleTask rollerCycle;
+
 	static boolean extenderToggle = true;
 	
 	public static void init(){
@@ -41,6 +43,9 @@ public class Inputs {
 		double leftPower  = ControllerMappings.leftJoy.getY();
 		//Logging.DebugPrint("rightJoy: " + rightPower);
 		
+		/**
+		 * DRIVE CONTROLS
+		 */
 		if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
 			Robot.taskManager.addDriveTask(new OperatorDrive(-leftPower, -rightPower));
 		}else{
@@ -49,7 +54,9 @@ public class Inputs {
 		
 		Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)/5));
 		
-		
+		/**
+		 * EXTENDER CONTROLS
+		 */
 		if(ControllerMappings.extenderCycleUpButton.getDown()){
 			extenderCycle.CycleUp();
 			Robot.taskManager.addExtenderTask(extenderCycle);
@@ -58,28 +65,45 @@ public class Inputs {
 			extenderCycle.CycleDown();
 			Robot.taskManager.addExtenderTask(extenderCycle);
 		}
+		if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
+		&& ControllerMappings.extenderExtendButton.getDown()){
+			RobotMap.ExtenderSolenoid.set(extenderToggle);
+			extenderToggle = !extenderToggle;
+		}
 		
+		/**
+		 * ROLLER CONTROLS
+		 */
+		if(ControllerMappings.rollerCycleDownButton.getDown()){
+			extenderCycle.CycleUp();
+			Robot.taskManager.addExtenderTask(extenderCycle);
+		}
+		if(ControllerMappings.rollerCycleDownButton.getDown()){
+			extenderCycle.CycleDown();
+			Robot.taskManager.addExtenderTask(extenderCycle);
+		}
 		if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
 		&& ControllerMappings.extenderExtendButton.getDown()){
 			RobotMap.ExtenderSolenoid.set(extenderToggle);
 			extenderToggle = !extenderToggle;
 		}
 
-		
-
-		Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)*.75));
-
+		/**
+		 * DRIVE SHIFTING
+		 */
+		//TODO: set shifting to activate for current draw or rpm
 		if(ControllerMappings.rightJukeButton1.getDown()){
 			RobotMap.DriveSolenoid.set(Value.kForward);
-
-
 		}
 		if(ControllerMappings.rightJukeButton2.getDown()){
 			RobotMap.DriveSolenoid.set(Value.kReverse);
-
 		}
-				
-		Logging.DebugPrint("Value: " + RobotMap.RollerBarMotor.getTalon().get());
+		
+		/**
+		 * ROLLER CONTROLER
+		 */
+		Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)*.75));
+		//This sets the brakes to open if the power signal to the roller talon is greater than 0.1
 		if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
 			RobotMap.RollerBarSolenoid.set(false);
 		}else{
@@ -95,7 +119,12 @@ public class Inputs {
 			new SpinToPotentiometerValue(RobotMap.ExtenderMotor,RobotConstants.ExtenderPotentiometerZero , 0.5,1),
 			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.ExtenderPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
 			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.ExtenderPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
-			
+		});
+		//TODO: Set to proper degrees and tune pid
+		rollerCycle = new CycleTask(new Task[]{
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor,RobotConstants.RollerPotentiometerZero , 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.RollerPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ExtenderMotor, RobotConstants.RollerPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
 		});
 	}
 }
