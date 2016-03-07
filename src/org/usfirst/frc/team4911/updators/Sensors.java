@@ -79,6 +79,8 @@ public class Sensors {
     
     public static void resetImu() {
     	 Sensors.Imu.reset();
+    	 Sensors.Imu.zeroYaw();
+
     }
 
 	public static double getImuYawValue() {

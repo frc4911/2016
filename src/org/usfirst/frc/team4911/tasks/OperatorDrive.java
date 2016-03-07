@@ -38,10 +38,10 @@ public class OperatorDrive extends Task{
 	 */
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontLeftMotor.setPower(-leftPower);
-		RobotMap.DriveRearLeftMotor.setPower(-leftPower);
-		RobotMap.DriveFrontRightMotor.setPower(rightPower);
-		RobotMap.DriveRearRightMotor.setPower(rightPower);
+		RobotMap.DriveFrontLeftMotor.setPower(leftPower);
+		RobotMap.DriveRearLeftMotor.setPower(leftPower);
+		RobotMap.DriveFrontRightMotor.setPower(-rightPower);
+		RobotMap.DriveRearRightMotor.setPower(-rightPower);
 
 		isFinished = true;
 	}
@@ -51,5 +51,11 @@ public class OperatorDrive extends Task{
 	 */
 	@Override
 	public void end(){
+	}
+	public void setRightPower(double power){
+		rightPower = power;
+	}
+	public void setLeftPower(double power){
+		leftPower = power;
 	}
 }

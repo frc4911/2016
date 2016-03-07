@@ -4,6 +4,8 @@ package org.usfirst.frc.team4911.robot;
 import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.CameraTask;
+import org.usfirst.frc.team4911.tasks.DriveStraight;
+import org.usfirst.frc.team4911.updators.AutoTaskManager;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
@@ -36,6 +38,8 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public static NewCurrentManager currentManager;
     CameraTask cameraTask;
+    AutoTaskManager autoTaskManager;
+
 
 	
     /**
@@ -68,8 +72,12 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	autoSelected = (String) chooser.getSelected();
+    	Sensors.resetImu();
 //		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		autoTaskManager = new AutoTaskManager();
+		autoTaskManager.addTask(new DriveStraight(0));
+		
     }
 
     /**
@@ -85,6 +93,8 @@ public class Robot extends IterativeRobot {
     	//Put default auto code here
             break;
     	}
+    	Sensors.update();
+    	autoTaskManager.update();
     }
 
     /**

@@ -54,7 +54,7 @@ public class Inputs {
 		//Logging.DebugPrint("rightJoy: " + rightPower);
 		
 		if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
-			Robot.taskManager.addDriveTask(new OperatorDrive(leftPower, rightPower));
+			Robot.taskManager.addDriveTask(new OperatorDrive(leftPower/3, rightPower/3));
 		}else{
 			Robot.taskManager.addDriveTask(new Drive(0));
 		}
