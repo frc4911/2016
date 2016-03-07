@@ -24,6 +24,7 @@ public class DriveForDistance extends Task{
 	RampDownHelper rampDown;
 	int i;
 	Motor motor;
+	Drive drive;
 	
 	/**
 	 * Constructor
@@ -38,6 +39,8 @@ public class DriveForDistance extends Task{
 		power = _power;
 		driveDistance = _driveDistance;
 		motor = _motor;
+		drive = new Drive(0,0);
+		
 	}
 
 	/**
@@ -57,10 +60,8 @@ public class DriveForDistance extends Task{
 		currentEncoderValueInches = motor.getEncoder().getDistance();
 		power = rampDown.getRampedPower(driveDistance,currentEncoderValueInches);
 		
-		RobotMap.DriveFrontRightTalon.set(-power);
-		RobotMap.DriveRearRightTalon.set(-power);
-		RobotMap.DriveFrontLeftTalon.set(power);
-		RobotMap.DriveRearLeftTalon.set(power);
+		drive.setPower(power);
+		drive.execute();
 		
 		if((driveDistance - Math.abs(currentEncoderValueInches) <= 0)){
 			isFinished = true;
@@ -72,9 +73,7 @@ public class DriveForDistance extends Task{
 	 */
 	@Override
 	public void end(){
-		RobotMap.DriveFrontLeftTalon.set(0);
-		RobotMap.DriveFrontRightTalon.set(0);
-		RobotMap.DriveRearLeftTalon.set(0);
-		RobotMap.DriveRearRightTalon.set(0);
+		drive.setPower(0);
+		drive.execute();
 	}
 }

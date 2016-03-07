@@ -27,6 +27,7 @@ public class DriveForDegree extends Task{
 	int i;
 	PidHelper pid;
 	Motor motor;
+	Drive drive;
 	
 	/**
 	 * Constructor
@@ -42,6 +43,7 @@ public class DriveForDegree extends Task{
 		power = _power;
 		degreesToTurn = _degreesToTurn;
 		motor = _motor;
+		drive = new Drive(0,0);
 	}
 
 	/**
@@ -64,10 +66,14 @@ public class DriveForDegree extends Task{
 		double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
 		power = pid.run(1, angleDif / degreesToTurn, timer.get());
 
-		RobotMap.DriveFrontRightTalon.set(power);
-		RobotMap.DriveRearRightTalon.set(power);
-		RobotMap.DriveFrontLeftTalon.set(power);
-		RobotMap.DriveRearLeftTalon.set(power);
+		drive.setLeftPower(power);
+		drive.setRightPower(-power);
+		drive.execute();
+		
+//		RobotMap.DriveFrontRightTalon.set(power);
+//		RobotMap.DriveRearRightTalon.set(power);
+//		RobotMap.DriveFrontLeftTalon.set(power);
+//		RobotMap.DriveRearLeftTalon.set(power);
 		
 		if(pid.isFinished()){
 			isFinished = true;
@@ -79,9 +85,7 @@ public class DriveForDegree extends Task{
 	 */
 	@Override
 	public void end(){
-		RobotMap.DriveFrontLeftTalon.set(0);
-		RobotMap.DriveFrontRightTalon.set(0);
-		RobotMap.DriveRearLeftTalon.set(0);
-		RobotMap.DriveRearRightTalon.set(0);
+		drive.setPower(0);
+		drive.execute();
 	}
 }

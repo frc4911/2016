@@ -20,6 +20,8 @@ public class DriveForTime extends Task{
 	Command teleop;
 	int i;
 	Motor motor;
+	Drive drive;
+
 	
 	/**
 	 * Constructor
@@ -35,6 +37,8 @@ public class DriveForTime extends Task{
 		power = _power;
 		endTime = _time;
 		motor = _motor;
+		drive = new Drive(0,0);
+
 	}
 
 	/**
@@ -51,10 +55,9 @@ public class DriveForTime extends Task{
 	 */
 	@Override
 	public void execute(){
-		RobotMap.DriveFrontRightTalon.set(-power);
-		RobotMap.DriveRearRightTalon.set(-power);
-		RobotMap.DriveFrontLeftTalon.set(power);
-		RobotMap.DriveRearLeftTalon.set(power);
+		
+		drive.setPower(power);
+		drive.execute();
 		
 		if(timer.get() > endTime){
 			isFinished = true;
@@ -66,9 +69,8 @@ public class DriveForTime extends Task{
 	 */
 	@Override
 	public void end(){
-		RobotMap.DriveFrontLeftTalon.set(0);
-		RobotMap.DriveFrontRightTalon.set(0);
-		RobotMap.DriveRearLeftTalon.set(0);
-		RobotMap.DriveRearRightTalon.set(0);
+		drive.setPower(0);
+		drive.execute();
+		
 	}
 }

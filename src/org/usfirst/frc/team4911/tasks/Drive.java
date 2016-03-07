@@ -46,12 +46,7 @@ public class Drive extends Task{
 	public void drive(double _leftPower,double _rightPower){
 		leftPower =_leftPower;
 		rightPower = _rightPower;
-		RobotMap.DriveFrontLeftMotor.setPower(-leftPower);
-		RobotMap.DriveMidLeftMotor.setPower(-leftPower);
-		RobotMap.DriveRearLeftMotor.setPower(-leftPower);
-		RobotMap.DriveFrontRightMotor.setPower(rightPower);
-		RobotMap.DriveMidRightMotor.setPower(rightPower);
-		RobotMap.DriveRearRightMotor.setPower(rightPower);
+		execute();
 	}
 	
 	/**
@@ -59,5 +54,16 @@ public class Drive extends Task{
 	 */
 	@Override
 	public void end(){
+	}
+	
+	public void setLeftPower(double power){
+		leftPower = power;
+	}
+	public void setRightPower(double power){
+		rightPower = power;
+	}
+	public void setPower(double power){
+		rightPower = power;
+		leftPower = power;
 	}
 }
