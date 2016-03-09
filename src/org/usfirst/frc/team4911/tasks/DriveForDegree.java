@@ -37,12 +37,10 @@ public class DriveForDegree extends Task{
 	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveForDegree(double _power, double _degreesToTurn, Motor _motor){
+	public DriveForDegree(double _degreesToTurn){
 		this.priority = RobotConstants.LOW_PRI;
 		interruptible = true;
-		power = _power;
 		degreesToTurn = _degreesToTurn;
-		motor = _motor;
 		drive = new Drive(0,0);
 	}
 
@@ -51,7 +49,7 @@ public class DriveForDegree extends Task{
 	 */
 	@Override
 	public void init(){
-		pid = new PidHelper(1, 0, 0, 0.5/180);
+		pid = new PidHelper(0.5, 0, 0, 0.5/180);
 	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();

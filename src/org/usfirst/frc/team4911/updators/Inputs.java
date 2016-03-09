@@ -51,6 +51,9 @@ public class Inputs {
 		}else{
 			Robot.taskManager.addDriveTask(new Drive(0,0));
 		}
+		if(ControllerMappings.leftJukeButton1.getDown()){
+			Robot.taskManager.addDriveTask(new DriveForDegree(90));;
+		}
 		
 		Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)/5));
 		
