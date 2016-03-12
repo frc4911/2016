@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Inputs {
 	private static CycleTask extenderCycle;
@@ -56,6 +57,7 @@ public class Inputs {
 		if(ControllerMappings.modeButton.getDown()){
 			modeToggle = !modeToggle;
 		}
+		SmartDashboard.putBoolean("Mode", modeToggle);
 		
 		if (modeToggle){
 			/**
@@ -107,8 +109,7 @@ public class Inputs {
 				extenderCycle.CycleDown();
 				Robot.taskManager.addExtenderTask(extenderCycle);
 			}
-			if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
-			&& ControllerMappings.extenderExtendButton.getDown()){
+			if(ControllerMappings.extenderExtendButton.getDown()){
 				RobotMap.ExtenderSolenoid.set(extenderToggle);
 				extenderToggle = !extenderToggle;
 			}
@@ -143,7 +144,7 @@ public class Inputs {
 			/**
 			 * ROLLER CONTROLER
 			 */
-			Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)*.75));
+			Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,-ControllerMappings.payloadJoy.getRawAxis(5)*.75));
 			//This sets the brakes to open if the power signal to the roller talon is greater than 0.1
 			if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
 				RobotMap.RollerBarSolenoid.set(false);
@@ -152,7 +153,7 @@ public class Inputs {
 			}
 			if (ControllerMappings.rollerRoller.getDown()){
 				if (rollerToggle){
-					RobotMap.RollerRollerMotor.setPower(-1);
+					RobotMap.RollerRollerMotor.setPower(0.3);
 				} else {
 					RobotMap.RollerRollerMotor.setPower(0);
 				}

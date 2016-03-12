@@ -135,27 +135,27 @@ public class RobotMap {
     	//ROLLER
         
     	RollerBarTalon = new CANTalon(RobotConstants.RollerBarTalonPort);
-    	//RollerRollerTalon = new CANTalon(RobotConstants.RollerRollerTalonPort);
+    	RollerRollerTalon = new CANTalon(RobotConstants.RollerRollerTalonPort);
     	
     	RollerBarSolenoid = new Solenoid(1,RobotConstants.RollerBarSolenoidPort);
     	
     	//RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
     	RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 0.01, 0.0, 0.0);
-    	//RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
+    	RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
     	 
-    	//ScaleRightTalon = new CANTalon(RobotConstants.ScaleRightTalonPort);
-    	//ScaleLeftTalon = new CANTalon(RobotConstants.ScaleLeftTalonPort);
+    	ScaleRightTalon = new CANTalon(RobotConstants.ScaleRightTalonPort);
+    	ScaleLeftTalon = new CANTalon(RobotConstants.ScaleLeftTalonPort);
     	
     	//ScaleRightEncoder = new Encoder(RobotConstants.ScaleRightEncoderPortA,RobotConstants.ScaleRightEncoderPortB);
     	//ScaleLeftEncoder = new Encoder(RobotConstants.ScaleLeftEncoderPortA,RobotConstants.ScaleLeftEncoderPortB);
     	
-    	//ScaleSolenoid = new Solenoid(RobotConstants.ScaleSolenoidPort);
-    	
-    	//ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0.01, 0.0, 0.0);
-    	//ScaleLeftMotor = new Motor (ScaleLeftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
+//    	ScaleSolenoid = new Solenoid(1,RobotConstants.ScaleSolenoidPort);
+//    	
+//    	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0.01, 0.0, 0.0);
+//    	ScaleLeftMotor = new Motor (ScaleLeftTalon, ScaleLeftEncoder, null, 0.01, 0.0, 0.0);
     	 
     	//SHOOTER
 
@@ -176,11 +176,12 @@ public class RobotMap {
 
     	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
     	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
-    	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
-    	
+ //   	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
+    	ExtenderSolenoid = new Solenoid(1,3);
+ 	
     	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 15, 0, 0);
 
-//        ExtenderSolenoid = new Solenoid(1,0);
+//        ExtenderSolenoid = new Solenoid(1,1);
            	
     	// CONTROL
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
