@@ -27,7 +27,8 @@ public class ControllerMappings {
 	public static Button rightJukeButton2 = new Button(rightJoy, 4);
 	public static Button rightJukeButton3;
 	public static Button rightJukeButton4;
-	
+
+	public static Button rightTrigger;
 	//LEFT JOY
 	
 	public static Button leftJukeButton1 = new Button(leftJoy,3);
@@ -35,13 +36,14 @@ public class ControllerMappings {
 	public static Button leftJukeButton3;
 	public static Button leftJukeButton4;
 	
+	public static Button leftTrigger;
 	//DRIVER SCALE
 	public static Button autoScale;
 	public static Button manualScale;
 	
 	
 	//PAYLOAD JOY
-	public static Button modeButton;
+	public static Button modeButton = new Button(payloadJoy, 8);
 	
 	public static Button extenderCycleUpButton = new Button(payloadJoy,3);
 	public static Button extenderCycleDownButton = new Button(payloadJoy,4);
@@ -49,8 +51,11 @@ public class ControllerMappings {
 	
 	public static Button rollerCycleUpButton = new Button(payloadJoy,1);
 	public static Button rollerCycleDownButton = new Button(payloadJoy,2);
+	public static Button rollerRoller = new Button(payloadJoy,5);
 	
 	public static Button extenderManualUpButton;
 	public static Button extenderManualDownButton;
+	
+	
 
 }

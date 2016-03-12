@@ -44,6 +44,7 @@ public class TaskManager {
 	}
 
 	public void stopAll(){
+		
 	}
 	
 	//Initializes a task and adds it to the run thing

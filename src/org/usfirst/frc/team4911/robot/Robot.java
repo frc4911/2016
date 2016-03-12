@@ -3,6 +3,9 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.tasks.DriveForDegree;
+import org.usfirst.frc.team4911.tasks.DriveStraight;
+import org.usfirst.frc.team4911.updators.AutoTaskManager;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
@@ -31,6 +34,7 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public CameraServer cameraServer;
 	Solenoid s;
+	private AutoTaskManager autoTaskManager;
 	public static NewCurrentManager driveCurrentManager;
 
 	
@@ -69,6 +73,13 @@ public class Robot extends IterativeRobot {
     	autoSelected = (String) chooser.getSelected();
 		//autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		autoTaskManager = new AutoTaskManager();
+		autoTaskManager.init();
+		autoTaskManager.addTask(new DriveStraight(0,false),1);
+		autoTaskManager.addTask(new DriveForDegree(-90,1,false),1);
+		autoTaskManager.addTask(new DriveStraight(0,true),2);
+		
+		Sensors.getImu().zeroYaw();
     }
 
     /**
@@ -84,6 +95,10 @@ public class Robot extends IterativeRobot {
     	//Put default auto code here
             break;
     	}
+    	Sensors.update();
+    	autoTaskManager.update();
+    	Logging.DebugPrint("Auto: " + Sensors.getImuYawValue());
+
     }
 
     /**
@@ -91,6 +106,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit() {
     	Inputs.init();
+    	//Sensors.getImu().zeroYaw();
     	taskManager.init();
     }
     
@@ -98,11 +114,13 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	Logging.DebugPrint("Teleop: " + Sensors.getImuYawValue());
     	driveCurrentManager.update();
     	RobotMap.driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
+    	SmartDashboard.putBoolean("MODE", Inputs.getMode());
 //    	s.set(true);
     	//Logging.DebugPrint(""+RobotMap.ExtenderPotentiometer.get());
     	//s.set(true);	

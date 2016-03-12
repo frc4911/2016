@@ -3,6 +3,7 @@ package org.usfirst.frc.team4911.tasks;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team4911.helpers.Motor;
+import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
 /**
  * Task for basic operator tank drive.
@@ -26,6 +27,7 @@ public class OperatorDrive extends Task{
 		this.leftPower = leftPower;
 		this.rightPower = rightPower;
 		driveTask = new Drive(0, 0);
+		priority = RobotConstants.LOW_PRI;
 	}
 
 	/**

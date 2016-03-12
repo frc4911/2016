@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
 
 /**
@@ -20,6 +21,7 @@ public class Drive extends Task{
 	public Drive(double _leftPower,double _rightPower){
 		leftPower = _leftPower;
 		rightPower = _rightPower;
+		this.priority = RobotConstants.LOW_PRI;
 	}
 
 	/**

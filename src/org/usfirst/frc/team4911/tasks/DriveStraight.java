@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  * @author Luke Caughell
  */
-public class DriveForDegree extends Task{
+public class DriveStraight extends Task{
 	Timer timer;
 	double driveTime;
 	double power;
@@ -25,12 +25,12 @@ public class DriveForDegree extends Task{
 	double currentDegree;
 	double startDegree;
 	double degreesToTurn;
-	double timeoutTime;
+	Drive drive;
 	int i;
-	boolean reversed;
 	PidHelper pid;
 	Motor motor;
-	Drive drive;
+	boolean reversed;
+
 	
 	/**
 	 * Constructor
@@ -40,25 +40,30 @@ public class DriveForDegree extends Task{
 	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveForDegree(double _degreesToTurn, double _timeoutTime, boolean _reversed){
-		this.priority = RobotConstants.MED_PRI;
-		interruptible = true;
+	public DriveStraight(double _degreesToTurn, boolean _reversed){
+		interruptible = false;
 		degreesToTurn = _degreesToTurn;
-		timeoutTime = _timeoutTime;
-		drive = new Drive(0,0);
-		timer = new Timer();
-		pid = new PidHelper(0.8, 0, 0, 0.5/180);
+		drive = new Drive(0, 0);
+		this.priority = RobotConstants.MED_PRI;
 		reversed = _reversed;
-	}
 
+	}
+//	public DriveStraight(){
+//		interruptible = false;
+//		drive = new Drive(0, 0);
+//		this.priority = RobotConstants.LOW_PRI;
+//	}
+	
 	/**
 	 * This is called when the command is first added to the task manager
 	 */
 	@Override
 	public void init(){
-	   	timer.reset();
+		pid = new PidHelper(0.2, 0, 0, 2);
+	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
+	   	isFinished = false;
 	}
 	
 	/**
@@ -67,27 +72,40 @@ public class DriveForDegree extends Task{
 	@Override
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
-		double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
-		power = pid.run( 1 , angleDif / degreesToTurn, timer.get());
-
-		if (reversed){
-			drive.setLeftPower(power);
-			drive.setRightPower(-power);
-		} else {
-			drive.setLeftPower(-power);
+	//	double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
+		power = pid.run(degreesToTurn, currentDegree , timer.get());
+		//power = Math.min(power, 0.3);
+		//power = Math.max(power, -0.3);
+		
+		//if (reversed){power = -power;};
+		
+		if (pid.isFinished()){
+			//0.3 for rock wall
+			//0.4 for rock wall and ramparts
+			power = 0.4;
+			if (reversed){power = -power;};
 			drive.setRightPower(power);
+			drive.setLeftPower(power);
+		} else {
+			if (!reversed){
+				if (power < 0){
+					drive.setRightPower(-power);
+				}else{
+					drive.setLeftPower(power);
+				}
+			}
+			else {
+				if (power > 0){
+					drive.setRightPower(-power);
+				}else{
+					drive.setLeftPower(power);
+				}
+			}
 		}
-		
+		Logging.DebugPrint(""+power);
 		drive.execute();
-//		RobotMap.DriveFrontRightTalon.set(power);
-//		RobotMap.DriveRearRightTalon.set(power);
-//		RobotMap.DriveFrontLeftTalon.set(power);
-//		RobotMap.DriveRearLeftTalon.set(power);
 		
-		if(pid.isFinished() || timer.get() > timeoutTime){
-			isFinished = true;
-			Logging.DebugPrint("finished");
-		}
+		isFinished = false;
 	}
 	
 	/**
@@ -97,5 +115,11 @@ public class DriveForDegree extends Task{
 	public void end(){
 		drive.setPower(0);
 		drive.execute();
+	}
+	public void setTargetHeading(double target){
+		degreesToTurn = target;
+	}
+	public void setFinished(boolean value){
+		isFinished = value;
 	}
 }
