@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.updators;
 
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.RampDownHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
@@ -27,8 +28,10 @@ public class NewCurrentManager {
 	public void update(){
 		voltage = Sensors.getVoltage();
 		if (voltage<=limitingThreshold){
+			Logging.DebugPrint("lowering power, voltage: " + voltage);
 			outputPower -= 0.001;
 		} else if(outputPower < 0.999) {
+			Logging.DebugPrint("raising power, voltage: " + voltage);
 			outputPower += 0.002;
 		}
 	}

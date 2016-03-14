@@ -68,4 +68,10 @@ public class Drive extends Task{
 		rightPower = power;
 		leftPower = power;
 	}
+	public double getRightPower(){
+		return rightPower;
+	}
+	public double getLeftPower(){
+		return leftPower;
+	}
 }

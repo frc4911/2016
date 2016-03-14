@@ -39,12 +39,15 @@ public class Inputs {
 	static boolean extenderToggle = true;
 	static boolean rollerToggle = true;
 
+	static double rollerPower;
+	
 	static boolean testToggle = true;
 	
-	static DriveStraight driveStraightTask = new DriveStraight(0,false);
-	static DriveStraight driveReverseTask = new DriveStraight(0,true);
+//	static DriveStraight driveStraightTask = new DriveStraight(0,false);
+//	static DriveStraight driveReverseTask = new DriveStraight(0,true);
 
 	public static void init(){
+		modeToggle = true;
 		initCycleTasks();
 	}
 	
@@ -65,6 +68,7 @@ public class Inputs {
 			 */
 			
 			if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
+				Logging.DebugPrint("LEFT: "+ -leftPower +" RIGHT: " + -rightPower);
 				Robot.taskManager.addDriveTask(new OperatorDrive(-leftPower, -rightPower));
 			}else{
 				Robot.taskManager.addDriveTask(new Drive(0,0));
@@ -76,25 +80,25 @@ public class Inputs {
 				Robot.taskManager.addDriveTask(new DriveForDegree(-90,1,false));;
 			}
 			
-			if(ControllerMappings.leftJukeButton1.getDown()){
-				driveStraightTask.setTargetHeading(Sensors.getImu().getYaw());
-				Robot.taskManager.addDriveTask(driveStraightTask);
-				System.out.println("down");
-			}
-			if(ControllerMappings.leftJukeButton1.getUp()){
-				driveStraightTask.setFinished(true);
-				System.out.println("up");
-			}
-			
-			if(ControllerMappings.leftJukeButton2.getDown()){
-				driveReverseTask.setTargetHeading(Sensors.getImu().getYaw());
-				Robot.taskManager.addDriveTask(driveReverseTask);
-				System.out.println("down");
-			}
-			if(ControllerMappings.leftJukeButton2.getUp()){
-				driveReverseTask.setFinished(true);
-				System.out.println("up");
-			}
+//			if(ControllerMappings.leftJukeButton1.getDown()){
+//				driveStraightTask.setTargetHeading(Sensors.getImu().getYaw());
+//				Robot.taskManager.addDriveTask(driveStraightTask);
+//				System.out.println("down");
+//			}
+//			if(ControllerMappings.leftJukeButton1.getUp()){
+//				driveStraightTask.setFinished(true);
+//				System.out.println("up");
+//			}
+//			
+//			if(ControllerMappings.leftJukeButton2.getDown()){
+//				driveReverseTask.setTargetHeading(Sensors.getImu().getYaw());
+//				Robot.taskManager.addDriveTask(driveReverseTask);
+//				System.out.println("down");
+//			}
+//			if(ControllerMappings.leftJukeButton2.getUp()){
+//				driveReverseTask.setFinished(true);
+//				System.out.println("up");
+//			}
 			
 			Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)/5));
 			
@@ -124,33 +128,60 @@ public class Inputs {
 			if(ControllerMappings.rollerCycleDownButton.getDown()){
 				rollerCycle.CycleDown();
 				Robot.taskManager.addRollerTask(rollerCycle);		}
-			if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
-			&& ControllerMappings.extenderExtendButton.getDown()){
-				RobotMap.ExtenderSolenoid.set(extenderToggle);
-				extenderToggle = !extenderToggle;
-			}
+//			if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
+//			&& ControllerMappings.extenderExtendButton.getDown()){
+//				RobotMap.ExtenderSolenoid.set(extenderToggle);
+//				extenderToggle = !extenderToggle;
+//			}
 	
 			/**
 			 * DRIVE SHIFTING
 			 */
 			//TODO: set shifting to activate for current draw or rpm
-			if(ControllerMappings.rightJukeButton1.getDown()){
+			if(ControllerMappings.leftJukeButton2.getDown()){
 				RobotMap.DriveSolenoid.set(Value.kForward);
 			}
-			if(ControllerMappings.rightJukeButton2.getDown()){
+			if(ControllerMappings.leftJukeButton1.getDown()){
 				RobotMap.DriveSolenoid.set(Value.kReverse);
 			}
 			
 			/**
 			 * ROLLER CONTROLER
 			 */
-			Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,-ControllerMappings.payloadJoy.getRawAxis(5)*.75));
+			
+			boolean running = false;
+			rollerPower = ControllerMappings.payloadJoy.getRawAxis(5)*.75;
+			// potentiometer spins opposite of actuator
+//			if(RobotMap.RollerPotentiometer.get() < RobotConstants.RollerPotentiometerMin &&
+//					RobotMap.RollerPotentiometer.get() > RobotConstants.RollerPotentiometerMax){
+//				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,rollerPower));
+//				running = true;
+//			}else{
+//				// roller > 0 is moving down
+//				if(RobotMap.RollerPotentiometer.get() > RobotConstants.RollerPotentiometerMin && rollerPower > 0){
+//					Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,rollerPower));
+//					running = true;
+//				}
+//				// roller < 0 is moving up
+//				if (RobotMap.RollerPotentiometer.get() < RobotConstants.RollerPotentiometerMax && rollerPower < 0){
+//					Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,rollerPower));
+//					running = true;
+//				}
+//			}
+//			
+//			if (!running){
+//				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,0));
+//			}
+			Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,rollerPower));
+
+			
 			//This sets the brakes to open if the power signal to the roller talon is greater than 0.1
 			if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.1){
 				RobotMap.RollerBarSolenoid.set(false);
 			}else{
 				RobotMap.RollerBarSolenoid.set(true);
 			}
+			Logging.DebugPrint("POTENTIOMETER "+RobotMap.RollerPotentiometer.get());
 			if (ControllerMappings.rollerRoller.getDown()){
 				if (rollerToggle){
 					RobotMap.RollerRollerMotor.setPower(0.3);
@@ -169,7 +200,13 @@ public class Inputs {
 				Robot.taskManager.addDriveTask(new Drive(0,0));
 			}
 			
-			Robot.taskManager.addScaleTask(new ManualScale(ControllerMappings.payloadJoy.getRawAxis(1),ControllerMappings.payloadJoy.getRawAxis(5)));
+			Robot.taskManager.addScaleTask(new ManualScale(ControllerMappings.payloadJoy.getRawAxis(5),ControllerMappings.payloadJoy.getRawAxis(1)));
+			if(Math.abs(RobotMap.ScaleLeftTalon.get()) > 0.03 || Math.abs(RobotMap.ScaleRightTalon.get())>0.03){
+			//if(ControllerMappings.payloadJoy.getRawButton(1)){
+				RobotMap.ScaleSolenoid.set(true);
+			}else{
+				RobotMap.ScaleSolenoid.set(false);
+			}
 			
 		}
 	}
@@ -185,9 +222,9 @@ public class Inputs {
 		});
 		//TODO: Set to proper degrees and tune pid
 		rollerCycle = new CycleTask(new Task[]{
-			new SpinToPotentiometerValue(RobotMap.RollerBarMotor,RobotConstants.RollerPotentiometerZero , 0.5,1),
-			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
-			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerZero - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.RollerBarMotor,RobotConstants.RollerPotentiometerMax , 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
 		});
 	}
 	

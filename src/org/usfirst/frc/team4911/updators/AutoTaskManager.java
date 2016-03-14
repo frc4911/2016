@@ -30,6 +30,7 @@ public class AutoTaskManager {
 			if (!currentTask.getFinished() && times.get(0) > timer.get()){
 				currentTask.execute();
 			}else{
+				tasks.get(0).end();
 				tasks.remove(0);
 				times.remove(0);
 				timer.reset();

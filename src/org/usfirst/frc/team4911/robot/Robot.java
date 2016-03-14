@@ -1,10 +1,12 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
+import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
+import org.usfirst.frc.team4911.tasks.SpinToPower;
+import org.usfirst.frc.team4911.tasks.Task;
 import org.usfirst.frc.team4911.updators.AutoTaskManager;
 import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
@@ -29,7 +31,9 @@ public class Robot extends IterativeRobot {
 	public static boolean operatorDrive;
 	public static TaskManager taskManager;
     final String defaultAuto = "Default";
-    final String customAuto = "My Auto";
+    final  String rampartsAuto = "RAMPARTS";
+    final  String lowBarAuto = "Low Bar";
+
     String autoSelected;
     SendableChooser chooser;
     public CameraServer cameraServer;
@@ -48,8 +52,10 @@ public class Robot extends IterativeRobot {
     	taskManager.init();
     	Sensors.init();
         chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", defaultAuto);
-        chooser.addObject("My Auto", customAuto);
+        chooser.addDefault("OTHER DEFENSES", defaultAuto);
+        chooser.addObject("Rock WAll", rampartsAuto);
+        chooser.addObject("LOW BAR", lowBarAuto);
+
         SmartDashboard.putData("Auto choices", chooser);
         driveCurrentManager = new NewCurrentManager(10);
  //   	s = new Solenoid(1,2);
@@ -75,30 +81,40 @@ public class Robot extends IterativeRobot {
 		System.out.println("Auto selected: " + autoSelected);
 		autoTaskManager = new AutoTaskManager();
 		autoTaskManager.init();
-		autoTaskManager.addTask(new DriveStraight(0,false),1);
-		autoTaskManager.addTask(new DriveForDegree(-90,1,false),1);
-		autoTaskManager.addTask(new DriveStraight(0,true),2);
-		
+		//autoTaskManager.addTask(new DriveForDegree(-90,1,false),1);
+		//autoTaskManager.addTask(new DriveStraight(0,true),2);
 		Sensors.getImu().zeroYaw();
+		
+//		switch(autoSelected) {
+//		case rampartsAuto:
+//			//Put custom auto code here   
+//			autoTaskManager.addTask(new DriveStraight(0,0.7,false),5);
+//			break;
+//		case lowBarAuto:
+//			//Put custom auto code here   
+//			autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
+//			autoTaskManager.addTask(new Task(),1);
+//			autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
+//
+//			autoTaskManager.addTask(new DriveStraight(0,0.4,false),8);
+//			break;
+//		case defaultAuto:
+//		default:
+//			//Put default auto code here
+//			break;
+//		}
+		autoTaskManager.addTask(new DriveStraight(0,0.4,false),8);
+		
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	switch(autoSelected) {
-    	case customAuto:
-        //Put custom auto code here   
-            break;
-    	case defaultAuto:
-    	default:
-    	//Put default auto code here
-            break;
-    	}
     	Sensors.update();
     	autoTaskManager.update();
     	Logging.DebugPrint("Auto: " + Sensors.getImuYawValue());
-
+    	
     }
 
     /**
@@ -114,9 +130,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	Logging.DebugPrint("Teleop: " + Sensors.getImuYawValue());
-    	driveCurrentManager.update();
-    	RobotMap.driveCurrentManager.update();
+//    	driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
@@ -124,6 +138,9 @@ public class Robot extends IterativeRobot {
 //    	s.set(true);
     	//Logging.DebugPrint(""+RobotMap.ExtenderPotentiometer.get());
     	//s.set(true);	
+    	//Logging.DebugPrint("talonfront: " + RobotMap.DriveFrontLeftTalon.getOutputVoltage());
+    	//Logging.DebugPrint("talonmid: " + RobotMap.DriveMidLeftTalon.getBusVoltage());
+    	//Logging.DebugPrint("talonrear: " + RobotMap.DriveRearLeftTalon.getBusVoltage());
     }
     
     /**

@@ -25,6 +25,7 @@ public class DriveStraight extends Task{
 	double currentDegree;
 	double startDegree;
 	double degreesToTurn;
+	double basePower;
 	Drive drive;
 	int i;
 	PidHelper pid;
@@ -40,12 +41,13 @@ public class DriveStraight extends Task{
 	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveStraight(double _degreesToTurn, boolean _reversed){
+	public DriveStraight(double _degreesToTurn, double _basePower, boolean _reversed){
 		interruptible = false;
 		degreesToTurn = _degreesToTurn;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
 		reversed = _reversed;
+		basePower = _basePower;
 
 	}
 //	public DriveStraight(){
@@ -59,7 +61,7 @@ public class DriveStraight extends Task{
 	 */
 	@Override
 	public void init(){
-		pid = new PidHelper(0.2, 0, 0, 2);
+		pid = new PidHelper(0.25, 0, 0, 2);
 	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
@@ -82,7 +84,7 @@ public class DriveStraight extends Task{
 		if (pid.isFinished()){
 			//0.3 for rock wall
 			//0.4 for rock wall and ramparts
-			power = 0.4;
+			power = basePower;
 			if (reversed){power = -power;};
 			drive.setRightPower(power);
 			drive.setLeftPower(power);
@@ -102,7 +104,9 @@ public class DriveStraight extends Task{
 				}
 			}
 		}
-		Logging.DebugPrint(""+power);
+//		Logging.DebugPrint("RIGHT"+drive.getRightPower());
+//		Logging.DebugPrint("LEFT"+drive.getLeftPower());
+
 		drive.execute();
 		
 		isFinished = false;

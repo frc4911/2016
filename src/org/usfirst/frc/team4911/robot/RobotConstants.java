@@ -62,25 +62,25 @@ public class RobotConstants {
 	//ROLLER
 	public static int RollerBarTalonPort = 14;
 	public static int RollerRollerTalonPort = 13;
-	public static final double RollerPotentiometerZero = 0.1774;
-	public static final double RollerPotentiometerMax =  0.1567;
+	public static final double RollerPotentiometerMax = 0.3332; 
+	public static final double RollerPotentiometerMin =  0.3660;
 	
 	public static final int RollerBarSolenoidPort = 6;
 
 
 	
-	public static int RollerPotentiometerPort = 0;
+	public static int RollerPotentiometerPort = 1;
 	
 	//SCALE
 	public static int ScaleRightTalonPort = 2;
-	public static int ScaleLeftTalonPort = 1;
+	public static int ScaleLeftTalonPort = 3;
 	
 	public static int ScaleRightEncoderPortA;
 	public static int ScaleRightEncoderPortB;
 	public static int ScaleLeftEncoderPortA;
 	public static int ScaleLeftEncoderPortB;
 	
-	public static int ScaleSolenoidPort;
+	public static int ScaleSolenoidPort = 5;
 	
 	//SHOOTER
 	public static int ShooterLeftTalonPort;

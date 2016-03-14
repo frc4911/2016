@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.robot.RobotMap;
 
@@ -21,9 +22,9 @@ public class ManualScale extends Task {
 	 * @param _motor the motor to set the power for
 	 * @param _power the power to spin the motor to
 	 */
-	public ManualScale(double _rightPower, double _leftPower){
-		leftPower = _rightPower;
-		rightPower = _leftPower;
+	public ManualScale(double _leftPower, double _rightPower){
+		leftPower = _leftPower;
+		rightPower = _rightPower;
 	}
 
 	/**
@@ -38,8 +39,10 @@ public class ManualScale extends Task {
 	 */
 	@Override
 	public void execute(){
-		RobotMap.ScaleLeftMotor.setPower(leftPower);
-		RobotMap.ScaleRightMotor.setPower(rightPower);
+		Logging.DebugPrint("Left: "+leftPower);
+		RobotMap.ScaleLeftTalon.set(leftPower);
+		Logging.DebugPrint("Right: "+rightPower);
+		RobotMap.ScaleRightTalon.set(rightPower);
 
 		isFinished = true;
 	}
