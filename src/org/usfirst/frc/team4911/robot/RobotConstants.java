@@ -91,7 +91,7 @@ public class RobotConstants {
 	public static int ShooterRightSolenoidPort;
 
 	public static int ShooterEncoderPortA;
-	public static int ShooterEncoderPortB;
+	public static double ShooterSpinup;
 	
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;

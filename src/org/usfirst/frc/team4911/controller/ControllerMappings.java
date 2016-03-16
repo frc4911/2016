@@ -52,9 +52,11 @@ public class ControllerMappings {
 	public static Button rollerCycleUpButton = new Button(payloadJoy,1);
 	public static Button rollerCycleDownButton = new Button(payloadJoy,2);
 	public static Button rollerRoller = new Button(payloadJoy,5);
-	
-	public static Button extenderManualUpButton;
-	public static Button extenderManualDownButton;
+
+	public static Button shooterShoot = new Button(payloadJoy,5);
+	public static Button shooterPrime = new Button(payloadJoy,6);
+	public static Trigger shooterCollect = new Trigger(payloadJoy,2);
+	public static Trigger shooterEject = new Trigger(payloadJoy,3);
 	
 	
 

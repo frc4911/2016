@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Inputs {
@@ -41,6 +42,8 @@ public class Inputs {
 
 	static double rollerPower;
 	
+	static Timer shooterTimer;
+	
 	static boolean testToggle = true;
 	
 //	static DriveStraight driveStraightTask = new DriveStraight(0,false);
@@ -48,6 +51,7 @@ public class Inputs {
 
 	public static void init(){
 		modeToggle = true;
+		shooterTimer = new Timer();
 		initCycleTasks();
 	}
 	
@@ -181,15 +185,49 @@ public class Inputs {
 			}else{
 				RobotMap.RollerBarSolenoid.set(true);
 			}
-			Logging.DebugPrint("POTENTIOMETER "+RobotMap.RollerPotentiometer.get());
-			if (ControllerMappings.rollerRoller.getDown()){
-				if (rollerToggle){
-					RobotMap.RollerRollerMotor.setPower(0.3);
-				} else {
-					RobotMap.RollerRollerMotor.setPower(0);
-				}
-				rollerToggle = !rollerToggle;
+			
+			
+			/**
+			 * SHOOTER CONTROLLS
+			 */
+			
+			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
+				//Shoot
+				RobotMap.ShooterSolenoid.set(true);
+			} else if (ControllerMappings.shooterPrime.get()){
+				//Spin up shooter
+				//Start shooter time
+				shooterTimer.start();
+				RobotMap.ShooterLeftMotor.setPower(1);
+				RobotMap.ShooterRightMotor.setPower(-1);
+				RobotMap.RollerRollerMotor.setPower(0);
+			} else if(ControllerMappings.shooterPrime.getUp()){
+				//Stop shooter spin up
+				//Reset shooter time
+				shooterTimer.reset();
+				shooterTimer.stop();
+				
+			} else if(ControllerMappings.shooterCollect.getPressed(0.2)){
+				//Collect
+				RobotMap.ShooterRightMotor.setPower(-1);
+				RobotMap.ShooterLeftMotor.setPower(1);
+				RobotMap.RollerRollerMotor.setPower(1);
+			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
+				//Eject
+				RobotMap.ShooterRightMotor.setPower(1);
+				RobotMap.ShooterLeftMotor.setPower(-1);
+				RobotMap.RollerBarMotor.setPower(-1);
+			} else if (ControllerMappings.rollerRoller.get()){
+				//Roller bar roll
+				RobotMap.RollerBarMotor.setPower(-1);				
+			} else{
+				//Stop all
+				RobotMap.ShooterRightMotor.setPower(0);
+				RobotMap.ShooterLeftMotor.setPower(0);
+				RobotMap.RollerBarMotor.setPower(0);
 			}
+			
+			
 		} else {
 			/**
 			 * SCALE MODE CODE

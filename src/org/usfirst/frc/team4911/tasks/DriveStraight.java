@@ -91,9 +91,12 @@ public class DriveStraight extends Task{
 		} else {
 			if (!reversed){
 				if (power < 0){
-					drive.setRightPower(-power);
+					drive.setRightPower(basePower+power);
+					drive.setLeftPower(basePower-power);
+
 				}else{
-					drive.setLeftPower(power);
+					drive.setRightPower(basePower-power);
+					drive.setLeftPower(basePower+power);
 				}
 			}
 			else {

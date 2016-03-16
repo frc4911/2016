@@ -71,9 +71,10 @@ public class RobotMap {
 	public static CANTalon ShooterRightTalon;
 	public static CANTalon ShooterLiftTalon;
 	
-	public static Solenoid ShooterLeftSolenoid;
-	public static Solenoid ShooterRightSolenoid;
+	public static Solenoid ShooterSolenoid;
+	public static Solenoid ShooterBrakeSolenoid;
 
+	
 	public static Encoder ShooterEncoder;
 	
 	public static Motor ShooterLeftMotor;
