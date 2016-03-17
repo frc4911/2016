@@ -92,11 +92,13 @@ public class RobotConstants {
 
 	public static int ShooterEncoderPortA;
 	public static double ShooterSpinup;
+	public static double shooterCollectEcnoderValue = 25;
+
 	
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;
 	public static final int ExtenderPotentiometerPort = 0;
-	public static final double ExtenderPotentiometerZero = 0.1774;
+	public static final double ShooterLiftZero = 0.1774;
 	public static final double ExtenderPotentiometerMax =  0.1567;
 
 	public static final double ExtenderWheelClearnace = 0.000;

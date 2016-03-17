@@ -29,7 +29,6 @@ public class Sensors {
 	*/
     public static void init() {
         Imu = new AHRS(SPI.Port.kMXP);
-        Imu.reset();
         Imu.zeroYaw();
         panel = new PowerDistributionPanel(0);
     }

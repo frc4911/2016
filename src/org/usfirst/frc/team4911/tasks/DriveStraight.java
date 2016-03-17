@@ -9,6 +9,7 @@ import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.Sensors;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Task for turning a set amount.
@@ -76,8 +77,9 @@ public class DriveStraight extends Task{
 		currentDegree = Sensors.getImuYawValue();
 	//	double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
 		power = pid.run(degreesToTurn, currentDegree , timer.get());
-		//power = Math.min(power, 0.3);
-		//power = Math.max(power, -0.3);
+		SmartDashboard.putNumber("PID", power);
+		power = Math.min(power, basePower);
+		power = Math.max(power, -basePower);
 		
 		//if (reversed){power = -power;};
 		
@@ -90,14 +92,14 @@ public class DriveStraight extends Task{
 			drive.setLeftPower(power);
 		} else {
 			if (!reversed){
-				if (power < 0){
-					drive.setRightPower(basePower+power);
-					drive.setLeftPower(basePower-power);
-
-				}else{
-					drive.setRightPower(basePower-power);
-					drive.setLeftPower(basePower+power);
-				}
+//				if (power < 0){
+				drive.setLeftPower(basePower+power);
+				drive.setRightPower(basePower-power);
+//
+//				}else{
+//					drive.setRightPower(basePower-power);
+//					drive.setLeftPower(basePower+power);
+//				}
 			}
 			else {
 				if (power > 0){
