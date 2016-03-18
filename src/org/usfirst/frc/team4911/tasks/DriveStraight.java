@@ -62,7 +62,7 @@ public class DriveStraight extends Task{
 	 */
 	@Override
 	public void init(){
-		pid = new PidHelper(0.25, 0, 0, 2);
+		pid = new PidHelper(0.01, 0, 0, 2);
 	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
@@ -93,8 +93,8 @@ public class DriveStraight extends Task{
 		} else {
 			if (!reversed){
 //				if (power < 0){
-				drive.setLeftPower(basePower+power);
-				drive.setRightPower(basePower-power);
+			drive.setLeftPower(basePower+power);
+			drive.setRightPower(basePower-power);
 //
 //				}else{
 //					drive.setRightPower(basePower-power);

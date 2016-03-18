@@ -84,6 +84,7 @@ public class SpinToPotentiometerValue extends Task {
 	 */
 	@Override
 	public void end(){
+		talon.set(0);
 		Logging.DebugPrint("Done");
 	}
 }

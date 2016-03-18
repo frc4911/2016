@@ -141,7 +141,7 @@ public class RobotMap {
     	
     	RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
-    	RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 0.1, 0.0, 0.0);
+    	RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 15, 0.0, 0.0);
     	RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
@@ -159,18 +159,17 @@ public class RobotMap {
     	 
     	//SHOOTER
 
-    	//ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
-    	//ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
-    	//ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
+    	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
+    	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
+    	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
    	
-    	//ShooterLeftSolenoid = new Solenoid(RobotConstants.ShooterLeftSolenoidPort);
-    	//ShooterRightSolenoid = new Solenoid(RobotConstants.ShooterRightSolenoidPort);
+    	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPort);
 
-    	//ShooterEncoder = new Encoder(RobotConstants.ShooterEncoderPortA,RobotConstants.ShooterEncoderPortB);
+//    	ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
     	
-    	//ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
-    	//ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	//ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterLiftEncoder, null, 0.01, 0.0, 0.0);
+    	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
+    	ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
+    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, 0.01, 0.0, 0.0);
     	 
     	//EXTENDER
 

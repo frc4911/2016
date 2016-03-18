@@ -4,6 +4,7 @@ package org.usfirst.frc.team4911.robot;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
+import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
 import org.usfirst.frc.team4911.tasks.SpinToPower;
 import org.usfirst.frc.team4911.tasks.Task;
@@ -89,15 +90,21 @@ public class Robot extends IterativeRobot {
 		switch(autoSelected) {
 		case rampartsAuto:
 			//Put custom auto code here   
-			autoTaskManager.addTask(new DriveStraight(0,1,false),5);
+			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.4,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.6,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.8,false),3.5);
 			break;
 		case lowBarAuto:
 			//Put custom auto code here   
-			autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
-			autoTaskManager.addTask(new Task(),1);
-			autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
-
-			autoTaskManager.addTask(new DriveStraight(0,0.4,false),8);
+			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
+			//autoTaskManager.addTask(new Task(),1);
+			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax, 1, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, false), 0.1);
+			autoTaskManager.addTask(new DriveStraight(0,0.4,false),7);
 			break;
 		case defaultAuto:
 		default:
