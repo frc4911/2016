@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team4911.robot;
 
-import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.helpers.*;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
@@ -124,7 +124,6 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT:  ", RobotMap.DriveFrontLeftTalon.get() + RobotMap.DriveMidLeftTalon.get() + RobotMap.DriveRearLeftTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT: ", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
-    	
     }
 
     /**
@@ -134,23 +133,20 @@ public class Robot extends IterativeRobot {
     	Inputs.init();
     	//Sensors.getImu().zeroYaw();
     	taskManager.init();
+    	
+    	// Create the log file
+    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
+    	logFileHandler.CreateLogFile();
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-//    	driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
     	SmartDashboard.putBoolean("MODE", Inputs.getMode());
-//    	s.set(true);
-    	//Logging.DebugPrint(""+RobotMap.ExtenderPotentiometer.get());
-    	//s.set(true);	
-    	//Logging.DebugPrint("talonfront: " + RobotMap.DriveFrontLeftTalon.getOutputVoltage());
-    	//Logging.DebugPrint("talonmid: " + RobotMap.DriveMidLeftTalon.getBusVoltage());
-    	//Logging.DebugPrint("talonrear: " + RobotMap.DriveRearLeftTalon.getBusVoltage());
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT", RobotMap.DriveFrontLeftTalon.get() + RobotMap.DriveMidLeftTalon.get() + RobotMap.DriveRearLeftTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
@@ -158,14 +154,9 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
     	SmartDashboard.putNumber("Potentiometer", RobotMap.RollerPotentiometer.get());
 
-//   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Front", RobotMap.DriveFrontRightTalon.get());
-//    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Mid", RobotMap.DriveMidRightTalon.get());
-//   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Rear", RobotMap.DriveRearRightTalon.get());
-//    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Front", RobotMap.DriveFrontLeftTalon.get());
-//   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Mid", RobotMap.DriveMidLeftTalon.get());
-//    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFTRear", RobotMap.DriveRearLEftTalon.get());
-    	
-
+    	// Write an entry to the log file
+    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
+    	logFileHandler.WriteLogEntry();
     }
     
     /**

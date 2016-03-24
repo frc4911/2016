@@ -89,7 +89,7 @@ public class RobotMap {
 	public static Motor ExtenderMotor;
 	
 	//Current Managers
-	static NewCurrentManager driveCurrentManager;
+	public static NewCurrentManager driveCurrentManager;
 	
 	//JOYSTICS
 	public static Joystick LeftJoy;
