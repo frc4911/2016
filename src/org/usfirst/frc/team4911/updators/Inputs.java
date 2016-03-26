@@ -42,6 +42,7 @@ public class Inputs {
 	static boolean rollerToggle = true;
 
 	static double rollerPower;
+	static Timer rollerTimer;
 	
 	static Timer shooterTimer;
 	
@@ -54,6 +55,7 @@ public class Inputs {
 		modeToggle = true;
 		payloadManualOverride = false;
 		shooterTimer = new Timer();
+		rollerTimer = new Timer();
 //		initCycleTasks();
 	}
 	
@@ -157,6 +159,20 @@ public class Inputs {
 			 * ROLLER CONTROLER
 			 */
 			
+			
+			if(ControllerMappings.shooterCollect.getPressed(0.2)){
+				//Collect
+				rollerTimer.start();
+				RobotMap.RollerRollerMotor.setPower(-0.5);
+			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
+				//Eject
+				RobotMap.RollerRollerMotor.setPower(1);
+			}else{
+				rollerTimer.stop();
+				rollerTimer.reset();
+				RobotMap.RollerRollerMotor.setPower(0);
+			}
+				
 			if (payloadManualOverride == false){
 				boolean running = false;
 				rollerPower = ControllerMappings.payloadJoy.getRawAxis(5)*.75;
@@ -200,42 +216,42 @@ public class Inputs {
 				
 			}
 			
-			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
-				//Shoot
-				RobotMap.ShooterSolenoid.set(true);
-			} else if (ControllerMappings.shooterPrime.get()){
-				//Spin up shooter
-				//Start shooter time
-				shooterTimer.start();
-				RobotMap.ShooterLeftMotor.setPower(1);
-				RobotMap.ShooterRightMotor.setPower(-1);
-				RobotMap.RollerRollerMotor.setPower(0);
-			} else if(ControllerMappings.shooterPrime.getUp()){
-				//Stop shooter spin up
-				RobotMap.ShooterRightMotor.setPower(0);
-				RobotMap.ShooterLeftMotor.setPower(0);
-				//Reset shooter time
-				shooterTimer.reset();
-				shooterTimer.stop();
-			} else if(ControllerMappings.shooterCollect.getPressed(0.2)){
-				//Collect
-				RobotMap.ShooterRightMotor.setPower(-1);
-				RobotMap.ShooterLeftMotor.setPower(1);
-				RobotMap.RollerRollerMotor.setPower(1);
-			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
-				//Eject
-				RobotMap.ShooterRightMotor.setPower(1);
-				RobotMap.ShooterLeftMotor.setPower(-1);
-				RobotMap.RollerRollerMotor.setPower(-1);
-			} else if (ControllerMappings.rollerRoller.get()){
-				//Roller bar roll
-				RobotMap.RollerRollerMotor.setPower(-1);				
-			} else{
-				//Stop all
-				RobotMap.ShooterRightMotor.setPower(0);
-				RobotMap.ShooterLeftMotor.setPower(0);
-				RobotMap.RollerRollerMotor.setPower(0);
-			}
+//			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
+//				//Shoot
+//				RobotMap.ShooterSolenoid.set(true);
+//			} else if (ControllerMappings.shooterPrime.get()){
+//				//Spin up shooter
+//				//Start shooter time
+//				shooterTimer.start();
+//				RobotMap.ShooterLeftMotor.setPower(1);
+//				RobotMap.ShooterRightMotor.setPower(-1);
+//				RobotMap.RollerRollerMotor.setPower(0);
+//			} else if(ControllerMappings.shooterPrime.getUp()){
+//				//Stop shooter spin up
+//				RobotMap.ShooterRightMotor.setPower(0);
+//				RobotMap.ShooterLeftMotor.setPower(0);
+//				//Reset shooter time
+//				shooterTimer.reset();
+//				shooterTimer.stop();
+//			} else if(ControllerMappings.shooterCollect.getPressed(0.2)){
+//				//Collect
+//				RobotMap.ShooterRightMotor.setPower(-1);
+//				RobotMap.ShooterLeftMotor.setPower(1);
+//				RobotMap.RollerRollerMotor.setPower(1);
+//			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
+//				//Eject
+//				RobotMap.ShooterRightMotor.setPower(1);
+//				RobotMap.ShooterLeftMotor.setPower(-1);
+//				RobotMap.RollerRollerMotor.setPower(-1);
+//			} else if (ControllerMappings.rollerRoller.get()){
+//				//Roller bar roll
+//				RobotMap.RollerRollerMotor.setPower(-1);				
+//			} else{
+//				//Stop all
+//				RobotMap.ShooterRightMotor.setPower(0);
+//				RobotMap.ShooterLeftMotor.setPower(0);
+//				RobotMap.RollerRollerMotor.setPower(0);
+//			}
 			
 			if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.05){
 				RobotMap.RollerBarSolenoid.set(false);

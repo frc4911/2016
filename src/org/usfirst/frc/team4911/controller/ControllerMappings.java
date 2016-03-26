@@ -33,6 +33,10 @@ public class ControllerMappings {
 	
 	public static Button leftJukeButton1 = new Button(leftJoy,3);
 	public static Button leftJukeButton2 = new Button(leftJoy,4);
+	
+	public static Button autoSelectorLow = new Button(leftJoy,11);
+	public static Button autoSelectorOther = new Button(leftJoy,12);
+	
 	public static Button leftJukeButton3;
 	public static Button leftJukeButton4;
 	
