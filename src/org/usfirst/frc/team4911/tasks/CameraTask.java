@@ -1,0 +1,139 @@
+package org.usfirst.frc.team4911.tasks;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+
+import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.helpers.PidHelper;
+import org.usfirst.frc.team4911.robot.RobotConstants;
+import org.usfirst.frc.team4911.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
+public class CameraTask extends Task{
+	private double objectHeight;
+	private double focalLength;
+	private double imageHeight;
+	private double sensorHeight;
+	private double height;
+	private double xPosition;
+	private double power;
+	private double maxPower;
+	
+	private Timer timer;
+	
+	private double width;
+	
+    private NetworkTable cameraTable;
+	private LinkedList<Integer> averageList;
+	
+	private PidHelper pidHelper;
+	
+	/**
+	 * A class that uses camera data so that
+	 * the robot will be able to line itself up
+	 * with the goal.
+	 * 
+	 */
+	public CameraTask(double _objectHeight,double _focalLength,double _imageHeight,double _sensorHeight, double _maxPower){
+		objectHeight = _objectHeight;
+		focalLength = _focalLength;
+		imageHeight = _imageHeight;
+		sensorHeight = _sensorHeight;
+		maxPower = _maxPower;
+		averageList = new LinkedList<Integer>();
+        cameraTable = NetworkTable.getTable("GRIP/myContoursReport");
+        pidHelper = new PidHelper(1,0,0,20);
+        timer = new Timer();
+        timer.start();
+        
+	}
+
+	/**
+	 * This is called when the command is first added to the task manager
+	 */
+	@Override
+	public void init(){
+		
+	}
+	
+	/**
+	 * This is called constantly called by the task manager
+	 */
+	@Override
+	public void execute(){
+    	if (cameraTable.getNumberArray("height", new double[0]).length != 0){
+    		height = cameraTable.getNumberArray("height", new double[0])[0];
+    	} else{
+    		height = 0;
+    	}
+    	if (cameraTable.getNumberArray("centerX", new double[0]).length != 0){
+    		xPosition = cameraTable.getNumberArray("centerX", new double[0])[0];
+    	} else{
+    		xPosition = 0;
+    	}
+    	if (cameraTable.getNumberArray("width", new double[0]).length != 0){
+    		width = cameraTable.getNumberArray("width", new double[0])[0];
+    	} else{
+    		width = 0;
+    	}
+    	
+    	pidHelper.setThreshold(width);
+    	power = pidHelper.run(RobotConstants.cameraWidth/2, xPosition, timer.get());
+    	
+    	if (pidHelper.isFinished()){
+    		power = 0.2;
+    		RobotMap.DriveFrontRightTalon.set(-power);
+    		RobotMap.DriveRearRightTalon.set(-power);
+    		RobotMap.DriveFrontLeftTalon.set(power);
+    		RobotMap.DriveRearLeftTalon.set(power);
+    	}else{
+    		power = Math.min(maxPower, power);
+    		power = Math.max(-maxPower, power);
+    		
+    		if(xPosition>RobotConstants.cameraWidth/2){
+    			RobotMap.DriveFrontLeftTalon.set(-power);
+    			RobotMap.DriveRearLeftTalon.set(-power);
+    		}else{
+    			RobotMap.DriveFrontRightTalon.set(-power);
+    			RobotMap.DriveRearRightTalon.set(-power);
+    		}
+    	}
+    	
+    	Logging.DebugPrint ("DISTANCE: "+computeDistance(run(height))*0.0394);
+//    	Logging.DebugPrint ("HEIGHT AVERAGE: "+run(height));
+
+    	
+		
+		isFinished = false;
+	}
+	
+	/**
+	 * Called when the task has ended.
+	 */
+	@Override
+	public void end(){
+	}
+	
+	public double computeDistance(double _height){
+		
+		return (focalLength*objectHeight*imageHeight)/(_height*sensorHeight);
+	
+	}
+	public double run(double value){
+		if (averageList.size()<20){
+			averageList.add((int) value);
+		}else{
+			averageList.pop();
+			averageList.add((int) value);
+		}
+		
+		double averageCount = 0;
+		for(Integer i : averageList){
+			averageCount += i;
+		}
+		return averageCount/averageList.size();
+	}
+}
