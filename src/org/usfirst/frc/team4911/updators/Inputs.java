@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.usfirst.frc.team4911.controller.Button;
 import org.usfirst.frc.team4911.controller.ControllerMappings;
+import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.Robot;
@@ -18,6 +19,7 @@ import org.usfirst.frc.team4911.tasks.DriveForTime;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.ManualScale;
 import org.usfirst.frc.team4911.tasks.OperatorDrive;
+import org.usfirst.frc.team4911.tasks.ShooterWheelTask;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
 import org.usfirst.frc.team4911.tasks.SpinToEncoderValue;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
@@ -56,6 +58,8 @@ public class Inputs {
 		payloadManualOverride = false;
 		shooterTimer = new Timer();
 		rollerTimer = new Timer();
+		shooterTimer.start();
+
 //		initCycleTasks();
 	}
 	
@@ -134,7 +138,7 @@ public class Inputs {
 			 */
 			if(ControllerMappings.rollerCollectPosition.getDown()){
 				
-				Robot.taskManager.addRollerTask(new SpinToPotentiometerValue(RobotMap.RollerBarMotor,RobotConstants.RollerPotentiometerMax , 0.5,1));
+				Robot.taskManager.addArmTask(new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.RollerPotentiometerMax , 0.5,1));
 				
 			}
 
@@ -159,19 +163,6 @@ public class Inputs {
 			 * ROLLER CONTROLER
 			 */
 			
-			
-			if(ControllerMappings.shooterCollect.getPressed(0.2)){
-				//Collect
-				rollerTimer.start();
-				RobotMap.RollerRollerMotor.setPower(-0.5);
-			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
-				//Eject
-				RobotMap.RollerRollerMotor.setPower(1);
-			}else{
-				rollerTimer.stop();
-				rollerTimer.reset();
-				RobotMap.RollerRollerMotor.setPower(0);
-			}
 				
 			if (payloadManualOverride == false){
 				boolean running = false;
@@ -197,7 +188,7 @@ public class Inputs {
 	//			if (!running){
 	//				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,0));
 	//			}
-				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,rollerPower));
+				Robot.taskManager.addArmTask(new SpinToPower(RobotMap.ArmMotor,rollerPower));
 	
 				
 				//This sets the brakes to open if the power signal to the roller talon is greater than 0.1
@@ -205,16 +196,49 @@ public class Inputs {
 				/**
 				 * SHOOTER CONTROLLS
 				 */
-				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,ControllerMappings.payloadJoy.getRawAxis(1)/10));
+				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1)/4 , -0.7, 1);
+				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
 				
 				//if (ControllerMappings.shooterCollectPosition.getDown()){
 				//	Robot.taskManager.addShooterTask(new SpinToEncoderValue(RobotMap.ShooterLiftMotor, RobotConstants.shooterCollectEcnoderValue ,0.3));				
 				//}
 			} else {
-				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,ControllerMappings.payloadJoy.getRawAxis(1)/10));
-				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerBarMotor,ControllerMappings.payloadJoy.getRawAxis(5)));
+				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,ControllerMappings.payloadJoy.getRawAxis(1)/4));
+				Robot.taskManager.addArmTask(new SpinToPower(RobotMap.ArmMotor,ControllerMappings.payloadJoy.getRawAxis(5)));
 				
 			}
+
+			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
+				//Shoot
+				RobotMap.ShooterSolenoid.set(true);
+			}else{
+				RobotMap.ShooterSolenoid.set(false);
+			}
+			if(ControllerMappings.shooterCollect.getPressed(0.2)){
+				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerMotor,-1));
+				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, -1));
+			}
+			if(ControllerMappings.shooterEject.getPressed(0.2)){
+				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1));
+			}
+			if (ControllerMappings.shooterPrime.get()){
+				//Spin up shooter
+				//Start shooter time
+				SmartDashboard.putBoolean("test", false);
+				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1));
+				
+			}else{
+				shooterTimer.reset();
+				SmartDashboard.putBoolean("test", true);
+			}
+			
+			
+//			RobotMap.ShooterRightTalon.set(0.5);
+//			RobotMap.ShooterLeftTalon.set(0.5);
+
+
+			//RobotMap.ShooterLeftMotor.setPower(0.2);
+			//RobotMap.ShooterRightMotor.setPower(0.2);
 			
 //			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
 //				//Shoot
@@ -253,13 +277,16 @@ public class Inputs {
 //				RobotMap.RollerRollerMotor.setPower(0);
 //			}
 			
-			if(Math.abs(RobotMap.RollerBarMotor.getTalon().get())<0.05){
-				RobotMap.RollerBarSolenoid.set(false);
+			SmartDashboard.putNumber("lift",(RobotMap.ShooterLiftTalon.getPosition()));
+//			SmartDashboard.putNumber("lift",(RobotMap.ShooterLeftTalon.get()));
+
+			if(Math.abs(RobotMap.ArmMotor.getTalon().get())<0.05){
+				RobotMap.ArmSolenoid.set(false);
 			}else{
-				RobotMap.RollerBarSolenoid.set(true);
+				RobotMap.ArmSolenoid.set(true);
 			}
 			
-			if(Math.abs(RobotMap.ShooterLiftTalon.get())<0.05){
+			if(Math.abs(RobotMap.ShooterLiftTalon.get())<0.025){
 				RobotMap.ShooterBrakeSolenoid.set(false);
 			}else{
 				RobotMap.ShooterBrakeSolenoid.set(true);				

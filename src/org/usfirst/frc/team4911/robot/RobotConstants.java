@@ -60,8 +60,8 @@ public class RobotConstants {
 	public static int DriveLeftEncoderPort;
 	
 	//ROLLER
-	public static int RollerBarTalonPort = 14;
-	public static int RollerRollerTalonPort = 13;
+	public static int ArmTalonPort = 14;
+	public static int RollerTalonPort = 13;
 	public static final double RollerPotentiometerMax = 0.466;
 	public static final double RollerPotentiometerMin =  0.855;
 
@@ -74,8 +74,8 @@ public class RobotConstants {
 	public static int RollerPotentiometerPort = 1;
 	
 	//SCALE
-	public static int ScaleRightTalonPort = 2;
-	public static int ScaleLeftTalonPort = 3;
+	public static int ScaleRightTalonPort = 4;
+	public static int ScaleLeftTalonPort = 5;
 	
 	public static int ScaleRightEncoderPortA;
 	public static int ScaleRightEncoderPortB;
@@ -85,16 +85,24 @@ public class RobotConstants {
 	public static int ScaleSolenoidPort = 5;
 	
 	//SHOOTER
-	public static int ShooterLeftTalonPort = 3;
-	public static int ShooterRightTalonPort = 2;
+	public static int ShooterLeftTalonPort = 2;
+	public static int ShooterRightTalonPort = 3;
+	
 	public static int ShooterLiftTalonPort = 1;
 	
-	public static int ShooterBrakeSolenoidPort = 3;
+	public static int ShooterSolenoidPort = 1;
+	
+	public static int ShooterBrakeSolenoidPortA = 3;
+//	public static int ShooterBrakeSolenoidPortB = 4;
 
+	
 	public static int ShooterLiftEncoderPort = 3;
 	public static double ShooterSpinup = 3;
 	public static double shooterCollectEcnoderValue = 25;
-
+	
+	public static double ShooterMax;
+	public static double ShooterMin;
+	public static double ShooterCollect;
 	
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;
@@ -107,8 +115,6 @@ public class RobotConstants {
 	
 	public static final int ExtenderSolenoidPortA = 7;
 //	public static final int ExtenderSolenoidPortB = 1;
-
-	
 	//Robot Size Constants (size matters)
 	
 	//RampDownHelper constants 
@@ -131,12 +137,14 @@ public class RobotConstants {
 	public static final double dDefault = 0;
 	
 	// TASKS
-	public static final int NUM_TASKS = 5;
+	public static final int NUM_TASKS = 7;
 	public static final int DRIVE_TASK = 0;
 	public static final int SHOOTER_TASK = 1;
 	public static final int ARM_TASK = 2;
 	public static final int EXTENDER_TASK = 3;
 	public static final int SCALE_TASK = 4;
+	public static final int SHOOTER_WHEELS_TASK = 5;
+	public static final int ROLLER_TASK = 6;
 	
 	// TASK PRIORITY
 	public static final int ZERO_PRI = 0;

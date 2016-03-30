@@ -112,9 +112,9 @@ public class Robot extends IterativeRobot {
 			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
 			//autoTaskManager.addTask(new Task(),1);
 			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax, 1, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, false), 0.1);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.RollerPotentiometerMax, 1, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 
 			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);
 			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.3);
@@ -169,7 +169,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Voltage", RobotMap.DriveFrontRightTalon.getOutputVoltage() + RobotMap.DriveMidRightTalon.getOutputVoltage() + RobotMap.DriveRearRightTalon.getOutputVoltage());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
-    	SmartDashboard.putNumber("Potentiometer", RobotMap.RollerPotentiometer.get());
+    	SmartDashboard.putNumber("Potentiometer", RobotMap.ArmPotentiometer.get());
 
 //   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Front", RobotMap.DriveFrontRightTalon.get());
 //    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Mid", RobotMap.DriveMidRightTalon.get());
