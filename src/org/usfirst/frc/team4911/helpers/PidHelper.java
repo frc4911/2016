@@ -87,4 +87,8 @@ public class PidHelper {
 	public double getError(){
 		return prevError;
 	}
+
+	public void setThreshold(double _threshold) {
+		threshold = _threshold;
+	}
 }

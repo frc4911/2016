@@ -58,7 +58,12 @@ public class ControllerMappings {
 	public static Button rollerCollectPosition = new Button(payloadJoy,3);
 	public static Button rollerRoller = new Button(payloadJoy,10);
 
-	public static Button shooterCollectPosition = new Button(payloadJoy,1);
+	public static Button shooterCycleDown = new Button(payloadJoy,1);
+	public static Button shooterCycleUp = new Button(payloadJoy,2);
+
+	public static Button ArmCycleDown = new Button(payloadJoy,3);
+	public static Button ArmCycleUp = new Button(payloadJoy,4);
+	
 	public static Button shooterShoot = new Button(payloadJoy,6);
 	public static Button shooterPrime = new Button(payloadJoy,5);
 	public static Button payloadManual = new Button (payloadJoy, 7);

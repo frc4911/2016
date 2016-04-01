@@ -138,11 +138,11 @@ public class RobotMap {
     	ArmTalon = new CANTalon(RobotConstants.ArmTalonPort);
     	RollerTalon = new CANTalon(RobotConstants.RollerTalonPort);
     	
-    	ArmSolenoid = new Solenoid(1,RobotConstants.RollerBarSolenoidPort);
+    	ArmSolenoid = new Solenoid(1,RobotConstants.ArmSolenoidPort);
     	
     	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
-    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 15, 0.0, 0.0);
+    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0);
     	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
@@ -176,7 +176,7 @@ public class RobotMap {
     	
     	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
     	ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, 0.01, 0.0, 0.0);
+    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, -1, 0.0, 0.0, 0.1);
     	
 
     	//EXTENDER

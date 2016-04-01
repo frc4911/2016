@@ -3,9 +3,10 @@ package org.usfirst.frc.team4911.tasks;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-
+import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.PidHelper;
+import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
 
@@ -19,7 +20,9 @@ public class CameraTask extends Task{
 	private double sensorHeight;
 	private double height;
 	private double xPosition;
-	private double power;
+	private double drivePower;
+	private double shooterLiftPower;
+
 	private double maxPower;
 	
 	private Timer timer;
@@ -29,7 +32,14 @@ public class CameraTask extends Task{
     private NetworkTable cameraTable;
 	private LinkedList<Integer> averageList;
 	
-	private PidHelper pidHelper;
+	private PidHelper centeringPid;
+	private PidHelper aimingPid;
+	private Drive drive;
+	private ShooterWheelTask shooterWheel;
+	private SpinToTalonValue shooterLift;
+	
+	private boolean finishedCentering;
+	
 	
 	/**
 	 * A class that uses camera data so that
@@ -45,9 +55,15 @@ public class CameraTask extends Task{
 		maxPower = _maxPower;
 		averageList = new LinkedList<Integer>();
         cameraTable = NetworkTable.getTable("GRIP/myContoursReport");
-        pidHelper = new PidHelper(1,0,0,20);
+        
+        centeringPid = new PidHelper(1,0,0,20);
+        aimingPid = new PidHelper(0.1,0,0,3);
+
+        shooterWheel = new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1);
+        shooterWheel.setPriority(RobotConstants.UBER_PRI);
         timer = new Timer();
         timer.start();
+        
         
 	}
 
@@ -56,7 +72,12 @@ public class CameraTask extends Task{
 	 */
 	@Override
 	public void init(){
-		
+		//TODO: add back in and give a proper target value
+//		shooterLift = new SpinToTalonValue(RobotMap.ShooterLiftMotor, "target angle value", 0.7);
+		drive = new Drive(0, 0);
+		shooterLift.setPriority(RobotConstants.UBER_PRI);
+		drive.setPriority(RobotConstants.UBER_PRI);
+		finishedCentering = false;
 	}
 	
 	/**
@@ -80,27 +101,21 @@ public class CameraTask extends Task{
     		width = 0;
     	}
     	
-    	pidHelper.setThreshold(width);
-    	power = pidHelper.run(RobotConstants.cameraWidth/2, xPosition, timer.get());
+    	centeringPid.setThreshold(width);
+    	drivePower = centeringPid.run(RobotConstants.cameraWidth/2, xPosition, timer.get());
+
     	
-    	if (pidHelper.isFinished()){
-    		power = 0.2;
-    		RobotMap.DriveFrontRightTalon.set(-power);
-    		RobotMap.DriveRearRightTalon.set(-power);
-    		RobotMap.DriveFrontLeftTalon.set(power);
-    		RobotMap.DriveRearLeftTalon.set(power);
+    	if (centeringPid.isFinished() && !finishedCentering){
+    		drivePower = 0.2;
+    		finishedCentering = true;
     	}else{
-    		power = Math.min(maxPower, power);
-    		power = Math.max(-maxPower, power);
-    		
-    		if(xPosition>RobotConstants.cameraWidth/2){
-    			RobotMap.DriveFrontLeftTalon.set(-power);
-    			RobotMap.DriveRearLeftTalon.set(-power);
-    		}else{
-    			RobotMap.DriveFrontRightTalon.set(-power);
-    			RobotMap.DriveRearRightTalon.set(-power);
-    		}
+    		drivePower = ClampHelper.clamp(drivePower, -maxPower, maxPower);
+    		drive.drive(drivePower, drivePower);
     	}
+    	//Adds tasks to the task manager
+    	Robot.taskManager.addDriveTask(drive);
+    	Robot.taskManager.addShooterTask(shooterLift);
+    	
     	
     	Logging.DebugPrint ("DISTANCE: "+computeDistance(run(height))*0.0394);
 //    	Logging.DebugPrint ("HEIGHT AVERAGE: "+run(height));
@@ -115,6 +130,7 @@ public class CameraTask extends Task{
 	 */
 	@Override
 	public void end(){
+		
 	}
 	
 	public double computeDistance(double _height){

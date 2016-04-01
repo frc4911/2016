@@ -20,6 +20,7 @@ public class Motor {
 	double p;
 	double i;
 	double d;
+	double threshold;
 	
 	NewCurrentManager currentManager;
 	
@@ -42,6 +43,15 @@ public class Motor {
 		this.p = p;
 		this.i = i;
 		this.d = d;
+	}
+	public Motor(CANTalon talon, Encoder encoder, AnalogPotentiometer potentiometer, double p, double i, double d,double _threshold) {
+		this.talon = talon;
+		this.encoder = encoder;
+		this.potentiometer = potentiometer;
+		this.p = p;
+		this.i = i;
+		this.d = d;
+		this.threshold = _threshold;
 	}
 	public Motor(CANTalon talon, Encoder encoder, AnalogPotentiometer potentiometer, double p, double i, double d, NewCurrentManager _currentManager) {
 		this.talon = talon;
@@ -109,5 +119,9 @@ public class Motor {
 	 */
 	public double getD() {
 		return d;
+	}
+	public double getThreshold() {
+		// TODO Auto-generated method stub
+		return threshold;
 	}
 }
