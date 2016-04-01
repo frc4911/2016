@@ -33,6 +33,10 @@ public class ControllerMappings {
 	
 	public static Button leftJukeButton1 = new Button(leftJoy,3);
 	public static Button leftJukeButton2 = new Button(leftJoy,4);
+	
+	public static Button autoSelectorLow = new Button(leftJoy,11);
+	public static Button autoSelectorOther = new Button(leftJoy,12);
+	
 	public static Button leftJukeButton3;
 	public static Button leftJukeButton4;
 	
@@ -55,8 +59,8 @@ public class ControllerMappings {
 	public static Button rollerRoller = new Button(payloadJoy,10);
 
 	public static Button shooterCollectPosition = new Button(payloadJoy,1);
-	public static Button shooterShoot = new Button(payloadJoy,5);
-	public static Button shooterPrime = new Button(payloadJoy,6);
+	public static Button shooterShoot = new Button(payloadJoy,6);
+	public static Button shooterPrime = new Button(payloadJoy,5);
 	public static Button payloadManual = new Button (payloadJoy, 7);
 	public static Trigger shooterCollect = new Trigger(payloadJoy,2);
 	public static Trigger shooterEject = new Trigger(payloadJoy,3);

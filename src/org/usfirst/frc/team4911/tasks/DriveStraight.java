@@ -62,7 +62,7 @@ public class DriveStraight extends Task{
 	 */
 	@Override
 	public void init(){
-		pid = new PidHelper(0.01, 0, 0, 2);
+		pid = new PidHelper(0.01, 0, 0.0, 2);
 	   	timer = new Timer();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
