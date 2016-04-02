@@ -25,8 +25,16 @@ public class Task {
 	 * Higher values will take priority over lower values
 	 * If priority is equal the task will interrupt 
 	 */
-	public int priority = RobotConstants.ZERO_PRI;
+	int priority = RobotConstants.ZERO_PRI;
 	
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
 	/**
 	 * This is called when the command is first added to the task manager
 	 */

@@ -53,7 +53,7 @@ public class PidHelper {
 		// P, I, and D are all derived from the difference between where we are and where we want to be
 		double error = targetValue - currentValue;
 		
-		if(Math.abs(error) < threshold){	
+		if(Math.abs(error) < threshold){
 			isFinished = true;
 			return 0;
 		}
@@ -68,7 +68,7 @@ public class PidHelper {
 		prevIntegral = currentIntegral;
 		prevTime = currentTime;
 		
-		double output = pGain*error+ iGain*currentIntegral + dGain * currentDerivative;
+		double output = pGain * error + iGain * currentIntegral + dGain * currentDerivative;
 		return output;
 	}
 	
@@ -86,5 +86,9 @@ public class PidHelper {
 	 */
 	public double getError(){
 		return prevError;
+	}
+
+	public void setThreshold(double _threshold) {
+		threshold = _threshold;
 	}
 }

@@ -2,6 +2,8 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.helpers.*;
+import org.usfirst.frc.team4911.controller.ControllerMappings;
+import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
@@ -32,7 +34,7 @@ public class Robot extends IterativeRobot {
 	public static boolean operatorDrive;
 	public static TaskManager taskManager;
     final String defaultAuto = "Default";
-    final  String rampartsAuto = "RAMPARTS";
+    final  String rampartsAuto = "Default auto";
     final  String lowBarAuto = "Low Bar";
 
     String autoSelected;
@@ -53,9 +55,9 @@ public class Robot extends IterativeRobot {
     	taskManager.init();
     	Sensors.init();
     	
+//      chooser.addDefault("0.4 Power", defaultAuto);
         chooser = new SendableChooser();
-        chooser.addDefault("OTHER DEFENSES", defaultAuto);
-        chooser.addObject("Rock WAll", rampartsAuto);
+        chooser.addObject("0.8 Power", rampartsAuto);
         chooser.addObject("LOW BAR", lowBarAuto);
 
         SmartDashboard.putData("Auto choices", chooser);
@@ -87,30 +89,42 @@ public class Robot extends IterativeRobot {
 		//autoTaskManager.addTask(new DriveStraight(0,true),2);
 		Sensors.getImu().zeroYaw();
 		
+		
+		// if less than 0 do ramparts
+		if (ControllerMappings.leftJoy.getRawAxis(3) < 0){
+			autoSelected = rampartsAuto;
+		} else {
+			autoSelected = lowBarAuto;
+		}
+		
 		switch(autoSelected) {
 		case rampartsAuto:
+		default:
 			//Put custom auto code here   
-			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.4,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.6,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.8,false),3.5);
+			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.2);
+			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.2);
+			autoTaskManager.addTask(new DriveStraight(0,0.4,false),0.2);
+			autoTaskManager.addTask(new DriveStraight(0,0.6,false),0.2);
+			autoTaskManager.addTask(new DriveStraight(0,0.8,false),0.2);
+			autoTaskManager.addTask(new DriveStraight(0,1,false),3);
 			break;
 		case lowBarAuto:
 			//Put custom auto code here   
 			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
 			//autoTaskManager.addTask(new Task(),1);
 			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax, 1, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.RollerBarSolenoid, false), 0.1);
-			autoTaskManager.addTask(new DriveStraight(0,0.4,false),7);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerMax, 1, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+
+			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.3);
+			autoTaskManager.addTask(new DriveStraight(0,0.4,false),6);
 			break;
-		case defaultAuto:
-		default:
-			//Put default auto code here
-			autoTaskManager.addTask(new DriveStraight(0,0.4,false),8);
-			break;
+//		case defaultAuto:
+//			//Put default auto code here
+//			autoTaskManager.addTask(new DriveStraight(0,0.4,false),6);
+//			break;
 		}
 		
     }
@@ -152,7 +166,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Voltage", RobotMap.DriveFrontRightTalon.getOutputVoltage() + RobotMap.DriveMidRightTalon.getOutputVoltage() + RobotMap.DriveRearRightTalon.getOutputVoltage());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
-    	SmartDashboard.putNumber("Potentiometer", RobotMap.RollerPotentiometer.get());
+    	SmartDashboard.putNumber("Potentiometer", RobotMap.ArmPotentiometer.get());
 
     	// Write an entry to the log file
     	LogFileHandler logFileHandler = LogFileHandler.getInstance();
@@ -164,4 +178,14 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     }
+    
+//    public void disabledPeriodic(){
+//    	SmartDashboard.putString("AUTO", autoSelected);
+//    	if(ControllerMappings.autoSelectorLow.getDown()){
+//    		autoSelected = rampartsAuto;
+//    	}
+//    	if(ControllerMappings.autoSelectorOther.getDown()){
+//    		autoSelected = lowBarAuto;
+//    	}
+//    }
 }

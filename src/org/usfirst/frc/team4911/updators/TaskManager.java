@@ -2,7 +2,10 @@ package org.usfirst.frc.team4911.updators;
 
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.RobotConstants;
+import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.tasks.Drive;
+import org.usfirst.frc.team4911.tasks.ShooterWheelTask;
+import org.usfirst.frc.team4911.tasks.SpinToPower;
 import org.usfirst.frc.team4911.tasks.Task;
 
 
@@ -24,14 +27,18 @@ public class TaskManager {
 	public void update(){
 		// hack for drive
 		if(tasks[RobotConstants.DRIVE_TASK] == null){
-			Logging.DebugPrint("drive task was null.");
 			this.addDriveTask(new Drive(0,0));
 		}
-		
+		if(tasks[RobotConstants.SHOOTER_WHEELS_TASK] == null){
+			this.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0));
+		}
+		if(tasks[RobotConstants.ROLLER_TASK] == null){
+			this.addRollerTask(new SpinToPower(RobotMap.RollerMotor, 0));
+		}		
 		for(int i = 0; i < tasks.length; i++){
 			if (tasks[i] != null){
 				if (tasks[i].getFinished()){
-					Logging.DebugPrint("Task " + i + " is finished");
+					//Logging.DebugPrint("Task " + i + " is finished");
 					tasks[i].end();
 					tasks[i] = null;
 				}
@@ -56,7 +63,7 @@ public class TaskManager {
 			return newTask;
 		}
 		if (currentTask.interruptible){
-			if (currentTask.priority <= newTask.priority){
+			if (currentTask.getPriority() <= newTask.getPriority()){
 				//Logging.DebugPrint("current task is interuptible and lower priority.");
 				currentTask.interupt();
 				newTask.init();
@@ -72,7 +79,10 @@ public class TaskManager {
 	public void addShooterTask(Task newTask){
 		tasks[RobotConstants.SHOOTER_TASK] = addTask(tasks[RobotConstants.SHOOTER_TASK],newTask);
 	}
-	public void addRollerTask(Task newTask){
+	public void addShooterWheelsTask(Task newTask){
+		tasks[RobotConstants.SHOOTER_WHEELS_TASK] = addTask(tasks[RobotConstants.SHOOTER_WHEELS_TASK],newTask);
+	}
+	public void addArmTask(Task newTask){
 		tasks[RobotConstants.ARM_TASK] = addTask(tasks[RobotConstants.ARM_TASK],newTask);
 	}
 	public void addExtenderTask(Task newTask){
@@ -80,5 +90,8 @@ public class TaskManager {
 	}
 	public void addScaleTask(Task newTask){
 		tasks[RobotConstants.SCALE_TASK] = addTask(tasks[RobotConstants.SCALE_TASK],newTask);
+	}
+	public void addRollerTask(Task newTask){
+		tasks[RobotConstants.ROLLER_TASK] = addTask(tasks[RobotConstants.ROLLER_TASK],newTask);
 	}
 }

@@ -5,6 +5,7 @@ import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -43,16 +44,16 @@ public class RobotMap {
 	public static DoubleSolenoid DriveSolenoid;
 
 	//ROLLER
-	public static CANTalon RollerBarTalon;
-	public static CANTalon RollerRollerTalon;
+	public static CANTalon ArmTalon;
+	public static CANTalon RollerTalon;
 	
-	public static Solenoid RollerBarSolenoid;
+	public static Solenoid ArmSolenoid;
 
 	
-	public static AnalogPotentiometer RollerPotentiometer;
+	public static AnalogPotentiometer ArmPotentiometer;
 
-	public static Motor RollerBarMotor;
-	public static Motor RollerRollerMotor;
+	public static Motor ArmMotor;
+	public static Motor RollerMotor;
 	
 	//SCALE
 	public static CANTalon ScaleRightTalon;
@@ -134,15 +135,15 @@ public class RobotMap {
 
     	//ROLLER
         
-    	RollerBarTalon = new CANTalon(RobotConstants.RollerBarTalonPort);
-    	RollerRollerTalon = new CANTalon(RobotConstants.RollerRollerTalonPort);
+    	ArmTalon = new CANTalon(RobotConstants.ArmTalonPort);
+    	RollerTalon = new CANTalon(RobotConstants.RollerTalonPort);
     	
-    	RollerBarSolenoid = new Solenoid(1,RobotConstants.RollerBarSolenoidPort);
+    	ArmSolenoid = new Solenoid(1,RobotConstants.ArmSolenoidPort);
     	
-    	RollerPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
+    	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
-    	RollerBarMotor = new Motor (RollerBarTalon, null, RollerPotentiometer, 15, 0.0, 0.0);
-    	RollerRollerMotor = new Motor (RollerRollerTalon, null, null, 0.01, 0.0, 0.0);
+    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0);
+    	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
     	 
@@ -162,15 +163,22 @@ public class RobotMap {
     	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
     	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
     	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
-   	
-    	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPort);
+    	ShooterLiftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+    	
+//		ShooterLeftTalon.set(0.5);
+//		ShooterRightTalon.set(0.5);
+    	
+    	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPortA);
+    	ShooterSolenoid = new Solenoid(1,RobotConstants.ShooterSolenoidPort);
 
-//    	ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
+
+    	//ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
     	
     	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
     	ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, 0.01, 0.0, 0.0);
-    	 
+    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, -1, 0.0, 0.0, 0.1);
+    	
+
     	//EXTENDER
 
     	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
@@ -185,9 +193,6 @@ public class RobotMap {
     	// CONTROL
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
 		RightJoy = new Joystick(RobotConstants.leftJoyPort);
-
-		ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
-		ShooterRightMotor = new Motor (ShooterLeftTalon, null, null, 0, 0, 0);
     	
     	ScaleRightMotor = new Motor (ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
     	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);

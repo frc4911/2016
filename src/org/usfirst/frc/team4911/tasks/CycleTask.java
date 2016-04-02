@@ -67,10 +67,10 @@ public class CycleTask extends Task{
 			currentTask.end();
 			currentIndex += 1;
 			currentTask = tasks[currentIndex];
-			currentTask.init();
-			this.isFinished = false;
 			Logging.DebugPrint("cycle up");
 		}
+		this.isFinished = false;
+		currentTask.init();
 	}
 	
 	/**
@@ -81,9 +81,9 @@ public class CycleTask extends Task{
 			currentTask.end();
 			currentIndex -= 1;
 			currentTask = tasks[currentIndex];
-			currentTask.init();
-			this.isFinished = false;
 			Logging.DebugPrint("cycle down");
 		}
+		this.isFinished = false;
+		currentTask.init();
 	}
 }
