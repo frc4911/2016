@@ -1,10 +1,17 @@
 
 package org.usfirst.frc.team4911.robot;
+<<<<<<< HEAD
 
 
 import org.usfirst.frc.team4911.helpers.*;
 import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.Logging;
+=======
+
+import org.usfirst.frc.team4911.helpers.*;
+import org.usfirst.frc.team4911.controller.ControllerMappings;
+import org.usfirst.frc.team4911.helpers.Logging;
+>>>>>>> ed264e2b030172203e955d876c4037c2425e4c7c
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
@@ -115,7 +122,7 @@ public class Robot extends IterativeRobot {
 			//autoTaskManager.addTask(new Task(),1);
 			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.RollerPotentiometerMax, 1, 2), 2);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerMax, 1, 2), 2);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 
 			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);

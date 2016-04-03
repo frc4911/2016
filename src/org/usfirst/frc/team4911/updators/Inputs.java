@@ -25,6 +25,7 @@ import org.usfirst.frc.team4911.tasks.SpinToEncoderValue;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
 import org.usfirst.frc.team4911.tasks.SpinToPower;
 import org.usfirst.frc.team4911.tasks.SpinToRpm;
+import org.usfirst.frc.team4911.tasks.SpinToTalonValue;
 import org.usfirst.frc.team4911.tasks.Task;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -35,8 +36,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Inputs {
-	private static CycleTask extenderCycle;
-	private static CycleTask rollerCycle;
+	private static CycleTask shooterCycle;
+	private static CycleTask armCycle;
 
 	static boolean modeToggle = true;
 	static boolean extenderToggle = true;
@@ -60,7 +61,7 @@ public class Inputs {
 		rollerTimer = new Timer();
 		shooterTimer.start();
 
-//		initCycleTasks();
+		initCycleTasks();
 	}
 	
 	public static void update(){
@@ -98,21 +99,17 @@ public class Inputs {
 			if(ControllerMappings.rightJukeButton1.getDown()){
 				driveStraightTask.setTargetHeading(Sensors.getImu().getYaw());
 				Robot.taskManager.addDriveTask(driveStraightTask);
-				System.out.println("down");
 			}
 			if(ControllerMappings.rightJukeButton1.getUp()){
 				driveStraightTask.setFinished(true);
-				System.out.println("up");
 			}
 //			
 //			if(ControllerMappings.leftJukeButton2.getDown()){
 //				driveReverseTask.setTargetHeading(Sensors.getImu().getYaw());
 //				Robot.taskManager.addDriveTask(driveReverseTask);
-//				System.out.println("down");
 //			}
 //			if(ControllerMappings.leftJukeButton2.getUp()){
 //				driveReverseTask.setFinished(true);
-//				System.out.println("up");
 //			}
 			
 			Robot.taskManager.addExtenderTask(new SpinToPower(RobotMap.ExtenderMotor,ControllerMappings.payloadJoy.getY(Hand.kLeft)/5));
@@ -138,10 +135,17 @@ public class Inputs {
 			 */
 			if(ControllerMappings.rollerCollectPosition.getDown()){
 				
-				Robot.taskManager.addArmTask(new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.RollerPotentiometerMax , 0.5,1));
+				Robot.taskManager.addArmTask(new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerMax , 0.5,1));
 				
 			}
-
+			if(ControllerMappings.ArmCycleDown.getDown()){
+				armCycle.CycleDown();
+				Robot.taskManager.addArmTask(armCycle);
+			}
+//			if(ControllerMappings.ArmCycleUp.get()){
+//				RobotMap.ShooterSolenoid.set(true);
+//			}
+			
 //			if(RobotMap.ExtenderPotentiometer.get()<RobotConstants.ExtenderPotentiometerZero-RobotConstants.ExtenderWheelClearnace
 //			&& ControllerMappings.extenderExtendButton.getDown()){
 //				RobotMap.ExtenderSolenoid.set(extenderToggle);
@@ -196,7 +200,17 @@ public class Inputs {
 				/**
 				 * SHOOTER CONTROLLS
 				 */
-				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1)/4 , -0.7, 1);
+				if(ControllerMappings.shooterCycleDown.getDown()){
+					shooterCycle.CycleDown();
+					Robot.taskManager.addShooterTask(shooterCycle);
+				}
+				if(ControllerMappings.shooterCycleUp.getDown()){
+					shooterCycle.CycleUp();
+					Robot.taskManager.addShooterTask(shooterCycle);
+				}
+				
+				SmartDashboard.putNumber("pot", RobotMap.ArmPotentiometer.get());
+				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1)/2 , -1, 1);
 				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
 				
 				//if (ControllerMappings.shooterCollectPosition.getDown()){
@@ -208,29 +222,31 @@ public class Inputs {
 				
 			}
 
-			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
+			if((ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup)||ControllerMappings.ArmCycleUp.get()){
 				//Shoot
 				RobotMap.ShooterSolenoid.set(true);
 			}else{
 				RobotMap.ShooterSolenoid.set(false);
 			}
+			SmartDashboard.putNumber("Time", shooterTimer.get());
 			if(ControllerMappings.shooterCollect.getPressed(0.2)){
 				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerMotor,-1));
 				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, -1));
 			}
 			if(ControllerMappings.shooterEject.getPressed(0.2)){
 				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1));
+				Robot.taskManager.addRollerTask(new SpinToPower(RobotMap.RollerMotor,1));
+
 			}
 			if (ControllerMappings.shooterPrime.get()){
 				//Spin up shooter
 				//Start shooter time
-				SmartDashboard.putBoolean("test", false);
 				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1));
 				
 			}else{
 				shooterTimer.reset();
-				SmartDashboard.putBoolean("test", true);
 			}
+			SmartDashboard.putNumber("Encoder", RobotMap.ShooterLiftMotor.getTalon().getPosition());
 			
 			
 //			RobotMap.ShooterRightTalon.set(0.5);
@@ -316,19 +332,19 @@ public class Inputs {
 
 
 	
-//	public static void initCycleTasks(){
-//		extenderCycle = new CycleTask(new Task[]{
-//			new SpinToPotentiometerValue(RobotMap.ShooterLiftMotor,RobotConstants.ShooterLiftZero , 0.5,1),
-//			new SpinToPotentiometerValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftZero - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
-//			new SpinToPotentiometerValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftZero - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
-//		});
-//		//TODO: Set to proper degrees and tune pid
-//		rollerCycle = new CycleTask(new Task[]{
-//			new SpinToPotentiometerValue(RobotMap.RollerBarMotor,RobotConstants.RollerPotentiometerMax , 0.5,1),
+	public static void initCycleTasks(){
+		shooterCycle = new CycleTask(new Task[]{
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMin,0.3,1),
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMax,0.7,1)
+
+		});
+		//TODO: Set to proper degrees and tune pid
+		armCycle = new CycleTask(new Task[]{
+			new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerCollect , 0.5,1),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
-//		});
-//	}
+		});
+	}
 	
 	public static boolean getMode(){
 		return modeToggle;
