@@ -142,7 +142,7 @@ public class RobotMap {
     	
     	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
-    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0);
+    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 70, 0.0, 0.0,0.001);
     	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
@@ -163,7 +163,7 @@ public class RobotMap {
     	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
     	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
     	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
-    	ShooterLiftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+    	ShooterLiftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
     	
 //		ShooterLeftTalon.set(0.5);
 //		ShooterRightTalon.set(0.5);

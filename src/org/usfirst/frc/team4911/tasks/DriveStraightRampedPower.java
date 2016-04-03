@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
@@ -16,17 +17,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @author Luke Caughell
  */
-public class DriveStraight extends Task{
+public class DriveStraightRampedPower extends Task{
 	Timer timer;
 	double driveTime;
-	double power;
-	double adjustedPower;
+	double pidCorrectionPower;
 	double driveDistance;
 	double currentEncoderValueInches;
 	double currentDegree;
 	double startDegree;
-	double degreesToTurn;
-	double basePower;
+	double rampedPower;
+	double startPower;
+	double slope;
+	double endTime;
 	Drive drive;
 	int i;
 	PidHelper pid;
@@ -39,23 +41,18 @@ public class DriveStraight extends Task{
 	 * Sets the class variables.
 	 * 
 	 * @param _power the motor power to set for turning
-	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveStraight(double _degreesToTurn, double _basePower, boolean _reversed){
+	public DriveStraightRampedPower(double _startPower, double _endPower, double _endTime){
 		interruptible = false;
-		degreesToTurn = _degreesToTurn;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
-		reversed = _reversed;
-		basePower = _basePower;
-
+		//Assume start time 0
+		slope = (_endPower-_startPower)/_endTime;
+		timer = new Timer();
+		endTime = _endTime;
+		startPower = _startPower;
 	}
-//	public DriveStraight(){
-//		interruptible = false;
-//		drive = new Drive(0, 0);
-//		this.priority = RobotConstants.LOW_PRI;
-//	}
 	
 	/**
 	 * This is called when the command is first added to the task manager
@@ -63,7 +60,7 @@ public class DriveStraight extends Task{
 	@Override
 	public void init(){
 		pid = new PidHelper(0.015, 0, 0.0, 2);
-	   	timer = new Timer();
+		timer.reset();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
 	   	isFinished = false;
@@ -75,46 +72,24 @@ public class DriveStraight extends Task{
 	@Override
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
-	//	double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
-		power = pid.run(degreesToTurn, currentDegree , timer.get());
-		SmartDashboard.putNumber("PID", power);
-		power = Math.min(power, basePower);
-		power = Math.max(power, -basePower);
-		
-		//if (reversed){power = -power;};
-		
+		rampedPower = startPower + (slope*timer.get());
+		pidCorrectionPower = pid.run(0, currentDegree , timer.get());
+		pidCorrectionPower = ClampHelper.clamp(pidCorrectionPower, -rampedPower, rampedPower);
+		SmartDashboard.putNumber("PID", pidCorrectionPower);
+		 
 		if (pid.isFinished()){
-			//0.3 for rock wall
-			//0.4 for rock wall and ramparts
-			power = basePower;
-			if (reversed){power = -power;};
-			drive.setRightPower(power);
-			drive.setLeftPower(power);
+			drive.setRightPower(rampedPower);
+			drive.setLeftPower(rampedPower);
 		} else {
-			if (!reversed){
-//				if (power < 0){
-			drive.setLeftPower(basePower+power);
-			drive.setRightPower(basePower-power);
-//
-//				}else{
-//					drive.setRightPower(basePower-power);
-//					drive.setLeftPower(basePower+power);
-//				}
-			}
-			else {
-				if (power > 0){
-					drive.setRightPower(-power);
-				}else{
-					drive.setLeftPower(power);
-				}
-			}
+			drive.setLeftPower(rampedPower + pidCorrectionPower);
+			drive.setRightPower(rampedPower - pidCorrectionPower);
 		}
-//		Logging.DebugPrint("RIGHT"+drive.getRightPower());
-//		Logging.DebugPrint("LEFT"+drive.getLeftPower());
-
+		
 		drive.execute();
 		
-		isFinished = false;
+		if (timer.get()> endTime){
+			isFinished = false;
+		}
 	}
 	
 	/**
@@ -122,12 +97,10 @@ public class DriveStraight extends Task{
 	 */
 	@Override
 	public void end(){
-		drive.setPower(0);
-		drive.execute();
+		//drive.setPower(0);
+		//drive.execute();
 	}
-	public void setTargetHeading(double target){
-		degreesToTurn = target;
-	}
+	
 	public void setFinished(boolean value){
 		isFinished = value;
 	}

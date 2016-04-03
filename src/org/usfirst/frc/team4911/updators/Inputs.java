@@ -334,13 +334,12 @@ public class Inputs {
 	
 	public static void initCycleTasks(){
 		shooterCycle = new CycleTask(new Task[]{
-			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMin,0.3,1),
-			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMax,0.7,1)
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterCollect,0.3,0.5),
 
 		});
 		//TODO: Set to proper degrees and tune pid
 		armCycle = new CycleTask(new Task[]{
-			new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerCollect , 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerCollect , 0.5,1.25,RobotConstants.ArmPotentiometerThreshold),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
 		});

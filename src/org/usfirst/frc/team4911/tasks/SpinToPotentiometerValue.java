@@ -47,6 +47,17 @@ public class SpinToPotentiometerValue extends Task {
 		setTime = _setTime;
 		priority = RobotConstants.LOW_PRI;
 	}
+	public SpinToPotentiometerValue(Motor _motor, double _targetDegreeValue, double _maxPower, double _setTime, double _threshold){
+		motor = _motor;
+		potentiometer = motor.getPotentiometer();
+		targetValue = _targetDegreeValue;
+		talon = motor.getTalon();
+		timer = new Timer();
+		maxPower = _maxPower;
+		pid = new PidHelper(motor.getP(), motor.getI(), motor.getD(), _threshold);
+		setTime = _setTime;
+		priority = RobotConstants.LOW_PRI;
+	}
 
 	/**
 	 * This is called when the command is first added to the task manager
