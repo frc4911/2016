@@ -28,8 +28,8 @@ public class RobotConstants {
 	public static final int frontRightEncoderPortA = 0;
 	public static final int frontRightEncoderPortB = 1;
 	
-	public static final double wheelDiameter = 6;
-	public static final double encoderPulsePerRotation = 250;
+	public static final double wheelDiameter = 7.65;
+	public static final double encoderPulsePerRotation = 2400;
 	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
 	
 	//Drive System Constants
@@ -56,15 +56,19 @@ public class RobotConstants {
 	public static int DriveMidLeftTalonPort;
 	public static int DriveRearLeftTalonPort;
 	
-	public static int DriveRightEncoderPort;
-	public static int DriveLeftEncoderPort;
+	public static int DriveEncoderPortA = 0;
+	public static int DriveEncoderPortB = 1;
 	
 	//ROLLER
 	public static int ArmTalonPort = 14;
 	public static int RollerTalonPort = 13;
 	public static final double ArmPotentiometerMin =  0.240;
 	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.017;
-	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.012;
+	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.014;
+	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.005;
+
+	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.0135;
+
 	public static final double ArmPotentiometerThreshold = 0.0005;
 
 	
@@ -106,10 +110,10 @@ public class RobotConstants {
 	public static double ShooterSpinup = 1.5;
 	public static double shooterCollectEcnoderValue = 25;
 	
-	public static double ShooterLiftMax = 0.7;
+	public static double ShooterLiftMax = 0;
 	public static double ShooterLiftMin = -0.198;
-	public static double ShooterCollect = -1.1;
-	public static double ShooterAuto = -0.9;
+	public static double ShooterCollect = -1.110;
+	public static double ShooterAuto = -1.00;
 
 	
 	//EXTENDER
@@ -127,9 +131,9 @@ public class RobotConstants {
 	//RampDownHelper constants 
 	public static final double amplitude = 20;
 	public static final double floor = 0.2;
-	public static final double ceiling = 0.5;
+	public static final double ceiling = 1;
 	public static final double rampUp = 1.0;
-	public static final double rampDown = 15;
+	public static final double rampDown = 2;
 	
 	//IMU min and max angles
 	public static final double maxAngle = 180;

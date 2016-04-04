@@ -78,6 +78,7 @@ public class SpinToTalonValue extends Task {
 	 */
 	@Override
 	public void end(){
+		motor.setPower(0);
 		Logging.DebugPrint("Done");
 	}
 }

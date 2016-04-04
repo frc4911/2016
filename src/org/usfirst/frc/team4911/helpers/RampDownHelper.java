@@ -16,7 +16,7 @@ public class RampDownHelper {
 	//Ceiling sets the maximum power the function will return  range (Floor-1)
 	double ceiling = RobotConstants.ceiling;
 	//Ramp up sets the rate at which the motor power ramps up at the start.
-	double rampUp = RobotConstants.rampDown;
+	double rampUp = RobotConstants.rampUp;
 	//Ramp down is the rate at which the motor ramps down as it nears its goal.
 	double rampDown = RobotConstants.rampDown;
 	
@@ -50,7 +50,7 @@ public class RampDownHelper {
 	 */
 	public double getRampedPower(double goalDistance, double currentDistance){
         double fractionOfGoalDistance = Math.min(currentDistance / goalDistance, 1.0);        
-        double rampedPower = amplitude * Math.pow(Math.cos(0.5 * Math.PI * fractionOfGoalDistance) , rampUp) * Math.pow(fractionOfGoalDistance , rampDown);
+        double rampedPower = amplitude * Math.pow(Math.cos(0.5 * Math.PI * fractionOfGoalDistance) , rampDown) * Math.pow(fractionOfGoalDistance , rampUp);
         rampedPower = Math.min(rampedPower + floor, ceiling);
         return rampedPower;
     }

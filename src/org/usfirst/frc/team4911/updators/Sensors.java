@@ -31,6 +31,7 @@ public class Sensors {
     public static void init() {
         Imu = new AHRS(SPI.Port.kMXP);
         Imu.zeroYaw();
+        Imu.resetDisplacement();
     	RobotMap.ShooterLiftTalon.setEncPosition(0);
         panel = new PowerDistributionPanel(0);
     }

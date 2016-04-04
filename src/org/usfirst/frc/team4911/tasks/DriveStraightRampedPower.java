@@ -34,6 +34,7 @@ public class DriveStraightRampedPower extends Task{
 	PidHelper pid;
 	Motor motor;
 	boolean reversed;
+	 double heading;
 
 	
 	/**
@@ -52,8 +53,20 @@ public class DriveStraightRampedPower extends Task{
 		timer = new Timer();
 		endTime = _endTime;
 		startPower = _startPower;
+		heading = 0;
 	}
-	
+
+	public DriveStraightRampedPower(double _startPower, double _endPower, double _heading, double _endTime){
+		interruptible = false;
+		drive = new Drive(0, 0);
+		this.priority = RobotConstants.MED_PRI;
+		//Assume start time 0
+		slope = (_endPower-_startPower)/_endTime;
+		timer = new Timer();
+		endTime = _endTime;
+		startPower = _startPower;
+		heading = _heading;
+	}
 	/**
 	 * This is called when the command is first added to the task manager
 	 */
@@ -73,7 +86,7 @@ public class DriveStraightRampedPower extends Task{
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
 		rampedPower = startPower + (slope*timer.get());
-		pidCorrectionPower = pid.run(0, currentDegree , timer.get());
+		pidCorrectionPower = pid.run(heading, currentDegree , timer.get());
 		pidCorrectionPower = ClampHelper.clamp(pidCorrectionPower, -rampedPower, rampedPower);
 		SmartDashboard.putNumber("PID", pidCorrectionPower);
 		 

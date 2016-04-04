@@ -5,8 +5,10 @@ import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.LogFileHandler;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
+import org.usfirst.frc.team4911.tasks.DriveForDistance;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.DriveStraightRampedPower;
+import org.usfirst.frc.team4911.tasks.ShooterWheelTask;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
 import org.usfirst.frc.team4911.tasks.SpinToPower;
@@ -85,7 +87,6 @@ public class Robot extends IterativeRobot {
     	RobotMap.ShooterLiftMotor.getTalon().setEncPosition(0);
     	autoSelected = (String) chooser.getSelected();
 		//autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
 		autoTaskManager = new AutoTaskManager();
 		autoTaskManager.init();
 		//autoTaskManager.addTask(new DriveForDegree(-90,1,false),1);
@@ -99,33 +100,44 @@ public class Robot extends IterativeRobot {
 		} else {
 			autoSelected = lowBarAuto;
 		}
+		System.out.println("Auto selected: " + autoSelected);
 		
 		switch(autoSelected) {
 		case rampartsAuto:
 		default:
 			//Put custom auto code here   
 			autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
-			autoTaskManager.addTask(new DriveStraight(0,1,false),3);
-			autoTaskManager.addTask(new DriveStraightRampedPower(1,0,1),1);
+			autoTaskManager.addTask(new DriveStraight(0,1,false),2);
+			autoTaskManager.addTask(new DriveStraightRampedPower(1,0,0.5),0.5);
 
 
 			break;
 		case lowBarAuto:
 			//Put custom auto code here   
-			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.3),0.1);
-			//autoTaskManager.addTask(new Task(),1);
-			//autoTaskManager.addTask(new SpinToPower(RobotMap.RollerBarMotor, 0.0),0.1);
+
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterCollect,0.3,0.5), 2);
+			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 			
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerMax, 1, 2), 2);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 
-			autoTaskManager.addTask(new DriveStraight(0,0.2,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.3,false),0.3);
-			autoTaskManager.addTask(new DriveStraight(0,0.4,false),6);
+			
+			autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 15);
+			autoTaskManager.addTask(new DriveForDegree(30, 1, true), 1);
+			autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 15);
+			autoTaskManager.addTask(new DriveForDegree(27, 1, true), 1);
+
+			
+			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.7, 2), 2);
+
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
+			autoTaskManager.addTask(new Task(),0.5);
+			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
+
+			
 			break;
 //		case defaultAuto:
 //			//Put default auto code here
@@ -141,8 +153,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
     	Sensors.update();
     	autoTaskManager.update();
-    	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
-    	SmartDashboard.putNumber("Feedback Device:  ",  RobotMap.ShooterLiftTalon.getEncPosition());
+    	SmartDashboard.putNumber("Drive Encoder" , RobotMap.DriveEncoder.getDistance());
     	
     }
 
@@ -177,12 +188,14 @@ public class Robot extends IterativeRobot {
     	//Logging.DebugPrint("talonmid: " + RobotMap.DriveMidLeftTalon.getBusVoltage());
     	//Logging.DebugPrint("talonrear: " + RobotMap.DriveRearLeftTalon.getBusVoltage());
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
+    	SmartDashboard.putNumber("DRIVE ENCODER", RobotMap.DriveEncoder.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT", RobotMap.DriveFrontLeftTalon.get() + RobotMap.DriveMidLeftTalon.get() + RobotMap.DriveRearLeftTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Voltage", RobotMap.DriveFrontRightTalon.getOutputVoltage() + RobotMap.DriveMidRightTalon.getOutputVoltage() + RobotMap.DriveRearRightTalon.getOutputVoltage());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
     	SmartDashboard.putNumber("Potentiometer", RobotMap.ArmPotentiometer.get());
-    	System.out.println(RobotMap.ArmPotentiometer.get());
+    	SmartDashboard.putNumber("Wheel Encoder", RobotMap.DriveEncoder.getDistance());
+
 
 //   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Front", RobotMap.DriveFrontRightTalon.get());
 //    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Mid", RobotMap.DriveMidRightTalon.get());

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
@@ -28,6 +29,7 @@ public class DriveStraight extends Task{
 	double degreesToTurn;
 	double basePower;
 	Drive drive;
+	double heading;
 	int i;
 	PidHelper pid;
 	Motor motor;
@@ -49,7 +51,16 @@ public class DriveStraight extends Task{
 		this.priority = RobotConstants.MED_PRI;
 		reversed = _reversed;
 		basePower = _basePower;
-
+		heading = 0;
+	}
+	public DriveStraight(double _degreesToTurn, double _basePower, double _heading, boolean _reversed){
+		interruptible = false;
+		degreesToTurn = _degreesToTurn;
+		drive = new Drive(0, 0);
+		this.priority = RobotConstants.MED_PRI;
+		reversed = _reversed;
+		basePower = _basePower;
+		heading = _heading;
 	}
 //	public DriveStraight(){
 //		interruptible = false;
@@ -75,44 +86,14 @@ public class DriveStraight extends Task{
 	@Override
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
-	//	double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
-		power = pid.run(degreesToTurn, currentDegree , timer.get());
 		SmartDashboard.putNumber("PID", power);
-		power = Math.min(power, basePower);
-		power = Math.max(power, -basePower);
-		
-		//if (reversed){power = -power;};
-		
-		if (pid.isFinished()){
-			//0.3 for rock wall
-			//0.4 for rock wall and ramparts
-			power = basePower;
-			if (reversed){power = -power;};
-			drive.setRightPower(power);
-			drive.setLeftPower(power);
-		} else {
-			if (!reversed){
-//				if (power < 0){
-			drive.setLeftPower(basePower+power);
-			drive.setRightPower(basePower-power);
-//
-//				}else{
-//					drive.setRightPower(basePower-power);
-//					drive.setLeftPower(basePower+power);
-//				}
-			}
-			else {
-				if (power > 0){
-					drive.setRightPower(-power);
-				}else{
-					drive.setLeftPower(power);
-				}
-			}
-		}
-//		Logging.DebugPrint("RIGHT"+drive.getRightPower());
-//		Logging.DebugPrint("LEFT"+drive.getLeftPower());
 
+		power = pid.run(heading, currentDegree , timer.get());
+		power = ClampHelper.clamp(power, -basePower, basePower);
+		drive.setLeftPower(basePower+power);
+		drive.setRightPower(basePower-power);
 		drive.execute();
+
 		
 		isFinished = false;
 	}

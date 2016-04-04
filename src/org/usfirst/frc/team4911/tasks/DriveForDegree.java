@@ -47,7 +47,7 @@ public class DriveForDegree extends Task{
 		timeoutTime = _timeoutTime;
 		drive = new Drive(0,0);
 		timer = new Timer();
-		pid = new PidHelper(0.8, 0, 0, 0.5/180);
+		pid = new PidHelper(1.7, 0, 0, 0.5/180);
 		reversed = _reversed;
 	}
 

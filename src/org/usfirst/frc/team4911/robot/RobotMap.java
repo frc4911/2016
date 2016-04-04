@@ -37,8 +37,7 @@ public class RobotMap {
 	public static Motor DriveMidLeftMotor;
 	public static Motor DriveRearLeftMotor;
 	
-	public static Encoder DriveRightEncoder;
-	public static Encoder DriveLeftEncoder;
+	public static Encoder DriveEncoder;
 	
 	public static DoubleSolenoid DriveLeftSolenoid;
 	public static DoubleSolenoid DriveSolenoid;
@@ -123,8 +122,6 @@ public class RobotMap {
 		DriveSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 //		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 		
-        DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
-        DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
     	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0, null);// Robot.driveCurrentManager);
     	DriveMidRightMotor = new Motor (DriveMidRightTalon, null, null, 0.01, 0.0, 0.0, null); //Robot.driveCurrentManager);
@@ -132,6 +129,9 @@ public class RobotMap {
     	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0.01, 0, 0, null); //Robot.driveCurrentManager);
     	DriveMidLeftMotor = new Motor (DriveMidLeftTalon, null, null, 0.01, 0.0, 0.0, null); //Robot.driveCurrentManager);
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0.01, 0, 0, null); //Robot.driveCurrentManager);
+
+    	DriveEncoder = new Encoder(RobotConstants.DriveEncoderPortA,RobotConstants.DriveEncoderPortB);
+    	DriveEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
 
     	//ROLLER
         
