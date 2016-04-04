@@ -53,5 +53,6 @@ public class SpinForTime extends Task {
 	 */
 	@Override
 	public void end(){
+		motor.setPower(0);
 	}
 }

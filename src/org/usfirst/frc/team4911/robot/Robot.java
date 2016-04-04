@@ -10,6 +10,7 @@ import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.DriveStraightRampedPower;
 import org.usfirst.frc.team4911.tasks.ShooterWheelTask;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
+import org.usfirst.frc.team4911.tasks.SpinForTime;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
 import org.usfirst.frc.team4911.tasks.SpinToPower;
 import org.usfirst.frc.team4911.tasks.SpinToTalonValue;
@@ -37,9 +38,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static boolean operatorDrive;
 	public static TaskManager taskManager;
-    final String defaultAuto = "Default";
-    final  String rampartsAuto = "Default auto";
-    final  String lowBarAuto = "Low Bar";
+    final String rampartsAuto = "Default auto";
+    final String lowBarAuto = "Low Bar";
+    final String frenchAuto = "French";
 
     String autoSelected;
     SendableChooser chooser;
@@ -95,10 +96,12 @@ public class Robot extends IterativeRobot {
 		
 		
 		// if less than 0 do ramparts
-		if (ControllerMappings.leftJoy.getRawAxis(3) < 0){
+		if (ControllerMappings.leftJoy.getRawAxis(3) < -0.5){
 			autoSelected = rampartsAuto;
-		} else {
+		} else if (ControllerMappings.leftJoy.getRawAxis(3) > 0.5) {
 			autoSelected = lowBarAuto;
+		} else{
+			autoSelected = frenchAuto;
 		}
 		System.out.println("Auto selected: " + autoSelected);
 		
@@ -136,9 +139,41 @@ public class Robot extends IterativeRobot {
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
 			autoTaskManager.addTask(new Task(),0.5);
 			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
-
-			
 			break;
+		case frenchAuto:
+
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+			
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);			
+
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.5,0.7), 0.7);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrench, 0.7, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
+
+			autoTaskManager.addTask(new DriveForDistance(40, RobotMap.DriveEncoder, 0.8), 15);
+			
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrenchDown, 0.7, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
+
+			autoTaskManager.addTask(new DriveForDistance(45, RobotMap.DriveEncoder, 0.8), 15);
+
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5,0.7), 0.7);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+			
+			autoTaskManager.addTask(new DriveForDistance(55, RobotMap.DriveEncoder, 0.8), 15);
+
+			break;
+			
 //		case defaultAuto:
 //			//Put default auto code here
 //			autoTaskManager.addTask(new DriveStraight(0,0.4,false),6);

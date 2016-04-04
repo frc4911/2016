@@ -64,6 +64,10 @@ public class RobotConstants {
 	public static int RollerTalonPort = 13;
 	public static final double ArmPotentiometerMin =  0.240;
 	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.017;
+
+	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.008;
+	public static final double ArmPotentiometerAutoFrenchDown = ArmPotentiometerMin - 0.016;
+
 	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.014;
 	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.005;
 
