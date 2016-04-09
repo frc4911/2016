@@ -83,6 +83,10 @@ public class Inputs {
 			 * DRIVE CONTROLS
 			 */
 			
+			if(ControllerMappings.ZeroYaw.getDown()){
+				Sensors.getImu().zeroYaw();
+			}
+			
 			if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
 				Logging.DebugPrint("LEFT: "+ -leftPower +" RIGHT: " + -rightPower);
 				Robot.taskManager.addDriveTask(new OperatorDrive(-leftPower, -rightPower));
@@ -210,7 +214,7 @@ public class Inputs {
 				}
 				
 				SmartDashboard.putNumber("pot", RobotMap.ArmPotentiometer.get());
-				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1)/2 , -1, 1);
+				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1) , -0.75, 0.5);
 				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
 				
 				//if (ControllerMappings.shooterCollectPosition.getDown()){

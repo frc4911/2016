@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
     final String lowBarAuto = "Low Bar";
     final String frenchAuto = "French";
 
+    private boolean isZeroed = false;
     String autoSelected;
     SendableChooser chooser;
     public CameraServer cameraServer;
@@ -93,12 +94,12 @@ public class Robot extends IterativeRobot {
 		//autoTaskManager.addTask(new DriveForDegree(-90,1,false),1);
 		//autoTaskManager.addTask(new DriveStraight(0,true),2);
 		Sensors.getImu().zeroYaw();
-		
+		isZeroed = false;
 		
 		// if less than 0 do ramparts
-		if (ControllerMappings.leftJoy.getRawAxis(3) < -0.5){
+		if (ControllerMappings.leftJoy.getRawAxis(3) < -0.75){
 			autoSelected = rampartsAuto;
-		} else if (ControllerMappings.leftJoy.getRawAxis(3) > 0.5) {
+		} else if (ControllerMappings.leftJoy.getRawAxis(3) > 0.75) {
 			autoSelected = lowBarAuto;
 		} else{
 			autoSelected = frenchAuto;
@@ -119,26 +120,34 @@ public class Robot extends IterativeRobot {
 			//Put custom auto code here   
 
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
+			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 1);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 			
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 
 			
-			autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 15);
+			autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 7);
 			autoTaskManager.addTask(new DriveForDegree(30, 1, true), 1);
-			autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 15);
+			autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
 			autoTaskManager.addTask(new DriveForDegree(27, 1, true), 1);
 
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.6,0.2),0.2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 			
 			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.7, 2), 2);
-
+			
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.5, 2), 2);
+			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+			autoTaskManager.addTask(new Task(),0.5);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
 			autoTaskManager.addTask(new Task(),0.5);
 			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
+			
+						
 			break;
 		case frenchAuto:
 
@@ -151,7 +160,7 @@ public class Robot extends IterativeRobot {
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);			
 
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.5,0.7), 0.7);
+			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.7,1),1);
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 
 			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
@@ -186,10 +195,20 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	Sensors.update();
-    	autoTaskManager.update();
-    	SmartDashboard.putNumber("Drive Encoder" , RobotMap.DriveEncoder.getDistance());
-    	
+    	SmartDashboard.putNumber("IMU" , Sensors.getImu().getYaw());
+    	if(!isZeroed){
+    		if(Math.abs(Sensors.getImu().getYaw())<1){
+    			isZeroed = true;
+    		}else{
+    			System.out.println("TRYING TO ZERO");
+    			Sensors.getImu().zeroYaw();
+    		}
+    	}
+    	if(isZeroed){
+    		Sensors.update();
+    		autoTaskManager.update();
+//    		SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
+    	}
     }
 
     /**
@@ -228,9 +247,9 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Voltage", RobotMap.DriveFrontRightTalon.getOutputVoltage() + RobotMap.DriveMidRightTalon.getOutputVoltage() + RobotMap.DriveRearRightTalon.getOutputVoltage());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
-    	SmartDashboard.putNumber("Potentiometer", RobotMap.ArmPotentiometer.get());
+    	SmartDashboard.putString("Potentiometer", Double.toString(RobotMap.ArmPotentiometer.get()));
     	SmartDashboard.putNumber("Wheel Encoder", RobotMap.DriveEncoder.getDistance());
-
+    	System.out.println(RobotMap.ArmPotentiometer.get());
 
 //   	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Front", RobotMap.DriveFrontRightTalon.get());
 //    	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT Mid", RobotMap.DriveMidRightTalon.get());
