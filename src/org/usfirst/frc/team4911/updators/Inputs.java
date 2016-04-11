@@ -339,7 +339,9 @@ public class Inputs {
 	public static void initCycleTasks(){
 		shooterCycle = new CycleTask(new Task[]{
 			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterCollect,0.3,0.5),
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterShootHigh,1,1),
 
+			
 		});
 		//TODO: Set to proper degrees and tune pid
 		armCycle = new CycleTask(new Task[]{
