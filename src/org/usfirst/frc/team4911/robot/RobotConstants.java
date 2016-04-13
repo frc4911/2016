@@ -28,8 +28,8 @@ public class RobotConstants {
 	public static final int frontRightEncoderPortA = 0;
 	public static final int frontRightEncoderPortB = 1;
 	
-	public static final double wheelDiameter = 6;
-	public static final double encoderPulsePerRotation = 250;
+	public static final double wheelDiameter = 7.65;
+	public static final double encoderPulsePerRotation = 2400;
 	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
 	
 	//Drive System Constants
@@ -56,15 +56,26 @@ public class RobotConstants {
 	public static int DriveMidLeftTalonPort;
 	public static int DriveRearLeftTalonPort;
 	
-	public static int DriveRightEncoderPort;
-	public static int DriveLeftEncoderPort;
+	public static int DriveEncoderPortA = 0;
+	public static int DriveEncoderPortB = 1;
 	
 	//ROLLER
 	public static int ArmTalonPort = 14;
 	public static int RollerTalonPort = 13;
-	public static final double ArmPotentiometerMin =  0.240;
-	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.017;
-	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.014;
+	
+	
+	public static final double ArmPotentiometerMin =  0.49741;
+	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.04426;
+
+	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.0279;
+	public static final double ArmPotentiometerAutoFrenchDown = ArmPotentiometerMin - 0.04426;
+
+	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.040;
+	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.012;
+
+	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.03610;
+
+	public static final double ArmPotentiometerThreshold = 0.0005;
 
 	
 	public static final int ArmSolenoidPort = 6;
@@ -95,9 +106,9 @@ public class RobotConstants {
 	
 	public static int ShooterLiftTalonPort = 1;
 	
-	public static int ShooterSolenoidPort = 1;
+	public static int ShooterSolenoidPort = 0;
 	
-	public static int ShooterBrakeSolenoidPortA = 3;
+	public static int ShooterBrakeSolenoidPortA = 4;
 //	public static int ShooterBrakeSolenoidPortB = 4;
 
 	
@@ -105,9 +116,12 @@ public class RobotConstants {
 	public static double ShooterSpinup = 1.5;
 	public static double shooterCollectEcnoderValue = 25;
 	
-	public static double ShooterLiftMax = 1.8;
-	public static double ShooterLiftMin = 0.792;
-	public static double ShooterCollect;
+	public static double ShooterLiftMax = 0;
+	public static double ShooterLiftMin = -0.198;
+	public static double ShooterCollect = -1.110;
+	public static double ShooterShootHigh = -0.440;
+	public static double ShooterAuto = -1.15;
+
 	
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;
@@ -124,9 +138,9 @@ public class RobotConstants {
 	//RampDownHelper constants 
 	public static final double amplitude = 20;
 	public static final double floor = 0.2;
-	public static final double ceiling = 0.5;
+	public static final double ceiling = 1;
 	public static final double rampUp = 1.0;
-	public static final double rampDown = 15;
+	public static final double rampDown = 2;
 	
 	//IMU min and max angles
 	public static final double maxAngle = 180;

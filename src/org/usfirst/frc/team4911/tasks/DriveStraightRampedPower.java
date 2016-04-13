@@ -17,23 +17,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @author Luke Caughell
  */
-public class DriveStraight extends Task{
+public class DriveStraightRampedPower extends Task{
 	Timer timer;
 	double driveTime;
-	double power;
-	double adjustedPower;
+	double pidCorrectionPower;
 	double driveDistance;
 	double currentEncoderValueInches;
 	double currentDegree;
 	double startDegree;
-	double degreesToTurn;
-	double basePower;
+	double rampedPower;
+	double startPower;
+	double slope;
+	double endTime;
 	Drive drive;
-	double heading;
 	int i;
 	PidHelper pid;
 	Motor motor;
 	boolean reversed;
+	 double heading;
 
 	
 	/**
@@ -41,40 +42,38 @@ public class DriveStraight extends Task{
 	 * Sets the class variables.
 	 * 
 	 * @param _power the motor power to set for turning
-	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveStraight(double _degreesToTurn, double _basePower, boolean _reversed){
+	public DriveStraightRampedPower(double _startPower, double _endPower, double _endTime){
 		interruptible = false;
-		degreesToTurn = _degreesToTurn;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
-		reversed = _reversed;
-		basePower = _basePower;
+		//Assume start time 0
+		slope = (_endPower-_startPower)/_endTime;
+		timer = new Timer();
+		endTime = _endTime;
+		startPower = _startPower;
 		heading = 0;
 	}
-	public DriveStraight(double _degreesToTurn, double _basePower, double _heading, boolean _reversed){
+
+	public DriveStraightRampedPower(double _startPower, double _endPower, double _heading, double _endTime){
 		interruptible = false;
-		degreesToTurn = _degreesToTurn;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
-		reversed = _reversed;
-		basePower = _basePower;
+		//Assume start time 0
+		slope = (_endPower-_startPower)/_endTime;
+		timer = new Timer();
+		endTime = _endTime;
+		startPower = _startPower;
 		heading = _heading;
 	}
-//	public DriveStraight(){
-//		interruptible = false;
-//		drive = new Drive(0, 0);
-//		this.priority = RobotConstants.LOW_PRI;
-//	}
-	
 	/**
 	 * This is called when the command is first added to the task manager
 	 */
 	@Override
 	public void init(){
 		pid = new PidHelper(0.015, 0, 0.0, 2);
-	   	timer = new Timer();
+		timer.reset();
 	   	timer.start();
 	   	startDegree = Sensors.getImuYawValue();
 	   	isFinished = false;
@@ -86,16 +85,24 @@ public class DriveStraight extends Task{
 	@Override
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
-		SmartDashboard.putNumber("PID", power);
-
-		power = pid.run(heading, currentDegree , timer.get());
-		power = ClampHelper.clamp(power, -basePower, basePower);
-		drive.setLeftPower(basePower+power);
-		drive.setRightPower(basePower-power);
-		drive.execute();
-
+		rampedPower = startPower + (slope*timer.get());
+		pidCorrectionPower = pid.run(heading, currentDegree , timer.get());
+		pidCorrectionPower = ClampHelper.clamp(pidCorrectionPower, -rampedPower, rampedPower);
+		SmartDashboard.putNumber("PID", pidCorrectionPower);
+		 
+		if (pid.isFinished()){
+			drive.setRightPower(rampedPower);
+			drive.setLeftPower(rampedPower);
+		} else {
+			drive.setLeftPower(rampedPower + pidCorrectionPower);
+			drive.setRightPower(rampedPower - pidCorrectionPower);
+		}
 		
-		isFinished = false;
+		drive.execute();
+		
+		if (timer.get()> endTime){
+			isFinished = false;
+		}
 	}
 	
 	/**
@@ -103,12 +110,10 @@ public class DriveStraight extends Task{
 	 */
 	@Override
 	public void end(){
-		drive.setPower(0);
-		drive.execute();
+		//drive.setPower(0);
+		//drive.execute();
 	}
-	public void setTargetHeading(double target){
-		degreesToTurn = target;
-	}
+	
 	public void setFinished(boolean value){
 		isFinished = value;
 	}

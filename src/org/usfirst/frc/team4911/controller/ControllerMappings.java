@@ -61,6 +61,8 @@ public class ControllerMappings {
 	public static Button shooterCycleDown = new Button(payloadJoy,1);
 	public static Button shooterCycleUp = new Button(payloadJoy,2);
 
+	public static Button ZeroYaw = new Button(rightJoy,1);
+	
 	public static Button ArmCycleDown = new Button(payloadJoy,3);
 	public static Button ArmCycleUp = new Button(payloadJoy,4);
 	

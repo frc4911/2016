@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 
 import org.usfirst.frc.team4911.helpers.Logging;
+import org.usfirst.frc.team4911.robot.RobotMap;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -30,6 +31,8 @@ public class Sensors {
     public static void init() {
         Imu = new AHRS(SPI.Port.kMXP);
         Imu.zeroYaw();
+        Imu.resetDisplacement();
+    	RobotMap.ShooterLiftTalon.setEncPosition(0);
         panel = new PowerDistributionPanel(0);
     }
     

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.helpers;year scsv'''
 
 import java.io.*;
-
 import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.*;
 

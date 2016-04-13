@@ -83,6 +83,10 @@ public class Inputs {
 			 * DRIVE CONTROLS
 			 */
 			
+			if(ControllerMappings.ZeroYaw.getDown()){
+				Sensors.getImu().zeroYaw();
+			}
+			
 			if(Math.abs(leftPower) > RobotConstants.JoyThreshold || Math.abs(rightPower) > RobotConstants.JoyThreshold) {
 				Logging.DebugPrint("LEFT: "+ -leftPower +" RIGHT: " + -rightPower);
 				Robot.taskManager.addDriveTask(new OperatorDrive(-leftPower, -rightPower));
@@ -210,7 +214,7 @@ public class Inputs {
 				}
 				
 				SmartDashboard.putNumber("pot", RobotMap.ArmPotentiometer.get());
-				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1)/2 , -1, 1);
+				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1) , -0.75, 0.5);
 				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
 				
 				//if (ControllerMappings.shooterCollectPosition.getDown()){
@@ -334,13 +338,14 @@ public class Inputs {
 	
 	public static void initCycleTasks(){
 		shooterCycle = new CycleTask(new Task[]{
-			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMin,0.3,1),
-			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMax,0.7,1)
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterCollect,0.3,0.5),
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterShootHigh,1,1),
 
+			
 		});
 		//TODO: Set to proper degrees and tune pid
 		armCycle = new CycleTask(new Task[]{
-			new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerCollect , 0.5,1),
+			new SpinToPotentiometerValue(RobotMap.ArmMotor,RobotConstants.ArmPotentiometerCollect , 0.5,1.25,RobotConstants.ArmPotentiometerThreshold),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(19), 0.5,1),
 //			new SpinToPotentiometerValue(RobotMap.RollerBarMotor, RobotConstants.RollerPotentiometerMax - GetTargetAngleHelper.degreesToPotentiometerValue(35), 0.5,1),
 		});

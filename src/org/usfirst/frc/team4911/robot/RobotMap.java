@@ -37,8 +37,7 @@ public class RobotMap {
 	public static Motor DriveMidLeftMotor;
 	public static Motor DriveRearLeftMotor;
 	
-	public static Encoder DriveRightEncoder;
-	public static Encoder DriveLeftEncoder;
+	public static Encoder DriveEncoder;
 	
 	public static DoubleSolenoid DriveLeftSolenoid;
 	public static DoubleSolenoid DriveSolenoid;
@@ -123,8 +122,6 @@ public class RobotMap {
 		DriveSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 //		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 		
-        DriveRightEncoder = new Encoder(RobotConstants.frontRightEncoderPortA, RobotConstants.frontRightEncoderPortB);
-        DriveRightEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
         
     	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0, null);// Robot.driveCurrentManager);
     	DriveMidRightMotor = new Motor (DriveMidRightTalon, null, null, 0.01, 0.0, 0.0, null); //Robot.driveCurrentManager);
@@ -132,6 +129,9 @@ public class RobotMap {
     	DriveRearRightMotor = new Motor (DriveRearRightTalon, null, null, 0.01, 0, 0, null); //Robot.driveCurrentManager);
     	DriveMidLeftMotor = new Motor (DriveMidLeftTalon, null, null, 0.01, 0.0, 0.0, null); //Robot.driveCurrentManager);
     	DriveRearLeftMotor = new Motor (DriveRearLeftTalon, null, null, 0.01, 0, 0, null); //Robot.driveCurrentManager);
+
+    	DriveEncoder = new Encoder(RobotConstants.DriveEncoderPortA,RobotConstants.DriveEncoderPortB);
+    	DriveEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
 
     	//ROLLER
         
@@ -142,7 +142,7 @@ public class RobotMap {
     	
     	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
 
-    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0);
+    	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0,0.001);
     	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
 
     	//SCALE
@@ -163,20 +163,20 @@ public class RobotMap {
     	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
     	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
     	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
-    	ShooterLiftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+    	ShooterLiftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
     	
 //		ShooterLeftTalon.set(0.5);
 //		ShooterRightTalon.set(0.5);
     	
     	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPortA);
-    	ShooterSolenoid = new Solenoid(1,RobotConstants.ShooterSolenoidPort);
+    	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
 
 
     	//ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
     	
     	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
     	ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, -1, 0.0, 0.0, 0.1);
+    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, -1.8, 0.0, 0.0, 0.001);
     	
 
     	//EXTENDER
