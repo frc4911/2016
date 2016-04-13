@@ -180,4 +180,8 @@ public class RobotConstants {
 	public static final double EXTENDER_VOLTAGE_ALLOCATION = 0.2;
 	public static final double ROLLER_VOLTAGE_ALLOCATION = 0.3;
 	public static final double SCALE_VOLTAGE_ALLOCATION = 0.2;
+	
+	// Log file base names
+	public static final String autoLogFileNameBase = "AutoLog";
+	public static final String teleopLogFileNameBase = "TeleopLog";
 }

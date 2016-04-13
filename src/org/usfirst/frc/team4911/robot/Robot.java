@@ -234,10 +234,8 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putString("Potentiometer", Double.toString(RobotMap.ArmPotentiometer.get()));
     	SmartDashboard.putNumber("Wheel Encoder", RobotMap.DriveEncoder.getDistance());
     	System.out.println(RobotMap.ArmPotentiometer.get());
-
-    	
-    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
-    	logFileHandler.WriteLogEntry();
+    	// Write an entry to the log file
+    	TeleopLogHandler.WriteLogEntry();
     }
     
     /**

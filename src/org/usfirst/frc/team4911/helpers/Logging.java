@@ -1,13 +1,13 @@
 package org.usfirst.frc.team4911.helpers;
 
-import org.usfirst.frc.team4911.robot.RobotConstants;
+import org.usfirst.frc.team4911.robot.*;
 
 /**
  * Functionality related to logging.
  * 
  * @author Anne Gwynne-Robson
  */
-public class Logging {
+public class Logging {	
 	/**
 	 * Prints to the RioLog window if RobotConstants.debug is set to true
 	 */
