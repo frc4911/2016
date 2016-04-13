@@ -1,6 +1,8 @@
-package org.usfirst.frc.team4911.helpers;
+package org.usfirst.frc.team4911.helpers;year scsv'''
 
 import java.io.*;
+
+import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.*;
 
 /**
@@ -11,40 +13,38 @@ import org.usfirst.frc.team4911.updators.*;
 public class LogFileHandler {
 	// The header of the log file. Be sure to update this whenever we
 	// start logging new parameters.
-	private String logFileHeader = "Timestamp,Timedelta,Battery Voltage (V)";
+	private final String logFileHeader = "Timestamp" + "," +
+										"Timedelta" + "," +
+										"Battery Voltage (V)" + 
+										"Front Left Talon Power" +
+										"Mid Left Talon Power" +
+										"Rear Left Talon Power" +
+										"Front Right Talon power";
 	
 	// Handle to the log file
-	private PrintWriter logFileWriter = null;
+	private PrintWriter logFileWriter;
+	
+	// The name of the log file
+	private String logFileName;
 	
 	// True the first time we write a line to the log file.
-	boolean firstLogFileBodyEntry = true;
+	private boolean firstLogFileBodyEntry;
 	
 	// The time of the last log
-	long lastLogTime = 0;
-	
-	// The instance of this class that's here so we can make this a
-	// singleton.
-	private static LogFileHandler instance = null;
-	   
-	// Private constructor. Also a singleton thing.
-	protected LogFileHandler() {
-		// Exists to defeat instantiation
-	}
-	
-	// Call this whenever you want to use this class.
-	public static LogFileHandler getInstance() {
-		if(instance == null) {
-			instance = new LogFileHandler();
-		}
-		return instance;
-	}
-	
+	private long lastLogTime;
+		   
 	/**
-	 * Opens the log file for open and writes the header
+	 * Creates a handler which writes to a file. The file name will look like this:
+	 * <fileNameBase><time the file was created (system time in milliseconds)>.csv
+	 * @param fileNameBase
 	 */
-	public void CreateLogFile() throws FileNotFoundException {
+	public LogFileHandler(String fileNameBase) {
+		firstLogFileBodyEntry = true;
+		lastLogTime = 0;
+		logFileName = fileNameBase + String.valueOf(System.currentTimeMillis()) + ".csv";
+		
 		try {
-			logFileWriter = new PrintWriter("logfile.csv");
+			logFileWriter = new PrintWriter(logFileName);
 			logFileWriter.println(logFileHeader);
 			logFileWriter.flush();
 		} catch (FileNotFoundException e) {
@@ -71,9 +71,13 @@ public class LogFileHandler {
 		lastLogTime = timestamp;
 		
 		// Build a single line of our log file
-		String logEntry = String.valueOf(timestamp) + ','
-				+ String.valueOf(timedelta) + ','
-				+ String.valueOf(Sensors.getVoltage());
+		String logEntry = String.join(",", String.valueOf(timestamp), String.valueOf(timedelta), String.valueOf(Sensors.getVoltage()),
+				+ String.valueOf(RobotMap.DriveFrontLeftTalon.get()),
+				+ String.valueOf(RobotMap.DriveMidLeftTalon.get()) + ','
+				+ String.valueOf(RobotMap.DriveRearLeftTalon.get()) + ','
+				+ String.valueOf(RobotMap.DriveFrontRightTalon.get()) + ','
+				+ String.valueOf(RobotMap.DriveMidRightTalon.get()) + ','
+				+ String.valueOf(RobotMap.DriveRearRightTalon.get());
 		
 		if (firstLogFileBodyEntry) {
 			// Check that the number of fields in our header and body

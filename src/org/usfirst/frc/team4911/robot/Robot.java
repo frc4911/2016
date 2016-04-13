@@ -43,6 +43,10 @@ public class Robot extends IterativeRobot {
 	Solenoid s;
 	private AutoTaskManager autoTaskManager;
 	public static NewCurrentManager driveCurrentManager;
+	
+	// Handlers to the log files for autonomous and teleop
+	private LogFileHandler AutoLogHandler;
+	private LogFileHandler TeleopLogHandler;
 
 	
     /**
@@ -79,7 +83,7 @@ public class Robot extends IterativeRobot {
 	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
-    public void autonomousInit() {
+    public void autonomousInit() {    	
     	autoSelected = (String) chooser.getSelected();
 		//autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
@@ -127,6 +131,8 @@ public class Robot extends IterativeRobot {
 //			break;
 		}
 		
+    	// Initialize the log file for autonomous
+    	AutoLogHandler = new LogFileHandler(RobotConstants.autoLogFileNameBase);
     }
 
     /**
@@ -138,6 +144,9 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT:  ", RobotMap.DriveFrontLeftTalon.get() + RobotMap.DriveMidLeftTalon.get() + RobotMap.DriveRearLeftTalon.get());
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT RIGHT: ", RobotMap.DriveFrontRightTalon.get() + RobotMap.DriveMidRightTalon.get() + RobotMap.DriveRearRightTalon.get());
+    	
+    	// Write the log file
+    	AutoLogHandler.WriteLogEntry();
     }
 
     /**
@@ -149,8 +158,7 @@ public class Robot extends IterativeRobot {
     	taskManager.init();
     	
     	// Create the log file
-    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
-    	logFileHandler.CreateLogFile();
+    	TeleopLogHandler = new LogFileHandler(RobotConstants.teleopLogFileNameBase);
     }
     
     /**
@@ -169,8 +177,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Potentiometer", RobotMap.ArmPotentiometer.get());
 
     	// Write an entry to the log file
-    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
-    	logFileHandler.WriteLogEntry();
+    	TeleopLogHandler.WriteLogEntry();
     }
     
     /**
