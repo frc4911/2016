@@ -12,13 +12,16 @@ import org.usfirst.frc.team4911.updators.*;
 public class LogFileHandler {
 	// The header of the log file. Be sure to update this whenever we
 	// start logging new parameters.
-	private final String logFileHeader = "Timestamp" + "," +
-										"Timedelta" + "," +
-										"Battery Voltage (V)" + 
-										"Front Left Talon Power" +
-										"Mid Left Talon Power" +
-										"Rear Left Talon Power" +
-										"Front Right Talon power";
+	private final String logFileHeader = "Timestamp," +
+										"Timedelta," +
+										"Battery Voltage (V)," + 
+										"Front Left Talon Power," +
+										"Mid Left Talon Power," +
+										"Rear Left Talon Power," +
+										"Front Right Talon power," +
+										"IMU roll," + 
+										"IMU pitch," + 
+										"IMU yaw";
 	
 	// Handle to the log file
 	private PrintWriter logFileWriter;
@@ -76,7 +79,10 @@ public class LogFileHandler {
 				+ String.valueOf(RobotMap.DriveRearLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveFrontRightTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveMidRightTalon.get()) + ','
-				+ String.valueOf(RobotMap.DriveRearRightTalon.get());
+				+ String.valueOf(RobotMap.DriveRearRightTalon.get()) + ','
+				+ String.valueOf(Sensors.getImu().getRoll()) + ','
+				+ String.valueOf(Sensors.getImu().getPitch()) + ','
+				+ String.valueOf(Sensors.getImu().getYaw()));
 		
 		if (firstLogFileBodyEntry) {
 			// Check that the number of fields in our header and body
