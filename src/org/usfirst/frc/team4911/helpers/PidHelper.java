@@ -61,6 +61,9 @@ public class PidHelper {
 		
 		// The integral is basically the area under a graph of error against time between t = 0 and t = currentTime
 		double currentIntegral = (double)(prevIntegral + error * deltaTime);
+		if(Math.signum(error)!=Math.signum(prevError)){
+			currentIntegral = 0;
+		}
 		// The derivative is the slope at t = currentTime of the error/time graph the integral is the area under
 		double currentDerivative = (double) ((error - prevError)/deltaTime);
 		

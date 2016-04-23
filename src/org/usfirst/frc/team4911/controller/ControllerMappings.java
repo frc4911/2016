@@ -28,7 +28,8 @@ public class ControllerMappings {
 	public static Button rightJukeButton3;
 	public static Button rightJukeButton4;
 
-	public static Button rightTrigger;
+	public static Button rightTrigger = new Button(rightJoy, 1);
+
 	//LEFT JOY
 	
 	public static Button leftJukeButton1 = new Button(leftJoy,3);
@@ -62,6 +63,9 @@ public class ControllerMappings {
 	public static Button shooterCycleUp = new Button(payloadJoy,2);
 
 	public static Button ZeroYaw = new Button(rightJoy,1);
+
+	public static Dpad setShooterGoal = new Dpad(payloadJoy,0);
+
 	
 	public static Button ArmCycleDown = new Button(payloadJoy,3);
 	public static Button ArmCycleUp = new Button(payloadJoy,4);

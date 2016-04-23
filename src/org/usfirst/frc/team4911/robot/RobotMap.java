@@ -71,7 +71,9 @@ public class RobotMap {
 	public static CANTalon ShooterRightTalon;
 	public static CANTalon ShooterLiftTalon;
 	
-	public static Solenoid ShooterSolenoid;
+	public static Solenoid ShooterSolenoidA;
+	public static Solenoid ShooterSolenoidB;
+
 	public static Solenoid ShooterBrakeSolenoid;
 
 	
@@ -140,7 +142,7 @@ public class RobotMap {
     	
     	ArmSolenoid = new Solenoid(1,RobotConstants.ArmSolenoidPort);
     	
-    	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.RollerPotentiometerPort);
+    	ArmPotentiometer = new AnalogPotentiometer(RobotConstants.ArmPotentiometerPort);
 
     	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0,0.001);
     	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
@@ -153,7 +155,7 @@ public class RobotMap {
     	//ScaleRightEncoder = new Encoder(RobotConstants.ScaleRightEncoderPortA,RobotConstants.ScaleRightEncoderPortB);
     	//ScaleLeftEncoder = new Encoder(RobotConstants.ScaleLeftEncoderPortA,RobotConstants.ScaleLeftEncoderPortB);
     	
-    	ScaleSolenoid = new Solenoid(1,RobotConstants.ScaleSolenoidPort);
+    	//ScaleSolenoid = new Solenoid(1,RobotConstants.ScaleSolenoidPort);
 //    	
     	ScaleRightMotor = new Motor (ScaleRightTalon, null, null, 0.01, 0.0, 0.0);
     	ScaleLeftMotor = new Motor (ScaleLeftTalon, null, null, 0.01, 0.0, 0.0);
@@ -169,22 +171,29 @@ public class RobotMap {
 //		ShooterRightTalon.set(0.5);
     	
     	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPortA);
-    	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
+//    	ShooterBrakeSolenoid = new DoubleSolenoid(1,5,1);
+//    	ShooterSolenoidA = new Solenoid(1,3);
+       	ShooterSolenoidB = new Solenoid(0,0);
+//    	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
 
 
-    	//ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
+//		ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
     	
     	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
     	ShooterRightMotor = new Motor (ShooterRightTalon, null, null, 0.01, 0.0, 0.0);
-    	ShooterLiftMotor = new Motor (ShooterLiftTalon, ShooterEncoder == null ? null : ShooterEncoder, null, -1.8, 0.0, 0.0, 0.001);
-    	
+//		last working pid for shooter with ball and surgical tubing 
+//    	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -1.2, -1,-0.14, 0.001);
+    	//working better. hitting target faster
+ //   	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -4.8, -1,-0.14, 0.001);
+  	
+      	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -4, -1.2,-0.2, 0.001);
 
     	//EXTENDER
 
     	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
     	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
-    	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
- //   	ExtenderSolenoid = new Solenoid(1,3);
+  //  	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
+  //  	ExtenderSolenoid = new Solenoid(1,3);
  	
     	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 15, 0, 0);
 

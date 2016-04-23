@@ -23,6 +23,7 @@ import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -49,7 +50,9 @@ public class Robot extends IterativeRobot {
 	Solenoid s;
 	private AutoTaskManager autoTaskManager;
 	public static NewCurrentManager driveCurrentManager;
-
+	
+	LogFileHandler TeleopLogHandler;
+	LogFileHandler AutoLogHandler;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -70,8 +73,7 @@ public class Robot extends IterativeRobot {
         driveCurrentManager = new NewCurrentManager(10);
  
         //cameraServer = CameraServer.getInstance();
-        //cameraServer.startAutomaticCapture();
-          
+        //cameraServer.startAutomaticCapture(); 
     }
     
 	/**
@@ -101,84 +103,23 @@ public class Robot extends IterativeRobot {
 			autoSelected = frenchAuto;
 		}
 		System.out.println("Auto selected: " + autoSelected);
-		
+
+		/**
+		 * COMMENTED OUT AUTO BECAUSE OF SOLENOID ERRORS
+		 */
 		switch(autoSelected) {
 		case rampartsAuto:
 		default:
 			//Put custom auto code here   
-			autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
-			autoTaskManager.addTask(new DriveStraight(0,1,false),2);
-			autoTaskManager.addTask(new DriveStraightRampedPower(1,0,0.5),0.5);
-
+			AddDefaultTasks();
 			break;
 		case lowBarAuto:
-			//Put custom auto code here   
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 1);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
-			
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
-
-			
-			autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 7);
-			autoTaskManager.addTask(new DriveForDegree(30, 1, true), 1);
-			autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
-			autoTaskManager.addTask(new DriveForDegree(27, 1, true), 1);
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.6,0.2),0.2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
-			
-			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 0.1);
-			
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.5, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
-			autoTaskManager.addTask(new Task(),0.5);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
-			autoTaskManager.addTask(new Task(),0.5);
-			autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
-			
-						
+			AddLowBarTasks();
 			break;
 		case frenchAuto:
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
-			
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);			
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.7,1),1);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrench, 0.7, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
-
-			autoTaskManager.addTask(new DriveForDistance(40, RobotMap.DriveEncoder, 0.8), 15);
-			
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrenchDown, 0.7, 2), 2);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
-
-			autoTaskManager.addTask(new DriveForDistance(45, RobotMap.DriveEncoder, 0.8), 15);
-
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-			autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5,0.7), 0.7);
-			autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
-			
-			autoTaskManager.addTask(new DriveForDistance(55, RobotMap.DriveEncoder, 0.8), 15);
-
+			AddChevalDuFriesTasks();
 			break;
 		}
-		
     }
 
     /**
@@ -199,6 +140,8 @@ public class Robot extends IterativeRobot {
     		autoTaskManager.update();
 //    		SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
     	}
+    	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
+
     }
 
     /**
@@ -210,8 +153,8 @@ public class Robot extends IterativeRobot {
     	taskManager.init();
     	
     	// create log file
-    	LogFileHandler logFileHandler = LogFileHandler.getInstance();
-    	logFileHandler.CreateLogFile();
+    	String teleopLogName = "teleoplog" + String.valueOf(System.currentTimeMillis());
+    	TeleopLogHandler = new LogFileHandler(teleopLogName);
     }
     
     /**
@@ -219,7 +162,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 //    	driveCurrentManager.update();
+    	SmartDashboard.putNumber("Encoder Degrees" , RobotMap.ShooterLiftTalon.getPosition()*90);
     	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
+    	SmartDashboard.putNumber("pov", ControllerMappings.payloadJoy.getPOV());
     	SmartDashboard.putNumber("Feedback Device:  ",  RobotMap.ShooterLiftTalon.getEncPosition());
     	Sensors.update();
     	taskManager.update();
@@ -234,6 +179,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putString("Potentiometer", Double.toString(RobotMap.ArmPotentiometer.get()));
     	SmartDashboard.putNumber("Wheel Encoder", RobotMap.DriveEncoder.getDistance());
     	System.out.println(RobotMap.ArmPotentiometer.get());
+    	
     	// Write an entry to the log file
     	TeleopLogHandler.WriteLogEntry();
     }
@@ -243,5 +189,89 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     }
-  
+    
+    /**
+     * Adds the low bar autonomour tasks to the task manager
+     */
+    private void AddLowBarTasks()
+    {
+    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 7);
+		autoTaskManager.addTask(new DriveForDegree(30, 1, true), 1);
+		autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
+		autoTaskManager.addTask(new DriveForDegree(27, 1, true), 1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.6,0.2),0.2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 0.1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.5, 2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new Task(),0.5);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidA, true), 0.1);
+		autoTaskManager.addTask(new Task(),0.5);
+		
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
+    
+    }
+    
+    /**
+     * Adds all the Cheval Du Fries-specific tasks to the task manager
+     */
+    private void AddChevalDuFriesTasks()
+    {
+    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.7,1),1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrench, 0.7, 2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);	
+		
+		autoTaskManager.addTask(new DriveForDistance(40, RobotMap.DriveEncoder, 0.8), 15);	
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrenchDown, 0.7, 2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
+		
+		autoTaskManager.addTask(new DriveForDistance(45, RobotMap.DriveEncoder, 0.8), 15);
+		
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5,0.7), 0.7);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+		
+		autoTaskManager.addTask(new DriveForDistance(55, RobotMap.DriveEncoder, 0.8), 15);
+    }
+
+    /**
+     * Default auto, drive straight over static defenses such as ramparts, rock wall, moat, or rough terrain
+     */
+    private void AddDefaultTasks()
+    {
+    	//Sets of commands are separated by spaces when there is a change in subsystem
+		autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
+		autoTaskManager.addTask(new DriveStraight(0,1,false),2);
+		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,0.5),0.5);
+    }
 }

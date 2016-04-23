@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4911.helpers;year scsv'''
+package org.usfirst.frc.team4911.helpers;
 
 import java.io.*;
 import org.usfirst.frc.team4911.robot.RobotMap;
@@ -73,8 +73,8 @@ public class LogFileHandler {
 		lastLogTime = timestamp;
 		
 		// Build a single line of our log file
-		String logEntry = String.join(",", String.valueOf(timestamp), String.valueOf(timedelta), String.valueOf(Sensors.getVoltage()),
-				+ String.valueOf(RobotMap.DriveFrontLeftTalon.get()),
+		String logEntry = String.join(",", String.valueOf(timestamp), String.valueOf(timedelta), String.valueOf(Sensors.getVoltage()) + ','
+				+ String.valueOf(RobotMap.DriveFrontLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveMidLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveRearLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveFrontRightTalon.get()) + ','

@@ -29,8 +29,9 @@ public class RobotConstants {
 	public static final int frontRightEncoderPortB = 1;
 	
 	public static final double wheelDiameter = 7.65;
+	public static final double gearRatio = 3.2;
 	public static final double encoderPulsePerRotation = 2400;
-	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
+	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation * gearRatio;
 	
 	//Drive System Constants
 	public static final int frontRightMotorPort = 10;
@@ -64,7 +65,7 @@ public class RobotConstants {
 	public static int RollerTalonPort = 13;
 	
 	
-	public static final double ArmPotentiometerMin =  0.49741;
+	public static final double ArmPotentiometerMin =  0.70338;
 	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.04426;
 
 	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.0279;
@@ -77,16 +78,12 @@ public class RobotConstants {
 
 	public static final double ArmPotentiometerThreshold = 0.0005;
 
-	
 	public static final int ArmSolenoidPort = 6;
 	
-
-
-	
-	public static int RollerPotentiometerPort = 1;
+	public static int ArmPotentiometerPort = 1;
 	
 	//SCALE
-	public static int ScaleRightTalonPort = 4;
+	public static int ScaleRightTalonPort = 2; //4; TODO: temporary fix for practice bot 
 	public static int ScaleLeftTalonPort = 5;
 	
 	public static int ScaleRightEncoderPortA;
@@ -101,25 +98,27 @@ public class RobotConstants {
 	public static int cameraWidth = 320;
 	
 	//SHOOTER
-	public static int ShooterLeftTalonPort = 2;
+	public static int ShooterLeftTalonPort = 4; //2; TODO: temporary fix for practice bot
 	public static int ShooterRightTalonPort = 3;
 	
 	public static int ShooterLiftTalonPort = 1;
 	
+	public static double ShooterSpeed = 1;
+	
 	public static int ShooterSolenoidPort = 0;
 	
-	public static int ShooterBrakeSolenoidPortA = 4;
+	public static int ShooterBrakeSolenoidPortA = 3;
 //	public static int ShooterBrakeSolenoidPortB = 4;
 
 	
 	public static int ShooterLiftEncoderPort = 3;
-	public static double ShooterSpinup = 1.5;
+	public static double ShooterSpinup = 1;
 	public static double shooterCollectEcnoderValue = 25;
 	
 	public static double ShooterLiftMax = 0;
 	public static double ShooterLiftMin = -0.198;
 	public static double ShooterCollect = -1.110;
-	public static double ShooterShootHigh = -0.440;
+	public static double ShooterShootHigh = -0.575;
 	public static double ShooterAuto = -1.15;
 
 	
@@ -184,4 +183,8 @@ public class RobotConstants {
 	// Log file base names
 	public static final String autoLogFileNameBase = "AutoLog";
 	public static final String teleopLogFileNameBase = "TeleopLog";
+	
+	public static void setShooterShootHigh(double value){
+		ShooterShootHigh = value;
+	}
 }

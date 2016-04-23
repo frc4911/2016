@@ -134,6 +134,8 @@ public class Inputs {
 //				extenderToggle = !extenderToggle;
 //			}
 			
+
+			
 			/**
 			 * ROLLER CONTROLS
 			 */
@@ -204,19 +206,32 @@ public class Inputs {
 				/**
 				 * SHOOTER CONTROLLS
 				 */
+				
 				if(ControllerMappings.shooterCycleDown.getDown()){
 					shooterCycle.CycleDown();
 					Robot.taskManager.addShooterTask(shooterCycle);
 				}
 				if(ControllerMappings.shooterCycleUp.getDown()){
 					shooterCycle.CycleUp();
-					Robot.taskManager.addShooterTask(shooterCycle);
+					Robot.taskManager.addShooterTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterShootHigh,0.7,1.5));
+
+//					Robot.taskManager.addShooterTask(shooterCycle);
 				}
-				
+				if(ControllerMappings.setShooterGoal.get()){
+					RobotConstants.setShooterShootHigh(RobotMap.ShooterLiftTalon.getPosition());
+				}
 				SmartDashboard.putNumber("pot", RobotMap.ArmPotentiometer.get());
 				double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1) , -0.75, 0.5);
-				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
 				
+				// TODO: trying to fix brake issue by handling joystick dead zone
+				if (Math.abs(shooterLiftPower) < 0.0225) {
+					shooterLiftPower = 0;
+				}
+				
+				//double shooterLiftPower = ClampHelper.clamp(-ControllerMappings.payloadJoy.getRawAxis(1) , -0.22, 0.5);
+
+				Robot.taskManager.addShooterTask(new SpinToPower(RobotMap.ShooterLiftMotor,shooterLiftPower));
+				SmartDashboard.putNumber("encoder target", RobotConstants.ShooterShootHigh);
 				//if (ControllerMappings.shooterCollectPosition.getDown()){
 				//	Robot.taskManager.addShooterTask(new SpinToEncoderValue(RobotMap.ShooterLiftMotor, RobotConstants.shooterCollectEcnoderValue ,0.3));				
 				//}
@@ -228,9 +243,11 @@ public class Inputs {
 
 			if((ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup)||ControllerMappings.ArmCycleUp.get()){
 				//Shoot
-				RobotMap.ShooterSolenoid.set(true);
+//				RobotMap.ShooterSolenoidA.set(false);
+				RobotMap.ShooterSolenoidB.set(true);
 			}else{
-				RobotMap.ShooterSolenoid.set(false);
+//				RobotMap.ShooterSolenoidA.set(true);
+				RobotMap.ShooterSolenoidB.set(false);
 			}
 			SmartDashboard.putNumber("Time", shooterTimer.get());
 			if(ControllerMappings.shooterCollect.getPressed(0.2)){
@@ -245,59 +262,12 @@ public class Inputs {
 			if (ControllerMappings.shooterPrime.get()){
 				//Spin up shooter
 				//Start shooter time
-				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1));
+				Robot.taskManager.addShooterWheelsTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, RobotConstants.ShooterSpeed));
 				
 			}else{
 				shooterTimer.reset();
 			}
-			SmartDashboard.putNumber("Encoder", RobotMap.ShooterLiftMotor.getTalon().getPosition());
 			
-			
-//			RobotMap.ShooterRightTalon.set(0.5);
-//			RobotMap.ShooterLeftTalon.set(0.5);
-
-
-			//RobotMap.ShooterLeftMotor.setPower(0.2);
-			//RobotMap.ShooterRightMotor.setPower(0.2);
-			
-//			if(ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup){
-//				//Shoot
-//				RobotMap.ShooterSolenoid.set(true);
-//			} else if (ControllerMappings.shooterPrime.get()){
-//				//Spin up shooter
-//				//Start shooter time
-//				shooterTimer.start();
-//				RobotMap.ShooterLeftMotor.setPower(1);
-//				RobotMap.ShooterRightMotor.setPower(-1);
-//				RobotMap.RollerRollerMotor.setPower(0);
-//			} else if(ControllerMappings.shooterPrime.getUp()){
-//				//Stop shooter spin up
-//				RobotMap.ShooterRightMotor.setPower(0);
-//				RobotMap.ShooterLeftMotor.setPower(0);
-//				//Reset shooter time
-//				shooterTimer.reset();
-//				shooterTimer.stop();
-//			} else if(ControllerMappings.shooterCollect.getPressed(0.2)){
-//				//Collect
-//				RobotMap.ShooterRightMotor.setPower(-1);
-//				RobotMap.ShooterLeftMotor.setPower(1);
-//				RobotMap.RollerRollerMotor.setPower(1);
-//			} else if(ControllerMappings.shooterEject.getPressed(0.2)){
-//				//Eject
-//				RobotMap.ShooterRightMotor.setPower(1);
-//				RobotMap.ShooterLeftMotor.setPower(-1);
-//				RobotMap.RollerRollerMotor.setPower(-1);
-//			} else if (ControllerMappings.rollerRoller.get()){
-//				//Roller bar roll
-//				RobotMap.RollerRollerMotor.setPower(-1);				
-//			} else{
-//				//Stop all
-//				RobotMap.ShooterRightMotor.setPower(0);
-//				RobotMap.ShooterLeftMotor.setPower(0);
-//				RobotMap.RollerRollerMotor.setPower(0);
-//			}
-			
-			SmartDashboard.putNumber("lift",(RobotMap.ShooterLiftTalon.getPosition()));
 //			SmartDashboard.putNumber("lift",(RobotMap.ShooterLeftTalon.get()));
 
 			if(Math.abs(RobotMap.ArmMotor.getTalon().get())<0.05){
@@ -306,11 +276,17 @@ public class Inputs {
 				RobotMap.ArmSolenoid.set(true);
 			}
 			
-			if(Math.abs(RobotMap.ShooterLiftTalon.get())<0.025){
+			if(Math.abs(RobotMap.ShooterLiftMotor.getTalon().get())<0.02){
 				RobotMap.ShooterBrakeSolenoid.set(false);
 			}else{
 				RobotMap.ShooterBrakeSolenoid.set(true);				
 			}
+
+//			if(Math.abs(RobotMap.ShooterLiftTalon.get())<0.01){
+//				RobotMap.ShooterBrakeSolenoid.set(Value.kForward);
+//			}else{
+//				RobotMap.ShooterBrakeSolenoid.set(Value.kReverse);				
+//			}
 			
 		} else {
 			/**
@@ -329,19 +305,13 @@ public class Inputs {
 			}else{
 				RobotMap.ScaleSolenoid.set(false);
 			}
-			
 		}
 	}
-	
 
-
-	
 	public static void initCycleTasks(){
 		shooterCycle = new CycleTask(new Task[]{
 			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterCollect,0.3,0.5),
-			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterShootHigh,1,1),
-
-			
+			new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterShootHigh,0.7,1.5),
 		});
 		//TODO: Set to proper degrees and tune pid
 		armCycle = new CycleTask(new Task[]{
