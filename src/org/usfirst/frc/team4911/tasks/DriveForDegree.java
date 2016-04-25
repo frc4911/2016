@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
+import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
@@ -21,6 +22,7 @@ public class DriveForDegree extends Task{
 	double power;
 	double adjustedPower;
 	double driveDistance;
+	double maxPower;
 	double currentEncoderValueInches;
 	double currentDegree;
 	double startDegree;
@@ -40,13 +42,14 @@ public class DriveForDegree extends Task{
 	 * @param _degreesToTurn the number of degrees to turn 0 to 360
 	 * @param _motor the motor object to turn
 	 */
-	public DriveForDegree(double _degreesToTurn, double _timeoutTime, boolean _reversed){
+	public DriveForDegree(double _degreesToTurn, double _maxPower, double _timeoutTime, boolean _reversed){
 		this.priority = RobotConstants.MED_PRI;
 		interruptible = true;
 		degreesToTurn = _degreesToTurn;
 		timeoutTime = _timeoutTime;
 		drive = new Drive(0,0);
 		timer = new Timer();
+		maxPower = _maxPower;
 		//WAS 1.7
 		pid = new PidHelper(1.3, 0, 0, 0.5/180);
 		reversed = _reversed;
@@ -70,6 +73,8 @@ public class DriveForDegree extends Task{
 		currentDegree = Sensors.getImuYawValue();
 		double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
 		power = pid.run( 1 , angleDif / degreesToTurn, timer.get());
+		
+		power = ClampHelper.clamp(power, -maxPower, maxPower);
 
 		if (reversed){
 			drive.setLeftPower(power);

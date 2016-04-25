@@ -97,7 +97,7 @@ public class Inputs {
 //				Robot.taskManager.addDriveTask(new Drive(1,1));
 //			}
 			if(ControllerMappings.rightJukeButton2.getDown()){
-				Robot.taskManager.addDriveTask(new DriveForDegree(-90,1,false));
+				Robot.taskManager.addDriveTask(new DriveForDegree(-90,1,1,false));
 			}
 			
 			if(ControllerMappings.rightJukeButton1.getDown()){

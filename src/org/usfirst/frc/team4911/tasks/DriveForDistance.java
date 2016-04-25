@@ -92,25 +92,28 @@ public class DriveForDistance extends Task{
 	@Override
 	public void execute(){
 		
-		currentEncoderValueInches = -encoder.getDistance();
+		currentEncoderValueInches = encoder.getDistance();
 		
 		currentDegree = Sensors.getImuYawValue();
 
 		rampedPower = rampDown.getRampedPower(driveDistance,currentEncoderValueInches);
-		System.out.println("Power: " + rampedPower);
 		adjustedPower = ClampHelper.clamp(rampedPower, -maxPower, maxPower);
 		
 		pidPower = pid.run(heading, currentDegree , timer.get());
-		System.out.println("distance" + currentEncoderValueInches);
 		pidPower = ClampHelper.clamp(pidPower, -adjustedPower, adjustedPower);
+
+		System.out.println("distance: " + currentEncoderValueInches + "/" + driveDistance);
+		
+		System.out.println("ramp Power: " + rampedPower);
+		System.out.println("adjusted Power: " + rampedPower);
+		System.out.println("pid Power: " + rampedPower);
 		
 		drive.setLeftPower(adjustedPower+pidPower);
 		drive.setRightPower(adjustedPower-pidPower);
 		
-		
 		drive.execute();
 		
-		if((driveDistance - Math.abs(currentEncoderValueInches) <= 0)){
+		if((Math.abs(driveDistance) - Math.abs(currentEncoderValueInches) <= 0)){
 			isFinished = true;
 		}
 	}

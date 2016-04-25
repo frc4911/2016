@@ -43,7 +43,9 @@ public class Robot extends IterativeRobot {
     final String lowBarAuto = "Low Bar";
     final String frenchAuto = "French";
 
-    private boolean isZeroed = false;
+    private boolean isIMUZeroed = false;
+    private boolean isDriveEncZeroed = false;
+    
     String autoSelected;
     SendableChooser chooser;
     public CameraServer cameraServer;
@@ -92,15 +94,20 @@ public class Robot extends IterativeRobot {
 		autoTaskManager = new AutoTaskManager();
 		autoTaskManager.init();
 		Sensors.getImu().zeroYaw();
-		isZeroed = false;
+		
+		isIMUZeroed = false;
+		isDriveEncZeroed = false;
 		
 		// if less than 0 do ramparts
 		if (ControllerMappings.leftJoy.getRawAxis(3) < -0.75){
 			autoSelected = rampartsAuto;
+			System.out.println("STATIC DEFENSE AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
 		} else if (ControllerMappings.leftJoy.getRawAxis(3) > 0.75) {
 			autoSelected = lowBarAuto;
+			System.out.println("LOW BAR AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
 		} else{
 			autoSelected = frenchAuto;
+			System.out.println("FRENCH AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
 		}
 		System.out.println("Auto selected: " + autoSelected);
 
@@ -127,15 +134,24 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	SmartDashboard.putNumber("IMU" , Sensors.getImu().getYaw());
-    	if(!isZeroed){
+    	if(!isIMUZeroed){
     		if(Math.abs(Sensors.getImu().getYaw())<1){
-    			isZeroed = true;
+    			isIMUZeroed = true;
     		}else{
-    			System.out.println("TRYING TO ZERO");
+    			System.out.println("TRYING TO ZERO IMU");
     			Sensors.getImu().zeroYaw();
     		}
     	}
-    	if(isZeroed){
+    	if(!isDriveEncZeroed){
+    		if(Math.abs(RobotMap.DriveEncoder.get())<1){
+    			isDriveEncZeroed = true;
+    		}else{
+    			System.out.println("TRYING TO ZERO Drive Encoder");
+    			RobotMap.DriveEncoder.reset();
+    		}
+    	}
+    	
+    	if(isIMUZeroed && isDriveEncZeroed){
     		Sensors.update();
     		autoTaskManager.update();
 //    		SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
@@ -151,6 +167,10 @@ public class Robot extends IterativeRobot {
     	Inputs.init();
     	//Sensors.getImu().zeroYaw();
     	taskManager.init();
+    	RobotMap.DriveEncoder.reset();
+    	
+    	// TODO: testing for igh goal auto
+    	Sensors.getImu().zeroYaw();
     	
     	// create log file
     	String teleopLogName = "teleoplog" + String.valueOf(System.currentTimeMillis());
@@ -169,6 +189,10 @@ public class Robot extends IterativeRobot {
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
+    	
+    	System.out.println("drive encoder: " + RobotMap.DriveEncoder.getDistance());
+    	//System.out.println("drive ticks: " + RobotMap.DriveEncoder.get());
+    	
     	SmartDashboard.putBoolean("MODE", Inputs.getMode());
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
     	SmartDashboard.putNumber("DRIVE ENCODER", RobotMap.DriveEncoder.get());
@@ -178,7 +202,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("DRIVE TALON POWER OUTPUT LEFT Volatge", RobotMap.DriveFrontLeftTalon.getOutputVoltage() + RobotMap.DriveMidLeftTalon.getOutputVoltage() + RobotMap.DriveRearLeftTalon.getOutputVoltage());
     	SmartDashboard.putString("Potentiometer", Double.toString(RobotMap.ArmPotentiometer.get()));
     	SmartDashboard.putNumber("Wheel Encoder", RobotMap.DriveEncoder.getDistance());
-    	System.out.println(RobotMap.ArmPotentiometer.get());
+    	//System.out.println(RobotMap.ArmPotentiometer.get());
     	
     	// Write an entry to the log file
     	TeleopLogHandler.WriteLogEntry();
@@ -191,40 +215,126 @@ public class Robot extends IterativeRobot {
     }
     
     /**
-     * Adds the low bar autonomour tasks to the task manager
+     * Adds tasks for running low bar auto with a high shot
      */
-    private void AddLowBarTasks()
+    private void AddLowBarHighShotTasks()
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.225,2), 1.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
+		// lower arm
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+
+		// drive through low bar
+		// turn toward goal
+		autoTaskManager.addTask(new DriveForDistance(RobotConstants.ShooterAutoDriveDist, RobotMap.DriveEncoder, 0.8), 7);
+		autoTaskManager.addTask(new DriveForDegree(RobotConstants.ShooterAutoTurnDegree, 0.4, 2, true), 2);
+
+		// move arm out of the way
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.5, 2), 2);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
+				
+		// lift shooter to position
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoHigh,0.6, 2), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		// intake ball to secure it
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, -.5), .5);
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.5);
+		
+		// spin flywheels
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 1.25);
+		
+		// shoot
+		autoTaskManager.addTask(new Task(),0.5);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidB, true), 0.1);
+		autoTaskManager.addTask(new Task(),0.5);
+		
+		// stop flywheels
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
+		
+		// rotate back to zero
+		autoTaskManager.addTask(new DriveForDegree(RobotConstants.ShooterAutoTurnDegree * -1, 0.6, 2, false), 2);
+		
+		// lower shooter
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.05);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.3, 2), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.05);
+		
+		// lower arm
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
-		autoTaskManager.addTask(new DriveForDistance(144, RobotMap.DriveEncoder, 0.8), 7);
-		autoTaskManager.addTask(new DriveForDegree(30, 1, true), 1);
-		autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
-		autoTaskManager.addTask(new DriveForDegree(27, 1, true), 1);
-		
-		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.6,0.2),0.2);
+		// drive back to NZ
+		// cant drive backwards with given task...
+		//autoTaskManager.addTask(new DriveForDistance(RobotConstants.ShooterAutoDriveDist, RobotMap.DriveEncoder, -0.4), 3);
+    }
+    
+    /**
+     * Adds the low bar autonomour tasks to the task manager 
+     */
+    private void AddLowBarTasks()
+    {
+    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// lower shooter
+    	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.225,2), 1.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
-		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 0.1);
+		// lower arm
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 1), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
+		// drive through low bar
+		// turn toward goal
+		autoTaskManager.addTask(new DriveForDistance(140, RobotMap.DriveEncoder, 0.8), 7);
+		autoTaskManager.addTask(new DriveForDegree(30, 1, 1, true), 1);
+
+		// move arm out of the way
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoUp, 0.5, 2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
+		// lift shooter to position
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.4, 2), 1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
+		
+		// drive onto batter
+		// turn to goal
+		autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
+		autoTaskManager.addTask(new DriveForDegree(30, 1, 1, true), 1);
+		
+		// --------------------------------------------
+		// lift shooter to position
+		//autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
+		//autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, -0.445,0.4, 2), 2);
+		//autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.05);
+		// --------------------------------------------
+		
+		// intake ball to secure it
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, -.5), .5);
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.5);
+		
+		// spin flywheels
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1), 1.25);
+		
+		// shoot
 		autoTaskManager.addTask(new Task(),0.5);
-		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidA, true), 0.1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidB, true), 0.1);
 		autoTaskManager.addTask(new Task(),0.5);
 		
-		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);
-    
+		// stop flywheels
+		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 0), 0.1);		
     }
     
     /**
@@ -233,34 +343,43 @@ public class Robot extends IterativeRobot {
     private void AddChevalDuFriesTasks()
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
+		// lower arm
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoDown, 0.7, 2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
+		// raise shooter
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinForTime(RobotMap.ShooterLiftMotor, -0.7,1),1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterLiftMax, 0.6, 0.5), 0.5);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
+		// raise arm to cheval prep
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrench, 0.7, 2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);	
 		
+		// drive to cheval
 		autoTaskManager.addTask(new DriveForDistance(40, RobotMap.DriveEncoder, 0.8), 15);	
 		
+		// lower armonto cheval
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToPotentiometerValue(RobotMap.ArmMotor, RobotConstants.ArmPotentiometerAutoFrenchDown, 0.7, 2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);		
 		
-		autoTaskManager.addTask(new DriveForDistance(45, RobotMap.DriveEncoder, 0.8), 15);
+		// drive over cheval
+		autoTaskManager.addTask(new DriveForDistance(50, RobotMap.DriveEncoder, 0.8), 15);
 		
+		// lift arm back up
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5,0.7), 0.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
+		// drive out of outer works
 		autoTaskManager.addTask(new DriveForDistance(55, RobotMap.DriveEncoder, 0.8), 15);
     }
 
@@ -271,7 +390,7 @@ public class Robot extends IterativeRobot {
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
 		autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
-		autoTaskManager.addTask(new DriveStraight(0,1,false),2);
+		autoTaskManager.addTask(new DriveStraight(0,1,false),1.5);
 		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,0.5),0.5);
     }
 }

@@ -30,8 +30,8 @@ public class RobotConstants {
 	
 	public static final double wheelDiameter = 7.65;
 	public static final double gearRatio = 3.2;
-	public static final double encoderPulsePerRotation = 2400;
-	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation * gearRatio;
+	public static final double encoderPulsePerRotation = 770;
+	public static final double encoderDistancePerPulse = wheelDiameter * Math.PI / encoderPulsePerRotation;
 	
 	//Drive System Constants
 	public static final int frontRightMotorPort = 10;
@@ -71,7 +71,7 @@ public class RobotConstants {
 	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.0279;
 	public static final double ArmPotentiometerAutoFrenchDown = ArmPotentiometerMin - 0.04426;
 
-	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.040;
+	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.045;
 	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.012;
 
 	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.03610;
@@ -119,9 +119,13 @@ public class RobotConstants {
 	public static double ShooterLiftMin = -0.198;
 	public static double ShooterCollect = -1.110;
 	public static double ShooterShootHigh = -0.575;
-	public static double ShooterAuto = -1.15;
-
+	public static double ShooterAuto = -1.00;
+	public static double ShooterAutoLow = -0.85;
 	
+	public static double ShooterAutoDriveDist = 220; // drive foward
+	public static double ShooterAutoTurnDegree = 56; // turn to be parallel with tower face
+	public static double ShooterAutoHigh = -0.575; // need to get gravity fall offset into account
+
 	//EXTENDER
 	public static final int ExtenderTalonPort = 6;
 	public static final int ExtenderPotentiometerPort = 0;
@@ -135,7 +139,7 @@ public class RobotConstants {
 	//Robot Size Constants (size matters)
 	
 	//RampDownHelper constants 
-	public static final double amplitude = 20;
+	public static final double amplitude = 10;
 	public static final double floor = 0.2;
 	public static final double ceiling = 1;
 	public static final double rampUp = 1.0;
