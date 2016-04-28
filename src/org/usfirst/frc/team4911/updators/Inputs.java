@@ -244,10 +244,10 @@ public class Inputs {
 			if((ControllerMappings.shooterShoot.get()&&shooterTimer.get()>RobotConstants.ShooterSpinup)||ControllerMappings.ArmCycleUp.get()){
 				//Shoot
 //				RobotMap.ShooterSolenoidA.set(false);
-				RobotMap.ShooterSolenoidB.set(true);
+				RobotMap.ShooterSolenoid.set(true);
 			}else{
 //				RobotMap.ShooterSolenoidA.set(true);
-				RobotMap.ShooterSolenoidB.set(false);
+				RobotMap.ShooterSolenoid.set(false);
 			}
 			SmartDashboard.putNumber("Time", shooterTimer.get());
 			if(ControllerMappings.shooterCollect.getPressed(0.2)){

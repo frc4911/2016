@@ -65,13 +65,13 @@ public class RobotConstants {
 	public static int RollerTalonPort = 13;
 	
 	
-	public static final double ArmPotentiometerMin =  0.70338;
+	public static final double ArmPotentiometerMin =  0.496827;
 	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.04426;
 
 	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.0279;
 	public static final double ArmPotentiometerAutoFrenchDown = ArmPotentiometerMin - 0.04426;
 
-	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.045;
+	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.04019;
 	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.012;
 
 	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.03610;
@@ -83,7 +83,7 @@ public class RobotConstants {
 	public static int ArmPotentiometerPort = 1;
 	
 	//SCALE
-	public static int ScaleRightTalonPort = 2; //4; TODO: temporary fix for practice bot 
+	public static int ScaleRightTalonPort = 5; //4; TODO: temporary fix for practice bot 
 	public static int ScaleLeftTalonPort = 5;
 	
 	public static int ScaleRightEncoderPortA;
@@ -98,7 +98,7 @@ public class RobotConstants {
 	public static int cameraWidth = 320;
 	
 	//SHOOTER
-	public static int ShooterLeftTalonPort = 4; //2; TODO: temporary fix for practice bot
+	public static int ShooterLeftTalonPort = 2; //2; TODO: temporary fix for practice bot
 	public static int ShooterRightTalonPort = 3;
 	
 	public static int ShooterLiftTalonPort = 1;
@@ -107,8 +107,8 @@ public class RobotConstants {
 	
 	public static int ShooterSolenoidPort = 0;
 	
-	public static int ShooterBrakeSolenoidPortA = 3;
-//	public static int ShooterBrakeSolenoidPortB = 4;
+//	public static int ShooterBrakeSolenoidPortA = 3;
+	public static int ShooterBrakeSolenoidPortB = 4;
 
 	
 	public static int ShooterLiftEncoderPort = 3;

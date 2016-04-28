@@ -190,7 +190,8 @@ public class Robot extends IterativeRobot {
     	taskManager.update();
     	Inputs.update();
     	
-    	System.out.println("drive encoder: " + RobotMap.DriveEncoder.getDistance());
+    	System.out.println("pot:  " + RobotMap.ArmPotentiometer.get());
+    	//System.out.println("drive encoder: " + RobotMap.DriveEncoder.getDistance());
     	//System.out.println("drive ticks: " + RobotMap.DriveEncoder.get());
     	
     	SmartDashboard.putBoolean("MODE", Inputs.getMode());
@@ -222,7 +223,7 @@ public class Robot extends IterativeRobot {
     	//Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.225,2), 1.7);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.7,2), 1.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// lower arm
@@ -254,7 +255,7 @@ public class Robot extends IterativeRobot {
 		
 		// shoot
 		autoTaskManager.addTask(new Task(),0.5);
-		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidB, true), 0.1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
 		autoTaskManager.addTask(new Task(),0.5);
 		
 		// stop flywheels
@@ -286,7 +287,7 @@ public class Robot extends IterativeRobot {
     	//Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.225,2), 1.7);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.3,2), 1.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// lower arm
@@ -330,7 +331,7 @@ public class Robot extends IterativeRobot {
 		
 		// shoot
 		autoTaskManager.addTask(new Task(),0.5);
-		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoidB, true), 0.1);
+		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterSolenoid, true), 0.1);
 		autoTaskManager.addTask(new Task(),0.5);
 		
 		// stop flywheels
@@ -391,6 +392,6 @@ public class Robot extends IterativeRobot {
     	//Sets of commands are separated by spaces when there is a change in subsystem
 		autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
 		autoTaskManager.addTask(new DriveStraight(0,1,false),1.5);
-		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,0.5),0.5);
+		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,1),1);
     }
 }

@@ -71,8 +71,7 @@ public class RobotMap {
 	public static CANTalon ShooterRightTalon;
 	public static CANTalon ShooterLiftTalon;
 	
-	public static Solenoid ShooterSolenoidA;
-	public static Solenoid ShooterSolenoidB;
+	public static Solenoid ShooterSolenoid;
 
 	public static Solenoid ShooterBrakeSolenoid;
 
@@ -95,9 +94,8 @@ public class RobotMap {
 	
 	//JOYSTICS
 	public static Joystick LeftJoy;
-	public static Joystick RightJoy;
+	public static Joystick RightJoy;	
 	
-
 	public static Solenoid compressorSolenoid;
 
 	/**
@@ -170,11 +168,11 @@ public class RobotMap {
 //		ShooterLeftTalon.set(0.5);
 //		ShooterRightTalon.set(0.5);
     	
-    	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPortA);
+    	ShooterBrakeSolenoid = new Solenoid(1,RobotConstants.ShooterBrakeSolenoidPortB);
 //    	ShooterBrakeSolenoid = new DoubleSolenoid(1,5,1);
 //    	ShooterSolenoidA = new Solenoid(1,3);
-       	ShooterSolenoidB = new Solenoid(0,0);
-//    	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
+//    	ShooterSolenoidB = new Solenoid(0,0);
+    	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
 
 
 //		ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
@@ -207,3 +205,10 @@ public class RobotMap {
     	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
 	}
 }
+/**
+ * |--\   |----  |\    |
+ * |   |  |      | \   |
+ * |---   |----  |  \  |
+ * |   |  |      |   \ |
+ * |__/   |____  |    \|
+ */
