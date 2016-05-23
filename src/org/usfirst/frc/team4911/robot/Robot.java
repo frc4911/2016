@@ -99,16 +99,16 @@ public class Robot extends IterativeRobot {
 		isDriveEncZeroed = false;
 		
 		// if less than 0 do ramparts
-		if (ControllerMappings.leftJoy.getRawAxis(3) < -0.75){
+		if (ControllerMappings.leftJoy.getRawAxis(3) <= 0){
 			autoSelected = rampartsAuto;
 			System.out.println("STATIC DEFENSE AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
-		} else if (ControllerMappings.leftJoy.getRawAxis(3) > 0.75) {
+		} else { //if (ControllerMappings.leftJoy.getRawAxis(3) > 0.75) {
 			autoSelected = lowBarAuto;
 			System.out.println("LOW BAR AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
-		} else{
-			autoSelected = frenchAuto;
-			System.out.println("FRENCH AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
-		}
+		} //else{
+		//	autoSelected = frenchAuto;
+		//	System.out.println("FRENCH AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
+		//}
 		System.out.println("Auto selected: " + autoSelected);
 
 		/**
@@ -123,9 +123,9 @@ public class Robot extends IterativeRobot {
 		case lowBarAuto:
 			AddLowBarTasks();
 			break;
-		case frenchAuto:
-			AddChevalDuFriesTasks();
-			break;
+		//case frenchAuto:
+		//	AddChevalDuFriesTasks();
+		//	break;
 		}
     }
 
@@ -297,7 +297,7 @@ public class Robot extends IterativeRobot {
 		
 		// drive through low bar
 		// turn toward goal
-		autoTaskManager.addTask(new DriveForDistance(140, RobotMap.DriveEncoder, 0.8), 7);
+		autoTaskManager.addTask(new DriveForDistance(134, RobotMap.DriveEncoder, 0.8), 7);
 		autoTaskManager.addTask(new DriveForDegree(30, 1, 1, true), 1);
 
 		// move arm out of the way
@@ -313,7 +313,7 @@ public class Robot extends IterativeRobot {
 		// drive onto batter
 		// turn to goal
 		autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
-		autoTaskManager.addTask(new DriveForDegree(30, 1, 1, true), 1);
+		autoTaskManager.addTask(new DriveForDegree(32, 0.8, 1.5, true), 1.5);
 		
 		// --------------------------------------------
 		// lift shooter to position
@@ -341,7 +341,7 @@ public class Robot extends IterativeRobot {
     /**
      * Adds all the Cheval Du Fries-specific tasks to the task manager
      */
-    private void AddChevalDuFriesTasks()
+    /*private void AddChevalDuFriesTasks()
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
@@ -382,7 +382,7 @@ public class Robot extends IterativeRobot {
 		
 		// drive out of outer works
 		autoTaskManager.addTask(new DriveForDistance(55, RobotMap.DriveEncoder, 0.8), 15);
-    }
+    }*/
 
     /**
      * Default auto, drive straight over static defenses such as ramparts, rock wall, moat, or rough terrain
@@ -391,7 +391,7 @@ public class Robot extends IterativeRobot {
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
 		autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
-		autoTaskManager.addTask(new DriveStraight(0,1,false),1.5);
+		autoTaskManager.addTask(new DriveStraight(0,1,false),1.75);
 		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,1),1);
     }
 }
