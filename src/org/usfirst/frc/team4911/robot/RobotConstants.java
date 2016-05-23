@@ -65,7 +65,7 @@ public class RobotConstants {
 	public static int RollerTalonPort = 13;
 	
 	
-	public static final double ArmPotentiometerMin =  0.496827;
+	public static final double ArmPotentiometerMin =  0.517671;
 	public static final double ArmPotentiometerMax = ArmPotentiometerMin - 0.04426;
 
 	public static final double ArmPotentiometerAutoFrench = ArmPotentiometerMin - 0.0279;
@@ -74,7 +74,7 @@ public class RobotConstants {
 	public static final double ArmPotentiometerAutoDown = ArmPotentiometerMin - 0.04019;
 	public static final double ArmPotentiometerAutoUp = ArmPotentiometerMin - 0.012;
 
-	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.03610;
+	public static final double ArmPotentiometerCollect = ArmPotentiometerMin - 0.04020;
 
 	public static final double ArmPotentiometerThreshold = 0.0005;
 
@@ -119,7 +119,7 @@ public class RobotConstants {
 	public static double ShooterLiftMin = -0.198;
 	public static double ShooterCollect = -1.110;
 	public static double ShooterShootHigh = -0.575;
-	public static double ShooterAuto = -1.00;
+	public static double ShooterAuto = -0.90;
 	public static double ShooterAutoLow = -0.85;
 	
 	public static double ShooterAutoDriveDist = 220; // drive foward

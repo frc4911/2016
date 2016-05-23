@@ -82,7 +82,7 @@ public class LogFileHandler {
 				+ String.valueOf(RobotMap.DriveRearRightTalon.get()) + ','
 				+ String.valueOf(Sensors.getImu().getRoll()) + ','
 				+ String.valueOf(Sensors.getImu().getPitch()) + ','
-				+ String.valueOf(Sensors.getImu().getYaw()));
+				+ String.valueOf(Sensors.getImuYawValue()));
 		
 		if (firstLogFileBodyEntry) {
 			// Check that the number of fields in our header and body
