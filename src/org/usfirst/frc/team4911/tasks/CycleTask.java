@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4911.tasks;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
@@ -69,6 +67,7 @@ public class CycleTask extends Task{
 			currentTask = tasks[currentIndex];
 			Logging.DebugPrint("cycle up");
 		}
+		
 		this.isFinished = false;
 		currentTask.init();
 	}
@@ -83,6 +82,7 @@ public class CycleTask extends Task{
 			currentTask = tasks[currentIndex];
 			Logging.DebugPrint("cycle down");
 		}
+		
 		this.isFinished = false;
 		currentTask.init();
 	}

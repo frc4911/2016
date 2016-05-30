@@ -1,10 +1,7 @@
 package org.usfirst.frc.team4911.tasks;
 
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /**
@@ -47,6 +44,5 @@ public class SolenoidTrigger extends Task {
 	 * Called when the task finishes.
 	 */
 	public void end() {
-	
 	}
 }

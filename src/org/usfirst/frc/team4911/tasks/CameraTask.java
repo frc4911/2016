@@ -1,15 +1,12 @@
 package org.usfirst.frc.team4911.tasks;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-
 import org.usfirst.frc.team4911.helpers.ClampHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.Robot;
 import org.usfirst.frc.team4911.robot.RobotConstants;
 import org.usfirst.frc.team4911.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -21,7 +18,6 @@ public class CameraTask extends Task{
 	private double height;
 	private double xPosition;
 	private double drivePower;
-	private double shooterLiftPower;
 
 	private double maxPower;
 	
@@ -33,7 +29,9 @@ public class CameraTask extends Task{
 	private LinkedList<Integer> averageList;
 	
 	private PidHelper centeringPid;
+	@SuppressWarnings("unused")
 	private PidHelper aimingPid;
+	
 	private Drive drive;
 	private ShooterWheelTask shooterWheel;
 	private SpinToTalonValue shooterLift;
@@ -56,15 +54,13 @@ public class CameraTask extends Task{
 		averageList = new LinkedList<Integer>();
         cameraTable = NetworkTable.getTable("GRIP/myContoursReport");
         
-        centeringPid = new PidHelper(1,0,0,20);
-        aimingPid = new PidHelper(0.1,0,0,3);
+        centeringPid = new PidHelper(1, 0, 0, 20);
+        aimingPid = new PidHelper(0.1, 0, 0, 3);
 
         shooterWheel = new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, 1);
         shooterWheel.setPriority(RobotConstants.UBER_PRI);
         timer = new Timer();
         timer.start();
-        
-        
 	}
 
 	/**
@@ -87,41 +83,40 @@ public class CameraTask extends Task{
 	public void execute(){
     	if (cameraTable.getNumberArray("height", new double[0]).length != 0){
     		height = cameraTable.getNumberArray("height", new double[0])[0];
-    	} else{
+    	} else {
     		height = 0;
     	}
+    	
     	if (cameraTable.getNumberArray("centerX", new double[0]).length != 0){
     		xPosition = cameraTable.getNumberArray("centerX", new double[0])[0];
-    	} else{
+    	} else {
     		xPosition = 0;
     	}
+    	
     	if (cameraTable.getNumberArray("width", new double[0]).length != 0){
     		width = cameraTable.getNumberArray("width", new double[0])[0];
-    	} else{
+    	} else {
     		width = 0;
     	}
     	
     	centeringPid.setThreshold(width);
-    	drivePower = centeringPid.run(RobotConstants.cameraWidth/2, xPosition, timer.get());
+    	drivePower = centeringPid.run(RobotConstants.cameraWidth / 2, xPosition, timer.get());
 
-    	
     	if (centeringPid.isFinished() && !finishedCentering){
     		drivePower = 0.2;
     		finishedCentering = true;
-    	}else{
+    	} else {
     		drivePower = ClampHelper.clamp(drivePower, -maxPower, maxPower);
     		drive.drive(drivePower, drivePower);
     	}
-    	//Adds tasks to the task manager
+    	
+    	// Adds tasks to the task manager
     	Robot.taskManager.addDriveTask(drive);
     	Robot.taskManager.addShooterTask(shooterLift);
     	
-    	
-    	Logging.DebugPrint ("DISTANCE: "+computeDistance(run(height))*0.0394);
-//    	Logging.DebugPrint ("HEIGHT AVERAGE: "+run(height));
+    	Logging.DebugPrint("DISTANCE: "+computeDistance(run(height))*0.0394);
+//    	Logging.DebugPrint("HEIGHT AVERAGE: "+run(height));
 
-    	
-		
 		isFinished = false;
 	}
 	
@@ -130,18 +125,15 @@ public class CameraTask extends Task{
 	 */
 	@Override
 	public void end(){
-		
 	}
 	
 	public double computeDistance(double _height){
-		
-		return (focalLength*objectHeight*imageHeight)/(_height*sensorHeight);
-	
+		return (focalLength * objectHeight * imageHeight) / (_height * sensorHeight);
 	}
 	public double run(double value){
-		if (averageList.size()<20){
+		if (averageList.size() < 20) {
 			averageList.add((int) value);
-		}else{
+		} else {
 			averageList.pop();
 			averageList.add((int) value);
 		}
@@ -150,6 +142,7 @@ public class CameraTask extends Task{
 		for(Integer i : averageList){
 			averageCount += i;
 		}
-		return averageCount/averageList.size();
+		
+		return (averageCount / averageList.size());
 	}
 }

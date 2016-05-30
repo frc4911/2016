@@ -39,9 +39,9 @@ public class ManualScale extends Task {
 	 */
 	@Override
 	public void execute(){
-		Logging.DebugPrint("Left: "+leftPower);
+		Logging.DebugPrint("Left: " + leftPower);
 		RobotMap.ScaleLeftTalon.set(leftPower);
-		Logging.DebugPrint("Right: "+rightPower);
+		Logging.DebugPrint("Right: " + rightPower);
 		RobotMap.ScaleRightTalon.set(rightPower);
 
 		isFinished = true;

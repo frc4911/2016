@@ -3,7 +3,7 @@ package org.usfirst.frc.team4911.helpers;
 /**
  * A PID controller that returns a motor power when given a target value and an actual value.
  * 
- * @author Luke Caughell
+ * @author Anne Gywnne-Robson
  */
 public class PidHelper {	
 	private double pGain;	// The gain for the error
@@ -91,6 +91,10 @@ public class PidHelper {
 		return prevError;
 	}
 
+	/**
+	 * Sets the threshold value
+	 * @param _threshold The new threshold value to set
+	 */
 	public void setThreshold(double _threshold) {
 		threshold = _threshold;
 	}

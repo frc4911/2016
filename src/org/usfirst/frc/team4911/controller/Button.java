@@ -8,7 +8,6 @@ public class Button {
 	boolean pressed;
 	boolean released = true;
 
-	
 	public Button(Joystick _stick, int _button){
 		stick = _stick;
 		button = _button;
@@ -27,6 +26,7 @@ public class Button {
 		pressed = stick.getRawButton(button);
 		return false;
 	}
+	
 	public boolean getUp(){
 		if (!stick.getRawButton(button) && released == false){
 			released = !stick.getRawButton(button);

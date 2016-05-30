@@ -1,10 +1,9 @@
 package org.usfirst.frc.team4911.tasks;
 
 import java.util.ArrayList;
-
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
+
 /**
  * Task for basic operator tank drive.
  * 

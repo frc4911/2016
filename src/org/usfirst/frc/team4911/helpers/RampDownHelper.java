@@ -54,6 +54,7 @@ public class RampDownHelper {
         rampedPower = Math.min(rampedPower + floor, ceiling);
         return rampedPower;
     }
+	
 	/**
 	 * Returns the ramped power based on current distance toward the overall goal distance specifically for a target
 	 * that is lower than the current value.

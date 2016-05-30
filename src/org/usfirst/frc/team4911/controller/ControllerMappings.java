@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * A class that contains all of the buttons we will use to control the robot
  * 
- * 
- * 
  * @author Luke Caughell
  */
 public class ControllerMappings {
@@ -18,11 +16,11 @@ public class ControllerMappings {
 	public static Joystick rightJoy = new Joystick(rightJoyPort);
 	public static Joystick  leftJoy = new Joystick(leftJoyPort);
 	public static Joystick  payloadJoy = new Joystick(payloadJoyPort);
+	
 	// Operator Thresholds
 	public static final double JoyThreshold = 0.075;
 	
 	//RIGHT JOY
-	
 	public static Button rightJukeButton1 = new Button(rightJoy, 3);
 	public static Button rightJukeButton2 = new Button(rightJoy, 4);
 	public static Button rightJukeButton3;
@@ -31,7 +29,6 @@ public class ControllerMappings {
 	public static Button rightTrigger = new Button(rightJoy, 1);
 
 	//LEFT JOY
-	
 	public static Button leftJukeButton1 = new Button(leftJoy,3);
 	public static Button leftJukeButton2 = new Button(leftJoy,4);
 	
@@ -42,10 +39,10 @@ public class ControllerMappings {
 	public static Button leftJukeButton4;
 	
 	public static Button leftTrigger;
+	
 	//DRIVER SCALE
 	public static Button autoScale;
 	public static Button manualScale;
-	
 	
 	//PAYLOAD JOY
 	public static Button modeButton = new Button(payloadJoy, 8);
@@ -75,7 +72,4 @@ public class ControllerMappings {
 	public static Button payloadManual = new Button (payloadJoy, 7);
 	public static Trigger shooterCollect = new Trigger(payloadJoy,2);
 	public static Trigger shooterEject = new Trigger(payloadJoy,3);
-	
-	
-
 }

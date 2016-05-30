@@ -2,12 +2,12 @@ package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.Motor;
 
+/**
+ * Spins a given motor at a given power with no correction
+ * 
+ * @author Luke Caughell
+ */
 public class ShooterWheelTask extends Task {
-	/**
-	 * Spins a given motor at a given power with no correction
-	 * 
-	 * @author Luke Caughell
-	 */
 	Motor leftMotor;
 	Motor rightMotor;
 

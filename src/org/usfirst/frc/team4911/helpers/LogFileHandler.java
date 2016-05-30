@@ -16,9 +16,9 @@ public class LogFileHandler {
 										"Timedelta," +
 										"Battery Voltage (V)," + 
 										"Front Left Talon Power," +
-										"Mid Left Talon Power," +
 										"Rear Left Talon Power," +
-										"Front Right Talon power," +
+										"Front Right Talon Power," +
+										"Rear Right Talon power," +
 										"IMU roll," + 
 										"IMU pitch," + 
 										"IMU yaw";
@@ -75,10 +75,8 @@ public class LogFileHandler {
 		// Build a single line of our log file
 		String logEntry = String.join(",", String.valueOf(timestamp), String.valueOf(timedelta), String.valueOf(Sensors.getVoltage()) + ','
 				+ String.valueOf(RobotMap.DriveFrontLeftTalon.get()) + ','
-				+ String.valueOf(RobotMap.DriveMidLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveRearLeftTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveFrontRightTalon.get()) + ','
-				+ String.valueOf(RobotMap.DriveMidRightTalon.get()) + ','
 				+ String.valueOf(RobotMap.DriveRearRightTalon.get()) + ','
 				+ String.valueOf(Sensors.getImu().getRoll()) + ','
 				+ String.valueOf(Sensors.getImu().getPitch()) + ','

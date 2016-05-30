@@ -1,14 +1,10 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.ClampHelper;
-import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.Sensors;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,7 +30,6 @@ public class DriveStraight extends Task{
 	PidHelper pid;
 	Motor motor;
 	boolean reversed;
-
 	
 	/**
 	 * Constructor
@@ -53,6 +48,7 @@ public class DriveStraight extends Task{
 		basePower = _basePower;
 		heading = 0;
 	}
+	
 	public DriveStraight(double _degreesToTurn, double _basePower, double _heading, boolean _reversed){
 		interruptible = false;
 		degreesToTurn = _degreesToTurn;
@@ -62,11 +58,6 @@ public class DriveStraight extends Task{
 		basePower = _basePower;
 		heading = _heading;
 	}
-//	public DriveStraight(){
-//		interruptible = false;
-//		drive = new Drive(0, 0);
-//		this.priority = RobotConstants.LOW_PRI;
-//	}
 	
 	/**
 	 * This is called when the command is first added to the task manager
@@ -94,7 +85,6 @@ public class DriveStraight extends Task{
 		drive.setRightPower(basePower-power);
 		drive.execute();
 
-		
 		isFinished = false;
 	}
 	
@@ -106,9 +96,11 @@ public class DriveStraight extends Task{
 		drive.setPower(0);
 		drive.execute();
 	}
+	
 	public void setTargetHeading(double target){
 		degreesToTurn = target;
 	}
+	
 	public void setFinished(boolean value){
 		isFinished = value;
 	}

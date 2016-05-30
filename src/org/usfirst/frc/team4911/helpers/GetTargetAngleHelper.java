@@ -27,13 +27,12 @@ public class GetTargetAngleHelper {
 	public static double compute(double startAngle, double turnAngle){
 		startAngle += turnAngle;
 		
-		if(startAngle > RobotConstants.maxAngle){
-			while(startAngle > RobotConstants.maxAngle){
+		if (startAngle > RobotConstants.maxAngle){
+			while(startAngle > RobotConstants.maxAngle) {
 				startAngle -= 360;
 			}
-		}
-		else if(startAngle < RobotConstants.minAngle){
-			while(startAngle < RobotConstants.minAngle){
+		} else if (startAngle < RobotConstants.minAngle) {
+			while (startAngle < RobotConstants.minAngle) {
 				startAngle += 360;
 			}
 		}
@@ -62,12 +61,10 @@ public class GetTargetAngleHelper {
 	}
 	
 	public static double potentiometerValueToDegrees(double start, double current) {
-		return (current-start)*3600;
+		return (current - start) * 3600;
 	}
 	
 	public static double degreesToPotentiometerValue(double degree) {
-			return (degree)*(0.1/360);
-	}
-	
-	
+			return (degree) * (0.1 / 360);
+	}	
 }

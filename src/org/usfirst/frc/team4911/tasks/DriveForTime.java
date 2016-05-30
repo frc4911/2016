@@ -2,8 +2,6 @@ package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -22,7 +20,6 @@ public class DriveForTime extends Task{
 	Motor motor;
 	Drive drive;
 
-	
 	/**
 	 * Constructor
 	 * Sets class variables.
@@ -38,7 +35,6 @@ public class DriveForTime extends Task{
 		endTime = _time;
 		motor = _motor;
 		drive = new Drive(0,0);
-
 	}
 
 	/**
@@ -55,7 +51,6 @@ public class DriveForTime extends Task{
 	 */
 	@Override
 	public void execute(){
-		
 		drive.setPower(power);
 		drive.execute();
 		
@@ -71,6 +66,5 @@ public class DriveForTime extends Task{
 	public void end(){
 		drive.setPower(0);
 		drive.execute();
-		
 	}
 }

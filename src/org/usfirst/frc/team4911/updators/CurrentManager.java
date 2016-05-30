@@ -1,9 +1,6 @@
 package org.usfirst.frc.team4911.updators;
 
-import java.awt.Panel;
-
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
 
 public class CurrentManager {
 	private static double drivePower;
@@ -23,23 +20,22 @@ public class CurrentManager {
 
 	public static void update(){		
 		voltage = Sensors.getVoltage();
-		if (voltage<=RobotConstants.VoltagePowerLimitThreshold){
+		if (voltage<=RobotConstants.VoltagePowerLimitThreshold) {
 			voltageValue = Math.abs(voltage - RobotConstants.VoltageBrownOut);
-			drivePower = calculatePowerValues(voltageValue,driveLimitingPercent);
-			rollerPower = calculatePowerValues(voltageValue,rollerLimitingPercent);
-			extenderPower = calculatePowerValues(voltageValue,extenderLimitingPercent);
-			scalePower = calculatePowerValues(voltageValue,scaleLimitingPercent);
-			shooterPower = calculatePowerValues(voltageValue,shooterLimitingPercent);
+			drivePower = calculatePowerValues(voltageValue, driveLimitingPercent);
+			rollerPower = calculatePowerValues(voltageValue, rollerLimitingPercent);
+			extenderPower = calculatePowerValues(voltageValue, extenderLimitingPercent);
+			scalePower = calculatePowerValues(voltageValue, scaleLimitingPercent);
+			shooterPower = calculatePowerValues(voltageValue, shooterLimitingPercent);
 		} else {
 			setToDefaultPowers();
 		}
 	}
 	
 	public static double calculatePowerValues(double currentVoltagePercent, double thresholdValue){
-		if (currentVoltagePercent <= thresholdValue){
+		if (currentVoltagePercent <= thresholdValue) {
 			return currentVoltagePercent/thresholdValue;
-		}
-		else {
+		} else {
 			return(1);
 		}
 	}

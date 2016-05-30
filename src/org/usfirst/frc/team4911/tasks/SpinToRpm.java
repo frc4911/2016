@@ -40,7 +40,7 @@ public class SpinToRpm extends Task {
 		timer = new Timer();
 		power = _power;
 		
-		//ANYTHING ABOVE 0.01 DOES TERRIBLE THINGS
+		// ANYTHING ABOVE 0.01 DOES TERRIBLE THINGS
 		//pid = new PidHelper(0.01,0,0,0);
 		pid = new PidHelper(motor.getP(), motor.getI(), motor.getI(), 0.0);
 	}

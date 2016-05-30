@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.helpers;
 
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
-
 import edu.wpi.first.wpilibj.*;
 
 /**
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.*;
  * @author Luke Caughell
  */
 public class Motor {
-
 	// related sensors
 	CANTalon talon;
 	Encoder encoder;
@@ -23,8 +21,6 @@ public class Motor {
 	double threshold;
 	
 	NewCurrentManager currentManager;
-	
-
 
 	/**
 	 * Constructor
@@ -44,6 +40,7 @@ public class Motor {
 		this.i = i;
 		this.d = d;
 	}
+	
 	public Motor(CANTalon talon, Encoder encoder, AnalogPotentiometer potentiometer, double p, double i, double d,double _threshold) {
 		this.talon = talon;
 		this.encoder = encoder;
@@ -53,6 +50,7 @@ public class Motor {
 		this.d = d;
 		this.threshold = _threshold;
 	}
+	
 	public Motor(CANTalon talon, Encoder encoder, AnalogPotentiometer potentiometer, double p, double i, double d, NewCurrentManager _currentManager) {
 		this.talon = talon;
 		this.encoder = encoder;
@@ -63,12 +61,10 @@ public class Motor {
 		currentManager = _currentManager;
 	}
 	
-	
-	
 	public void setPower(double power){
 		if (currentManager != null){
 			talon.set(power*currentManager.getPower());
-		}else{
+		} else {
 			talon.set(power);
 		}
 	}
@@ -120,8 +116,12 @@ public class Motor {
 	public double getD() {
 		return d;
 	}
+	
+	/**
+	 * Gets the motor threshold value
+	 * @return The threshold to consider if PID has finished
+	 */
 	public double getThreshold() {
-		// TODO Auto-generated method stub
 		return threshold;
 	}
 }

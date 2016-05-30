@@ -14,7 +14,6 @@ public class Dpad {
 		angle = _angle;
 	}
 	
-	
 	public boolean get(){
 		if (stick.getPOV()==angle){
 			pressed = stick.getRawButton(angle);

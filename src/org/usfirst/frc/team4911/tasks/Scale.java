@@ -40,7 +40,7 @@ public class Scale extends Task{
 		leftSpinToEncoderValue.execute();
 		rightSpinToEncoderValue.execute();
 		
-		if (leftSpinToEncoderValue.isFinished&&rightSpinToEncoderValue.isFinished){
+		if (leftSpinToEncoderValue.isFinished && rightSpinToEncoderValue.isFinished) {
 			isFinished = true;
 		}
 	}

@@ -3,7 +3,6 @@ package org.usfirst.frc.team4911.controller;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Trigger {
-	
 	Joystick stick;
 	int axis;
 	boolean pressed;
@@ -12,6 +11,7 @@ public class Trigger {
 		stick = _stick;
 		axis = _trigger;
 	}
+	
 	public double get(){
 		return stick.getRawAxis(axis);
 	}
@@ -24,8 +24,8 @@ public class Trigger {
 		pressed = getPressed(threshold);
 		return false;
 	}
+	
 	public boolean getPressed(double threshold){
 		return stick.getRawAxis(axis)>threshold;
-	}
-	
+	}	
 }

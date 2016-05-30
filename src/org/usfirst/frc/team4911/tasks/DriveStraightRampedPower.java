@@ -1,14 +1,10 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.ClampHelper;
-import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.Sensors;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,8 +30,7 @@ public class DriveStraightRampedPower extends Task{
 	PidHelper pid;
 	Motor motor;
 	boolean reversed;
-	 double heading;
-
+	double heading;
 	
 	/**
 	 * Constructor
@@ -48,8 +43,8 @@ public class DriveStraightRampedPower extends Task{
 		interruptible = false;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
-		//Assume start time 0
-		slope = (_endPower-_startPower)/_endTime;
+		// Assume start time 0
+		slope = (_endPower - _startPower) / _endTime;
 		timer = new Timer();
 		endTime = _endTime;
 		startPower = _startPower;
@@ -60,8 +55,8 @@ public class DriveStraightRampedPower extends Task{
 		interruptible = false;
 		drive = new Drive(0, 0);
 		this.priority = RobotConstants.MED_PRI;
-		//Assume start time 0
-		slope = (_endPower-_startPower)/_endTime;
+		// Assume start time 0
+		slope = (_endPower - _startPower) / _endTime;
 		timer = new Timer();
 		endTime = _endTime;
 		startPower = _startPower;
@@ -85,7 +80,7 @@ public class DriveStraightRampedPower extends Task{
 	@Override
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
-		rampedPower = startPower + (slope*timer.get());
+		rampedPower = startPower + (slope * timer.get());
 		pidCorrectionPower = pid.run(heading, currentDegree , timer.get());
 		pidCorrectionPower = ClampHelper.clamp(pidCorrectionPower, -rampedPower, rampedPower);
 		SmartDashboard.putNumber("PID", pidCorrectionPower);
@@ -100,7 +95,7 @@ public class DriveStraightRampedPower extends Task{
 		
 		drive.execute();
 		
-		if (timer.get()> endTime){
+		if (timer.get() > endTime) {
 			isFinished = false;
 		}
 	}

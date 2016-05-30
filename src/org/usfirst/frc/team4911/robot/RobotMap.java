@@ -1,9 +1,7 @@
 package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.helpers.Motor;
-import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
@@ -13,7 +11,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  * 
- * @author Luke Yancey Caughell
+ * @author Luke Caughell
  */
 public class RobotMap {
 	//public static CANTalon RightShooterTalon;
@@ -48,7 +46,6 @@ public class RobotMap {
 	
 	public static Solenoid ArmSolenoid;
 
-	
 	public static AnalogPotentiometer ArmPotentiometer;
 
 	public static Motor ArmMotor;
@@ -72,7 +69,6 @@ public class RobotMap {
 	public static CANTalon ShooterLiftTalon;
 	
 	public static Solenoid ShooterSolenoid;
-
 	public static Solenoid ShooterBrakeSolenoid;
 
 	
@@ -121,8 +117,7 @@ public class RobotMap {
         
 		DriveSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
 //		DriveLeftSolenoid = new DoubleSolenoid(1,RobotConstants.driveRightSolenoidPortA,RobotConstants.driveRightSolenoidPortB);
-		
-        
+		        
     	DriveFrontRightMotor = new Motor (DriveFrontRightTalon, null, null, 0.01, 0.0, 0.0, null);// Robot.driveCurrentManager);
     	DriveMidRightMotor = new Motor (DriveMidRightTalon, null, null, 0.01, 0.0, 0.0, null); //Robot.driveCurrentManager);
     	DriveFrontLeftMotor = new Motor (DriveFrontLeftTalon, null, null, 0.01, 0, 0, null); //Robot.driveCurrentManager);
@@ -134,7 +129,6 @@ public class RobotMap {
     	DriveEncoder.setDistancePerPulse(RobotConstants.encoderDistancePerPulse);
 
     	//ROLLER
-        
     	ArmTalon = new CANTalon(RobotConstants.ArmTalonPort);
     	RollerTalon = new CANTalon(RobotConstants.RollerTalonPort);
     	
@@ -145,8 +139,7 @@ public class RobotMap {
     	ArmMotor = new Motor (ArmTalon, null, ArmPotentiometer, 30, 0.0, 0.0,0.001);
     	RollerMotor = new Motor (RollerTalon, null, null, 0.01, 0.0, 0.0);
 
-    	//SCALE
-    	 
+    	//SCALE    	 
     	ScaleRightTalon = new CANTalon(RobotConstants.ScaleRightTalonPort);
     	ScaleLeftTalon = new CANTalon(RobotConstants.ScaleLeftTalonPort);
     	
@@ -154,12 +147,11 @@ public class RobotMap {
     	//ScaleLeftEncoder = new Encoder(RobotConstants.ScaleLeftEncoderPortA,RobotConstants.ScaleLeftEncoderPortB);
     	
     	//ScaleSolenoid = new Solenoid(1,RobotConstants.ScaleSolenoidPort);
-//    	
+    	
     	ScaleRightMotor = new Motor (ScaleRightTalon, null, null, 0.01, 0.0, 0.0);
     	ScaleLeftMotor = new Motor (ScaleLeftTalon, null, null, 0.01, 0.0, 0.0);
     	 
     	//SHOOTER
-
     	ShooterLeftTalon = new CANTalon(RobotConstants.ShooterLeftTalonPort);
     	ShooterRightTalon = new CANTalon(RobotConstants.ShooterRightTalonPort);
     	ShooterLiftTalon = new CANTalon(RobotConstants.ShooterLiftTalonPort);
@@ -174,7 +166,6 @@ public class RobotMap {
 //    	ShooterSolenoidB = new Solenoid(0,0);
     	ShooterSolenoid = new Solenoid(0,RobotConstants.ShooterSolenoidPort);
 
-
 //		ShooterEncoder = new Encoder(RobotConstants.ShooterLiftEncoderPort,RobotConstants.ShooterBrakeSolenoidPort);
     	
     	ShooterLeftMotor = new Motor (ShooterLeftTalon, null, null, 0.01, 0.0, 0.0);
@@ -182,20 +173,18 @@ public class RobotMap {
 //		last working pid for shooter with ball and surgical tubing 
 //    	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -1.2, -1,-0.14, 0.001);
     	//working better. hitting target faster
- //   	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -4.8, -1,-0.14, 0.001);
-  	
+//   	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -4.8, -1,-0.14, 0.001);  	
       	ShooterLiftMotor = new Motor (ShooterLiftTalon, null, null, -4, -1.2,-0.2, 0.001);
 
     	//EXTENDER
-
     	ExtenderTalon = new CANTalon(RobotConstants.ExtenderTalonPort);
     	ExtenderPotentiometer = new AnalogPotentiometer(RobotConstants.ExtenderPotentiometerPort);
-  //  	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
-  //  	ExtenderSolenoid = new Solenoid(1,3);
+//  	ExtenderSolenoid = new Solenoid(1,RobotConstants.ExtenderSolenoidPortA);
+//  	ExtenderSolenoid = new Solenoid(1,3);
  	
     	ExtenderMotor = new Motor (ExtenderTalon, null, ExtenderPotentiometer, 15, 0, 0);
 
-//        ExtenderSolenoid = new Solenoid(1,1);
+//      ExtenderSolenoid = new Solenoid(1,1);
            	
     	// CONTROL
 		LeftJoy = new Joystick(RobotConstants.rightJoyPort);
@@ -205,10 +194,3 @@ public class RobotMap {
     	ScaleLeftMotor = new Motor(ScaleRightTalon, ScaleRightEncoder, null, 0, 0, 0);
 	}
 }
-/**
- * |--\   |----  |\    |
- * |   |  |      | \   |
- * |---   |----  |  \  |
- * |   |  |      |   \ |
- * |__/   |____  |    \|
- */

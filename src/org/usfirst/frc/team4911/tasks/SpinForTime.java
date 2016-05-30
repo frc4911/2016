@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.Motor;
-import org.usfirst.frc.team4911.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -15,6 +14,7 @@ public class SpinForTime extends Task {
 	double power;
 	double endTime;
 	Timer timer;
+	
 	/**
 	 * Constructor
 	 * 
@@ -43,7 +43,7 @@ public class SpinForTime extends Task {
 	@Override
 	public void execute(){
 		motor.setPower(power);
-		if(timer.get() > endTime){
+		if (timer.get() > endTime) {
 			isFinished = true;
 		}
 	}

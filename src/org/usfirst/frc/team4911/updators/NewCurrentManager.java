@@ -1,26 +1,14 @@
 package org.usfirst.frc.team4911.updators;
 
 import org.usfirst.frc.team4911.helpers.Logging;
-import org.usfirst.frc.team4911.helpers.RampDownHelper;
-import org.usfirst.frc.team4911.robot.RobotConstants;
 
 public class NewCurrentManager {
-
-
-	private double power;
-
 	private double outputPower;
-
-	private RampDownHelper rampDown;
-	
 	private double limitingThreshold;
 	
 	private double voltage;
-	
-	private double voltageValue;
 
 	public NewCurrentManager(double _limitingThreshold){
-		rampDown = new RampDownHelper();
 		limitingThreshold = _limitingThreshold;
 		outputPower = 1;
 	}
@@ -36,18 +24,16 @@ public class NewCurrentManager {
 		}
 	}
 	
-	public double calculatePowerValues(double currentVoltagePercent, double thresholdValue){
-		if (currentVoltagePercent <= thresholdValue){
-
-			return currentVoltagePercent/thresholdValue;
+	public double calculatePowerValues(double currentVoltagePercent, double thresholdValue) {
+		if (currentVoltagePercent <= thresholdValue) {
+			return currentVoltagePercent / thresholdValue;
+		} else {
+			return(1);
 		}
-		else return(1);
 	}
 	
-	public void setToDefaultPowers(){
-		voltageValue = 1;
+	public void setToDefaultPowers() {
 		outputPower = 1;
-
 	}
 	
 	public double getPower(){

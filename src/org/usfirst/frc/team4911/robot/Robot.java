@@ -3,27 +3,22 @@ package org.usfirst.frc.team4911.robot;
 
 import org.usfirst.frc.team4911.controller.ControllerMappings;
 import org.usfirst.frc.team4911.helpers.LogFileHandler;
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.tasks.DriveForDegree;
 import org.usfirst.frc.team4911.tasks.DriveForDistance;
 import org.usfirst.frc.team4911.tasks.DriveStraight;
 import org.usfirst.frc.team4911.tasks.DriveStraightRampedPower;
 import org.usfirst.frc.team4911.tasks.ShooterWheelTask;
 import org.usfirst.frc.team4911.tasks.SolenoidTrigger;
-import org.usfirst.frc.team4911.tasks.SpinForTime;
 import org.usfirst.frc.team4911.tasks.SpinToPotentiometerValue;
-import org.usfirst.frc.team4911.tasks.SpinToPower;
 import org.usfirst.frc.team4911.tasks.SpinToTalonValue;
 import org.usfirst.frc.team4911.tasks.Task;
 import org.usfirst.frc.team4911.updators.AutoTaskManager;
-import org.usfirst.frc.team4911.updators.CurrentManager;
 import org.usfirst.frc.team4911.updators.Inputs;
 import org.usfirst.frc.team4911.updators.NewCurrentManager;
 import org.usfirst.frc.team4911.updators.Sensors;
 import org.usfirst.frc.team4911.updators.TaskManager;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -84,7 +79,8 @@ public class Robot extends IterativeRobot {
 	 * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
 	 * below the Gyro.
 	 *
-	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
+	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional 
+	 * strings.
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
@@ -99,7 +95,7 @@ public class Robot extends IterativeRobot {
 		isDriveEncZeroed = false;
 		
 		// if less than 0 do ramparts
-		if (ControllerMappings.leftJoy.getRawAxis(3) <= 0){
+		if (ControllerMappings.leftJoy.getRawAxis(3) <= 0) {
 			autoSelected = rampartsAuto;
 			System.out.println("STATIC DEFENSE AUTO: " + ControllerMappings.leftJoy.getRawAxis(3));
 		} else { //if (ControllerMappings.leftJoy.getRawAxis(3) > 0.75) {
@@ -114,7 +110,7 @@ public class Robot extends IterativeRobot {
 		/**
 		 * COMMENTED OUT AUTO BECAUSE OF SOLENOID ERRORS
 		 */
-		switch(autoSelected) {
+		switch (autoSelected) {
 		case rampartsAuto:
 		default:
 			//Put custom auto code here   
@@ -134,30 +130,30 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	SmartDashboard.putNumber("IMU" , Sensors.getImu().getYaw());
-    	if(!isIMUZeroed){
-    		if(Math.abs(Sensors.getImu().getYaw())<1){
+    	if (!isIMUZeroed) {
+    		if (Math.abs(Sensors.getImu().getYaw()) < 1) {
     			isIMUZeroed = true;
-    		}else{
+    		} else {
     			System.out.println("TRYING TO ZERO IMU");
     			Sensors.getImu().zeroYaw();
     		}
     	}
-    	if(!isDriveEncZeroed){
-    		if(Math.abs(RobotMap.DriveEncoder.get())<1){
+    	if (!isDriveEncZeroed) {
+    		if (Math.abs(RobotMap.DriveEncoder.get()) < 1) {
     			isDriveEncZeroed = true;
-    		}else{
+    		} else {
     			System.out.println("TRYING TO ZERO Drive Encoder");
     			RobotMap.DriveEncoder.reset();
     		}
     	}
     	
-    	if(isIMUZeroed && isDriveEncZeroed){
+    	if (isIMUZeroed && isDriveEncZeroed) {
     		Sensors.update();
     		autoTaskManager.update();
-//    		SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
+    		//SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
     	}
+    	
     	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
-
     }
 
     /**
@@ -169,7 +165,7 @@ public class Robot extends IterativeRobot {
     	taskManager.init();
     	RobotMap.DriveEncoder.reset();
     	
-    	// TODO: testing for igh goal auto
+    	// TODO: testing for high goal auto
     	Sensors.getImu().zeroYaw();
     	
     	// create log file
@@ -181,11 +177,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-//    	driveCurrentManager.update();
-    	SmartDashboard.putNumber("Encoder Degrees" , RobotMap.ShooterLiftTalon.getPosition()*90);
-    	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
-    	SmartDashboard.putNumber("pov", ControllerMappings.payloadJoy.getPOV());
-    	SmartDashboard.putNumber("Feedback Device:  ",  RobotMap.ShooterLiftTalon.getEncPosition());
+    	//driveCurrentManager.update();
     	Sensors.update();
     	taskManager.update();
     	Inputs.update();
@@ -193,7 +185,11 @@ public class Robot extends IterativeRobot {
     	System.out.println("pot:  " + RobotMap.ArmPotentiometer.get());
     	//System.out.println("drive encoder: " + RobotMap.DriveEncoder.getDistance());
     	//System.out.println("drive ticks: " + RobotMap.DriveEncoder.get());
-    	
+
+    	SmartDashboard.putNumber("Encoder Degrees" , RobotMap.ShooterLiftTalon.getPosition()*90);
+    	SmartDashboard.putNumber("Encoder" , RobotMap.ShooterLiftTalon.getPosition());
+    	SmartDashboard.putNumber("pov", ControllerMappings.payloadJoy.getPOV());
+    	SmartDashboard.putNumber("Feedback Device:  ",  RobotMap.ShooterLiftTalon.getEncPosition());
     	SmartDashboard.putBoolean("MODE", Inputs.getMode());
     	SmartDashboard.putNumber("IMU: " , Sensors.getImuYawValue());
     	SmartDashboard.putNumber("DRIVE ENCODER", RobotMap.DriveEncoder.get());
@@ -218,9 +214,10 @@ public class Robot extends IterativeRobot {
     /**
      * Adds tasks for running low bar auto with a high shot
      */
-    private void AddLowBarHighShotTasks()
+    @SuppressWarnings("unused")
+	private void AddLowBarHighShotTasks()
     {
-    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
 		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.7,2), 1.7);
@@ -243,7 +240,7 @@ public class Robot extends IterativeRobot {
 				
 		// lift shooter to position
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoHigh,0.6, 2), 1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoHigh, 0.6, 2), 1);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// intake ball to secure it
@@ -266,7 +263,7 @@ public class Robot extends IterativeRobot {
 		
 		// lower shooter
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.05);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.3, 2), 1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto, 0.3, 2), 1);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.05);
 		
 		// lower arm
@@ -280,14 +277,14 @@ public class Robot extends IterativeRobot {
     }
     
     /**
-     * Adds the low bar autonomour tasks to the task manager 
+     * Adds the low bar autonomous tasks to the task manager 
      */
     private void AddLowBarTasks()
     {
     	//Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.3,2), 1.7);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow, 0.3, 2), 1.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// lower arm
@@ -307,20 +304,13 @@ public class Robot extends IterativeRobot {
 		
 		// lift shooter to position
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow,0.4, 2), 1);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAutoLow, 0.4, 2), 1);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// drive onto batter
 		// turn to goal
 		autoTaskManager.addTask(new DriveForDistance(158, RobotMap.DriveEncoder, 0.8, 30), 7);
 		autoTaskManager.addTask(new DriveForDegree(32, 0.8, 1.5, true), 1.5);
-		
-		// --------------------------------------------
-		// lift shooter to position
-		//autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		//autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, -0.445,0.4, 2), 2);
-		//autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.05);
-		// --------------------------------------------
 		
 		// intake ball to secure it
 		autoTaskManager.addTask(new ShooterWheelTask(RobotMap.ShooterLeftMotor, RobotMap.ShooterRightMotor, -.5), .5);
@@ -343,10 +333,10 @@ public class Robot extends IterativeRobot {
      */
     /*private void AddChevalDuFriesTasks()
     {
-    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// Sets of commands are separated by spaces when there is a change in subsystem
     	// lower shooter
     	autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto,0.4,2), 2);
+		autoTaskManager.addTask(new SpinToTalonValue(RobotMap.ShooterLiftMotor, RobotConstants.ShooterAuto, 0.4, 2), 2);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ShooterBrakeSolenoid, false), 0.1);
 		
 		// lower arm
@@ -377,7 +367,7 @@ public class Robot extends IterativeRobot {
 		
 		// lift arm back up
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, true), 0.1);
-		autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5,0.7), 0.7);
+		autoTaskManager.addTask(new SpinForTime(RobotMap.ArmMotor, 0.5, 0.7), 0.7);
 		autoTaskManager.addTask(new SolenoidTrigger(RobotMap.ArmSolenoid, false), 0.1);
 		
 		// drive out of outer works
@@ -389,7 +379,7 @@ public class Robot extends IterativeRobot {
      */
     private void AddDefaultTasks()
     {
-    	//Sets of commands are separated by spaces when there is a change in subsystem
+    	// Sets of commands are separated by spaces when there is a change in subsystem
 		autoTaskManager.addTask(new DriveStraightRampedPower(0,1,1),1);
 		autoTaskManager.addTask(new DriveStraight(0,1,false),1.75);
 		autoTaskManager.addTask(new DriveStraightRampedPower(1,0,1),1);

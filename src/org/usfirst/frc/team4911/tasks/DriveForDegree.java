@@ -6,7 +6,6 @@ import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-import org.usfirst.frc.team4911.robot.RobotMap;
 import org.usfirst.frc.team4911.updators.Sensors;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -47,11 +46,11 @@ public class DriveForDegree extends Task{
 		interruptible = true;
 		degreesToTurn = _degreesToTurn;
 		timeoutTime = _timeoutTime;
-		drive = new Drive(0,0);
+		drive = new Drive(0, 0);
 		timer = new Timer();
 		maxPower = _maxPower;
 		//WAS 1.7
-		pid = new PidHelper(1.3, 0, 0, 0.5/180);
+		pid = new PidHelper(1.3, 0, 0, 0.5 / 180);
 		reversed = _reversed;
 	}
 
@@ -72,7 +71,7 @@ public class DriveForDegree extends Task{
 	public void execute(){
 		currentDegree = Sensors.getImuYawValue();
 		double angleDif = GetTargetAngleHelper.computeAngleBetween(startDegree, currentDegree);
-		power = pid.run( 1 , angleDif / degreesToTurn, timer.get());
+		power = pid.run(1 , angleDif / degreesToTurn, timer.get());
 		
 		power = ClampHelper.clamp(power, -maxPower, maxPower);
 

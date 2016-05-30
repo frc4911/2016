@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4911.tasks;
 
 import org.usfirst.frc.team4911.helpers.Motor;
-import org.usfirst.frc.team4911.robot.RobotMap;
 
 /**
  * Spins a given motor at a given power with no correction

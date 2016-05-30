@@ -4,7 +4,6 @@ import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
@@ -68,7 +67,7 @@ public class SpinToTalonValue extends Task {
 
 		talon.set(power);
 		
-		if (pid.isFinished()||timer.get()>setTime){
+		if (pid.isFinished() || timer.get() > setTime){
 			isFinished = true;
 		}
 	}

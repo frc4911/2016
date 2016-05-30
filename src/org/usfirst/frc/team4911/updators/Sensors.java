@@ -1,15 +1,9 @@
 package org.usfirst.frc.team4911.updators;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
-
-import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.robot.RobotMap;
-
 import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 /**
  *A class that contains all sensors that are not specific to one
@@ -22,6 +16,7 @@ public class Sensors {
 	private static AHRS Imu;
     private static PowerDistributionPanel panel;
 	private static double ImuYawValue;
+	@SuppressWarnings("unused")
 	private static double systemCurrentDraw;
 
 	/** 
@@ -48,10 +43,11 @@ public class Sensors {
     public static void update(){
     	systemCurrentDraw = 0;
     	
-    	for (int i = 1; i <= 8; i++){
+    	for (int i = 1; i <= 8; i++) {
     		systemCurrentDraw += panel.getCurrent(i);
         	//Logging.DebugPrint("Channel: " + i + "Current: " + panel.getCurrent(i));
     	}
+    	
     	//Logging.DebugPrint("Computed: " + systemCurrentDraw);
     	//Logging.DebugPrint("Gathered: " + panel.getTotalCurrent());
     	ImuYawValue = Imu.getYaw();

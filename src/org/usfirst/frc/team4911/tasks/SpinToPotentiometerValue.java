@@ -1,16 +1,12 @@
 package org.usfirst.frc.team4911.tasks;
 
-import org.usfirst.frc.team4911.helpers.GetTargetAngleHelper;
 import org.usfirst.frc.team4911.helpers.Logging;
 import org.usfirst.frc.team4911.helpers.Motor;
 import org.usfirst.frc.team4911.helpers.PidHelper;
 import org.usfirst.frc.team4911.robot.RobotConstants;
-
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
  * Spins a given motor to the specified potentiometer value.
@@ -47,6 +43,7 @@ public class SpinToPotentiometerValue extends Task {
 		setTime = _setTime;
 		priority = RobotConstants.LOW_PRI;
 	}
+	
 	public SpinToPotentiometerValue(Motor _motor, double _targetDegreeValue, double _maxPower, double _setTime, double _threshold){
 		motor = _motor;
 		potentiometer = motor.getPotentiometer();
@@ -77,15 +74,13 @@ public class SpinToPotentiometerValue extends Task {
 	 */
 	@Override
 	public void execute(){
-		double power = pid.run(1, potentiometer.get()/targetValue, timer.get());
+		double power = pid.run(1, potentiometer.get() / targetValue, timer.get());
 		power = Math.min(maxPower, power);
 		power = Math.max(-maxPower, power);
 
 		talon.set(power);
-		
-		//Logging.DebugPrint(""+power);
 
-		if (pid.isFinished()||timer.get()>setTime){
+		if (pid.isFinished() || timer.get() > setTime){
 			isFinished = true;
 		}
 	}
